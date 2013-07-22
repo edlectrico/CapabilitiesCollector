@@ -1,8 +1,6 @@
 package es.deusto.deustotech;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import android.app.Activity;
@@ -17,6 +15,7 @@ import android.widget.Toast;
 
 public class TesterActivity extends Activity implements android.view.View.OnClickListener{
 
+	private static final String TAG = TesterActivity.class.getSimpleName();
 	private Button testButton;
 	private SharedPreferences minimunViewPreferences;
 	
@@ -48,8 +47,8 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 		float x = event.getRawX();
 		float y = event.getRawY();
 
-		Log.d(TesterActivity.class.getSimpleName(),"event.action" + event.getAction());
-		Log.d(TesterActivity.class.getSimpleName(), "Coordinates: X: " + x + "; Y: " + y);
+		Log.d(TAG,"event.action" + event.getAction());
+		Log.d(TAG, "Coordinates: X: " + x + "; Y: " + y);
 
 		testButton.setHeight((int) x);
 		testButton.setWidth((int) y);
@@ -63,6 +62,8 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 			values.add(String.valueOf(y));
 			uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
 			uiEditor.commit();
+			
+			Log.d(TAG, "Stored!");
 		}
 
 		return super.onTouchEvent(event);
