@@ -1,6 +1,12 @@
 package es.deusto.deustotech;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,7 +17,8 @@ import android.widget.Toast;
 
 public class TesterActivity extends Activity implements android.view.View.OnClickListener{
 
-	Button testButton;
+	private Button testButton;
+	private SharedPreferences minimunViewPreferences;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +27,8 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 		
 		testButton = (Button) findViewById(R.id.test_button);
 		testButton.setOnClickListener(this);
+		
+		this.minimunViewPreferences = getSharedPreferences(getResources().getString(R.string.preferences_name_minui), 0);
 	}
 
 	@Override
@@ -46,8 +55,14 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 		testButton.setWidth((int) y);
 		testButton.invalidate();
 		
-		if (event.getAction() == event.ACTION_UP){
+		if (event.getAction() == MotionEvent.ACTION_UP){
 			//store
+			SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
+			Set<String> values = new HashSet<String>();
+			values.add(String.valueOf(x));
+			values.add(String.valueOf(y));
+			uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
+			uiEditor.commit();
 		}
 
 		return super.onTouchEvent(event);

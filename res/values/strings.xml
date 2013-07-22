@@ -5,4 +5,7 @@
     <string name="app_name">DynamicCapacityTester</string>
     <string name="info_message">Draw on the screen any View with the desired size!</string>
 	<string name="button_message">Test!</string>
+	
+	<string name="preferences_name_minui">MinUIPreferences</string>
+	<string name="adapted_configuration_ui">TestConfiguration</string>
 </resources>
