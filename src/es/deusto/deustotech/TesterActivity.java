@@ -59,8 +59,8 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 //				Log.d(TAG,"event.action" + event.getAction());
 //				Log.d(TAG, "Coordinates: X: " + x + "; Y: " + y);
 		
-				testButton1.setHeight((int) x);
-				testButton1.setWidth((int) y);
+				testButton1.setWidth((int) x);
+				testButton1.setHeight((int) y);
 				testButton1.invalidate();
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
@@ -85,31 +85,20 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 				Log.d(TAG, "Layout 2");
 				
 				float x = event.getRawX();
-				float y = event.getRawY();
 		
-//				Log.d(TAG,"event.action" + event.getAction());
-//				Log.d(TAG, "Coordinates: X: " + x + "; Y: " + y);
-		
-				testButton2.setHeight((int) x);
-				testButton2.setWidth((int) y);
+				testButton2.setTextSize((float) (x / 10.0));
 				
-				float textsize 		= testButton2.getTextSize();
-				float viewHeight 	= testButton2.getHeight();
-				
-				float proportion = viewHeight / textsize;
-
 				testButton2.invalidate();
-				testButton2.setTextSize(proportion);
-				
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
 					SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
-					Set<String> values = new HashSet<String>();
-					values.add(String.valueOf(x));
-					values.add(String.valueOf(y));
-					uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
-					uiEditor.commit();
+					//TODO: store only font size
+//					Set<String> values = new HashSet<String>();
+//					values.add(String.valueOf(x));
+//					values.add(String.valueOf(y));
+//					uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
+//					uiEditor.commit();
 					
 					Log.d(TAG, "Stored!");
 				}
