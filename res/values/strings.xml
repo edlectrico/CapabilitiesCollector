@@ -4,7 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="app_name">DynamicCapacityTester</string>
     <string name="info_message">Draw on the screen any View with the desired size!</string>
-	<string name="button_message">Test!</string>
+	<string name="button_message">Button</string>
+	<string name="textview_message">TextView</string>
 	
 	<string name="preferences_name_minui">MinUIPreferences</string>
 	<string name="adapted_configuration_ui">TestConfiguration</string>
