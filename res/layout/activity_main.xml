@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:columnCount="1"
     android:orientation="horizontal"
-    android:rowCount="3" >
+    android:rowCount="4" >
 
     <LinearLayout
         android:id="@+id/linear_layout_0"
@@ -36,7 +36,7 @@
     <LinearLayout
         android:id="@+id/linear_layout_2"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_row="2" >
 
@@ -46,6 +46,20 @@
             android:layout_height="wrap_content"
             android:text="@string/textview_message" 
             android:background="@android:color/transparent"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/linear_layout_3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_row="3" >
+
+        <Button
+            android:id="@+id/brightness_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/brightness_message"/>
     </LinearLayout>
 
 </GridLayout>

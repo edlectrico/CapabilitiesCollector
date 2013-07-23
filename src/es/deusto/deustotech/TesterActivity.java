@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 	private static final String TAG = TesterActivity.class.getSimpleName();
 	private Button testButton1;
 	private Button testButton2;
+	private Button brightness;
 	private SharedPreferences minimunViewPreferences;
 	private GridLayout grid;
 	
@@ -32,6 +34,9 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 		testButton1.setOnClickListener(this);
 		
 		testButton2 = (Button) findViewById(R.id.test_button_2);
+		testButton2.setOnClickListener(this);
+		
+		brightness = (Button) findViewById(R.id.brightness_button);
 		testButton2.setOnClickListener(this);
 		
 		this.minimunViewPreferences = getSharedPreferences(getResources().getString(R.string.preferences_name_minui), 0);
@@ -102,6 +107,21 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 					
 					Log.d(TAG, "Stored!");
 				}
+				
+				return true;
+			}
+		});
+		
+		//TODO change brightness, volume and input/output settings
+		this.grid.getChildAt(3).setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.d(TAG, "Layout 2");
+				
+				WindowManager.LayoutParams lp = getWindow().getAttributes(); 
+		        lp.screenBrightness = 1F;
+		        getWindow().setAttributes(lp);				
+				//TODO: Store
 				
 				return true;
 			}
