@@ -17,9 +17,9 @@ import android.widget.GridLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-public class TesterActivity extends Activity implements android.view.View.OnClickListener{
+public class ViewsActivity extends Activity implements android.view.View.OnClickListener{
 
-	private static final String TAG = TesterActivity.class.getSimpleName();
+	private static final String TAG = ViewsActivity.class.getSimpleName();
 	private Button testButton1;
 	private Button testButton2;
 	private SharedPreferences minimunViewPreferences;
@@ -33,7 +33,7 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.views_activity);
 		
 		testButton1 = (Button) findViewById(R.id.test_button_1);
 		testButton1.setOnClickListener(this);
