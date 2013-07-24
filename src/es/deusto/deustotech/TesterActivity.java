@@ -10,10 +10,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class TesterActivity extends Activity implements android.view.View.OnClickListener{
@@ -21,9 +22,11 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 	private static final String TAG = TesterActivity.class.getSimpleName();
 	private Button testButton1;
 	private Button testButton2;
-	private Button brightness;
 	private SharedPreferences minimunViewPreferences;
 	private GridLayout grid;
+	
+	//brightness
+	float brightnessValue = 0.5f; // dummy default value
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,36 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 		testButton2 = (Button) findViewById(R.id.test_button_2);
 		testButton2.setOnClickListener(this);
 		
-		brightness = (Button) findViewById(R.id.brightness_button);
-		testButton2.setOnClickListener(this);
+		SeekBar brightnessSeekBar = (SeekBar) findViewById(R.id.brightness_control);
+		
+		brightnessSeekBar
+		.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+			@Override
+			public void onProgressChanged(SeekBar arg0, int arg1,
+					boolean arg2) {
+				brightnessValue = (float) arg1 / 100;
+//				BackLightSetting.setText(String.valueOf(brightnessValue));
+
+				WindowManager.LayoutParams layoutParams = getWindow()
+						.getAttributes();
+				layoutParams.screenBrightness = brightnessValue;
+				getWindow().setAttributes(layoutParams);
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		
 		this.minimunViewPreferences = getSharedPreferences(getResources().getString(R.string.preferences_name_minui), 0);
 		
@@ -112,20 +143,6 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 			}
 		});
 		
-		//TODO change brightness, volume and input/output settings
-		this.grid.getChildAt(3).setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				Log.d(TAG, "Layout 2");
-				
-				WindowManager.LayoutParams lp = getWindow().getAttributes(); 
-		        lp.screenBrightness = 1F;
-		        getWindow().setAttributes(lp);				
-				//TODO: Store
-				
-				return true;
-			}
-		});
 	}
 
 	@Override
@@ -139,31 +156,5 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 	public void onClick(View view) {
 		Toast.makeText(getApplicationContext(), "This is a test!", Toast.LENGTH_SHORT).show();
 	}
-
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		float x = event.getRawX();
-//		float y = event.getRawY();
-//
-//		Log.d(TAG,"event.action" + event.getAction());
-//		Log.d(TAG, "Coordinates: X: " + x + "; Y: " + y);
-//
-//		testButton.setHeight((int) x);
-//		testButton.setWidth((int) y);
-//		testButton.invalidate();
-//		
-//		if (event.getAction() == MotionEvent.ACTION_UP){
-//			//store
-//			SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
-//			Set<String> values = new HashSet<String>();
-//			values.add(String.valueOf(x));
-//			values.add(String.valueOf(y));
-//			uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
-//			uiEditor.commit();
-//			
-//			Log.d(TAG, "Stored!");
-//		}
-//
-//		return super.onTouchEvent(event);
-//	}
+	
 }

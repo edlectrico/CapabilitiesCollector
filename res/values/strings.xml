@@ -6,7 +6,7 @@
     <string name="info_message">Draw on the screen any View with the desired size!</string>
 	<string name="button_message">Button</string>
 	<string name="textview_message">TextView</string>
-	<string name="brightness_message">Brightness</string>
+	<string name="brightness_message">Configure the desired Brightness</string>
 	
 	<string name="preferences_name_minui">MinUIPreferences</string>
 	<string name="adapted_configuration_ui">TestConfiguration</string>
