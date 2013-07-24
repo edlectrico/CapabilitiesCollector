@@ -1,6 +1,3 @@
-/**
- * 
- */
 package es.deusto.deustotech;
 
 import java.util.Locale;
@@ -14,6 +11,8 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.widget.GridLayout;
 
 /**
  * @author edlectrico
@@ -21,26 +20,48 @@ import android.view.View.OnClickListener;
  */
 public class InputActivity extends Activity implements TextToSpeech.OnInitListener{
 
+	private GridLayout gl;
 	private TextToSpeech tts;
 	private Vibrator vibrator;
+	private boolean longPush = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.input_activity);
 	
+		gl = (GridLayout) findViewById(R.id.grid_layout);
+		gl.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				longPush = true;
+				speakOut("If you prefer an audio based interaction, please say YES. If not, please say NO.");
+				return true;
+			}
+		});
+		
 		tts = new TextToSpeech(this, this);
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		
-		
 		findViewById(R.id.input_button).setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View view) {
 				//TODO: 1. Vibrate 2. Go to ViewsActivity
-				vibrator.vibrate(500);
-				speakOut("Well done!");
-				startActivity(new Intent(getApplicationContext(), ViewsActivity.class));
+				if (!longPush){
+					vibrator.vibrate(500);
+					speakOut("Well done!");
+					startActivity(new Intent(getApplicationContext(), ViewsActivity.class));
+				}
+			}
+		});
+		
+		findViewById(R.id.input_button).setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View view) {
+				longPush = true;
+				speakOut("If you prefer an audio based interaction, please say YES. If not, please say NO.");
+				return true;
 			}
 		});
 	}
@@ -55,7 +76,8 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-                speakOut("Can you push the button in the screen?");
+                speakOut("Can you push the button in the screen? " +
+                		"If you can not, then hold your finger over the screen for a while.");
             }
  
         } else {
@@ -66,5 +88,5 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 	private void speakOut(final String text) {
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
-	
+
 }
