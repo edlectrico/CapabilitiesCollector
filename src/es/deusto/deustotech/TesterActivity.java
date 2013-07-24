@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.SeekBar;
@@ -27,6 +27,8 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 	
 	//brightness
 	float brightnessValue = 0.5f; // dummy default value
+	//volume
+//	float volumeValue = 0.5f; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +43,12 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 		
 		SeekBar brightnessSeekBar = (SeekBar) findViewById(R.id.brightness_control);
 		
-		brightnessSeekBar
-		.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 			@Override
-			public void onProgressChanged(SeekBar arg0, int arg1,
-					boolean arg2) {
-				brightnessValue = (float) arg1 / 100;
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				brightnessValue = (float) progress / 100;
 //				BackLightSetting.setText(String.valueOf(brightnessValue));
 
 				WindowManager.LayoutParams layoutParams = getWindow()
@@ -58,17 +59,39 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onStartTrackingTouch(SeekBar seekBar) { }
 
 			@Override
-			public void onStopTrackingTouch(SeekBar arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onStopTrackingTouch(SeekBar seekBar) { }
 		});
+		
+//		final AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+//		
+//		SeekBar volumeSeekBar = (SeekBar) findViewById(R.id.volume_control);
+//		
+//		volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//
+//			@Override
+//			public void onProgressChanged(SeekBar seekBar, int progress,
+//					boolean fromUser) {
+//				if (progress > volumeValue){
+//					audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+//			                AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+//				}
+//				if (progress < volumeValue){
+//					audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+//			                AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+//				}
+//				
+//				volumeValue = progress;
+//			}
+//
+//			@Override
+//			public void onStartTrackingTouch(SeekBar seekBar) { }
+//
+//			@Override
+//			public void onStopTrackingTouch(SeekBar seekBar) { }
+//		});
 		
 		this.minimunViewPreferences = getSharedPreferences(getResources().getString(R.string.preferences_name_minui), 0);
 		
@@ -128,7 +151,7 @@ public class TesterActivity extends Activity implements android.view.View.OnClic
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
-					SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
+//					SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
 					//TODO: store only font size
 //					Set<String> values = new HashSet<String>();
 //					values.add(String.valueOf(x));

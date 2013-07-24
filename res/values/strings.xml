@@ -7,6 +7,7 @@
 	<string name="button_message">Button</string>
 	<string name="textview_message">TextView</string>
 	<string name="brightness_message">Configure the desired Brightness</string>
+	<string name="volume_message">Configure the desired Volume</string>
 	
 	<string name="preferences_name_minui">MinUIPreferences</string>
 	<string name="adapted_configuration_ui">TestConfiguration</string>
