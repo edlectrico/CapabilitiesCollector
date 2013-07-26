@@ -27,26 +27,24 @@ import android.widget.Toast;
 public class ViewsActivity extends Activity implements android.view.View.OnClickListener, OnCheckedChangeListener{
 
 	private static final String TAG = ViewsActivity.class.getSimpleName();
-	private Button testButton1;
-	private Button testButton2;
+	private Button previewButton;
+	private Button previewTextEdit;
 	private SharedPreferences minimunViewPreferences;
 	private GridLayout grid;
 	
 	//brightness
 	float brightnessValue = 0.5f; // dummy default value
-	//volume
-//	float volumeValue = 0.5f; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.views_activity);
 
-		testButton1 = (Button) findViewById(R.id.test_button_1);
-		testButton1.setOnClickListener(this);
+		previewButton = (Button) findViewById(R.id.test_button);
+		previewButton.setOnClickListener(this);
 		
-		testButton2 = (Button) findViewById(R.id.test_button_2);
-		testButton2.setOnClickListener(this);
+		previewTextEdit = (Button) findViewById(R.id.test_text_edit);
+		previewTextEdit.setOnClickListener(this);
 		
 		SeekBar brightnessSeekBar = (SeekBar) findViewById(R.id.brightness_control);
 		
@@ -77,38 +75,8 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 			public void onStopTrackingTouch(SeekBar seekBar) { }
 		});
 		
-//		final AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-//		
-//		SeekBar volumeSeekBar = (SeekBar) findViewById(R.id.volume_control);
-//		
-//		volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//
-//			@Override
-//			public void onProgressChanged(SeekBar seekBar, int progress,
-//					boolean fromUser) {
-//				if (progress > volumeValue){
-//					audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-//			                AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-//				}
-//				if (progress < volumeValue){
-//					audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-//			                AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
-//				}
-//				
-//				volumeValue = progress;
-//			}
-//
-//			@Override
-//			public void onStartTrackingTouch(SeekBar seekBar) { }
-//
-//			@Override
-//			public void onStopTrackingTouch(SeekBar seekBar) { }
-//		});
-		
 		this.minimunViewPreferences = getSharedPreferences(getResources().getString(R.string.preferences_name_minui), 0);
-		
 		this.grid = (GridLayout) findViewById(R.id.default_layout);
-		
 		
 		this.grid.getChildAt(0).setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -127,12 +95,9 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 				float x = event.getRawX();
 				float y = event.getRawY();
 		
-//				Log.d(TAG,"event.action" + event.getAction());
-//				Log.d(TAG, "Coordinates: X: " + x + "; Y: " + y);
-		
-				testButton1.setWidth((int) x);
-				testButton1.setHeight((int) y);
-				testButton1.invalidate();
+				previewButton.setWidth((int) x);
+				previewButton.setHeight((int) y);
+				previewButton.invalidate();
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
@@ -157,9 +122,9 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 				
 				float x = event.getRawX();
 		
-				testButton2.setTextSize((float) (x / 10.0));
+				previewTextEdit.setTextSize((float) (x / 10.0));
 				
-				testButton2.invalidate();
+				previewTextEdit.invalidate();
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
@@ -177,7 +142,6 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 				return true;
 			}
 		});
-		
 	}
 
 	private void enableNightMode(final boolean enable) {

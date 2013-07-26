@@ -94,7 +94,6 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 	@Override
 	public void onInit(int status) {
 		if (status == TextToSpeech.SUCCESS) {
-			 
             int result = tts.setLanguage(Locale.US);
  
             if (result == TextToSpeech.LANG_MISSING_DATA
@@ -104,7 +103,6 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
                 speakOut("Can you push the button in the screen? " +
                 		"If you can not, then hold your finger over the screen for a while.");
             }
- 
         } else {
             Log.e("TTS", "Initilization Failed!");
         }
@@ -140,7 +138,6 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 		// Specify the calling package to identify your application
 		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass()
 				.getPackage().getName());
-
 	}
 
 	@Override
