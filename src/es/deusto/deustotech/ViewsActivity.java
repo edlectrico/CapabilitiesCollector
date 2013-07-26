@@ -4,9 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -24,13 +27,16 @@ import android.widget.Toast;
 /**
  * This activity configures the minimum visual interaction values
  */
-public class ViewsActivity extends Activity implements android.view.View.OnClickListener, OnCheckedChangeListener{
+public class ViewsActivity extends Activity implements android.view.View.OnClickListener, 
+OnCheckedChangeListener, TextToSpeech.OnInitListener {
 
 	private static final String TAG = ViewsActivity.class.getSimpleName();
 	private Button previewButton;
 	private Button previewTextEdit;
 	private SharedPreferences minimunViewPreferences;
 	private GridLayout grid;
+	private AudioManager audioManager = null;
+	private TextToSpeech tts;
 	
 	//brightness
 	float brightnessValue = 0.5f; // dummy default value
@@ -46,7 +52,16 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 		previewTextEdit = (Button) findViewById(R.id.test_text_edit);
 		previewTextEdit.setOnClickListener(this);
 		
+		tts = new TextToSpeech(this, this);
+		
 		SeekBar brightnessSeekBar = (SeekBar) findViewById(R.id.brightness_control);
+		SeekBar volumeSeekBar = (SeekBar) findViewById(R.id.volume_control);
+		
+		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		volumeSeekBar.setMax(audioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+		volumeSeekBar.setProgress(audioManager
+                .getStreamVolume(AudioManager.STREAM_MUSIC));   
 		
 		Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
 	    if (nightModeSwitch != null) {
@@ -54,18 +69,32 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	    }
 
 		brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				brightnessValue = (float) progress / 100;
-//				BackLightSetting.setText(String.valueOf(brightnessValue));
 
 				WindowManager.LayoutParams layoutParams = getWindow()
 						.getAttributes();
 				layoutParams.screenBrightness = brightnessValue;
 				getWindow().setAttributes(layoutParams);
+			}
 
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) { }
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) { }
+		});
+		
+		volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                        progress, 0);
+				
+				tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
 			}
 
 			@Override
@@ -168,6 +197,12 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean checked) {
 			enableNightMode(checked);
+	}
+
+	@Override
+	public void onInit(int arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
