@@ -19,7 +19,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 
 /**
- * @author edlectrico
  * This activity checks user basic input capabilities
  */
 public class InputActivity extends Activity implements TextToSpeech.OnInitListener{

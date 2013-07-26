@@ -5,6 +5,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,11 +14,17 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridLayout;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
-public class ViewsActivity extends Activity implements android.view.View.OnClickListener{
+/**
+ * This activity configures the minimum visual interaction values
+ */
+public class ViewsActivity extends Activity implements android.view.View.OnClickListener, OnCheckedChangeListener{
 
 	private static final String TAG = ViewsActivity.class.getSimpleName();
 	private Button testButton1;
@@ -34,7 +41,7 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.views_activity);
-		
+
 		testButton1 = (Button) findViewById(R.id.test_button_1);
 		testButton1.setOnClickListener(this);
 		
@@ -43,6 +50,11 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 		
 		SeekBar brightnessSeekBar = (SeekBar) findViewById(R.id.brightness_control);
 		
+		Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
+	    if (nightModeSwitch != null) {
+	        nightModeSwitch.setOnCheckedChangeListener(this);
+	    }
+
 		brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 			@Override
@@ -168,6 +180,15 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 		
 	}
 
+	private void enableNightMode(final boolean enable) {
+		View view = this.getWindow().getDecorView();
+		if (enable){
+			view.setBackgroundColor(Color.BLACK);
+		} else {
+			view.setBackgroundColor(Color.WHITE);
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -178,6 +199,11 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	@Override
 	public void onClick(View view) {
 		Toast.makeText(getApplicationContext(), "This is a test!", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton arg0, boolean checked) {
+			enableNightMode(checked);
 	}
 	
 }
