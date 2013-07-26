@@ -31,11 +31,14 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 	private Vibrator vibrator;
 	private boolean longPush = false;
 	private boolean voiceRecognition = false;
+	private Intent interactionIntent;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.input_activity);
+		
+		interactionIntent = new Intent(this, ViewsActivity.class);
 	
 		voiceRecognition = checkVoiceRecognition();
 		
@@ -56,7 +59,7 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 				if (!longPush){
 					vibrator.vibrate(500);
 					speakOut("Well done!");
-					startActivity(new Intent(getApplicationContext(), ViewsActivity.class));
+					startActivity(getDefaultIntent());
 				}
 			}
 		});
@@ -68,6 +71,13 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 				return true;
 			}
 		});
+	}
+	
+	private Intent getDefaultIntent() {
+		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), false);
+		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), false);
+		
+		return interactionIntent;
 	}
 	
 	//Check if voice recognition is present
@@ -141,10 +151,16 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
         	//store the returned word list as an ArrayList
             ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (suggestedWords.contains("yes")){
-            	//TODO
+            	//TODO: Communication by audio (blind user)
+            	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), true);
             } else if (suggestedWords.contains("no")){
-            	//TODO
+            	//Communication by visual interaction, but probably with a visual difficulty
+            	
+            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), true);
+            	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), false);
             }
+            //TODO: If no answer, hearing_impairments = true
+            startActivity(interactionIntent);
         }
 	}
 

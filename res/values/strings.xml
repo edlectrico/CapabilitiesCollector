@@ -4,6 +4,10 @@
     <string name="action_settings">Settings</string>
     <string name="app_name">DynamicCapacityTester</string>
     
+    <!-- Interaction Intent -->
+    <string name="visual_impairment">Visual Impairment</string>
+    <string name="hearing_impairment">Hearing Impairment</string>
+    
     <!-- InputActivity -->
     <string name="push_button_message">Can you push the button?</string>
     <string name="input_button_message">PUSH ME!</string>
