@@ -29,6 +29,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.Toast;
 import es.deusto.deustotech.utils.ColorPickerDialog;
 
 /**
@@ -202,23 +203,25 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 			uiEditor.putString(getResources().getString(R.string.adapted_configuration_ui), json);
 			uiEditor.commit();
 			
-			Log.d(TAG, "Stored!");
+			Toast.makeText(this, "Preferences stored.", Toast.LENGTH_LONG).show();
+			
+			HashMap<String, Object> testUI = gson.fromJson(json, HashMap.class);
+			testUI.get("Button");
+			testUI.get("TextEdit");
+			testUI.get("Brightness");
+			testUI.get("Volume");
 		}
 	}
 
-	private HashMap<HashMap<String, ViewParams>, HashMap<String, Float>> generateUserConfig(
+	private HashMap<String, Object> generateUserConfig(
 			final ViewParams buttonParams, final ViewParams textEditParams) {
-		HashMap<String, ViewParams> viewsConf = new HashMap<String, ViewParams>();
-		viewsConf.put("Button", buttonParams);
-		viewsConf.put("TextEdit", textEditParams);
-		
-		HashMap<String, Float> parentViewConf = new HashMap<String, Float>();
-		parentViewConf.put("Brightness", this.brightnessValue);
-		parentViewConf.put("Volume", (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-		
-		HashMap <HashMap<String, ViewParams>, HashMap<String, Float>> userConfig = new HashMap<HashMap<String,ViewParams>, HashMap<String,Float>>();
-		userConfig.put(viewsConf, parentViewConf);
-		return userConfig;
+		HashMap<String, Object> viewConf = new HashMap<String, Object>();
+		viewConf.put("Button", buttonParams);
+		viewConf.put("TextEdit", textEditParams);
+		viewConf.put("Brightness", this.brightnessValue);
+		viewConf.put("Volume", (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
+		return viewConf;
 	}
 	
 	public int getBackgroundColor(View view) {
