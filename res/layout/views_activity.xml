@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:columnCount="1"
     android:orientation="horizontal"
-    android:rowCount="9" >
+    android:rowCount="11" >
 
     <LinearLayout
         android:id="@+id/linear_layout_0"
@@ -129,6 +129,14 @@
             android:layout_height="wrap_content"
             android:max="100"
             android:progress="50" />
-    </LinearLayout> 
+    </LinearLayout>
+
+     <Button
+         android:id="@+id/store_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_column="0"
+         android:layout_gravity="center"
+         android:text="@string/store_message" />
 
 </GridLayout>

@@ -1,7 +1,8 @@
 package es.deusto.deustotech;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +40,7 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 	private static final String TAG = ViewsActivity.class.getSimpleName();
 	private Button testButton;
 	private Button testTextEdit; //Actually, it is a button with a transparent background
+	private Button storeButton;
 	private SharedPreferences minimunViewPreferences;
 	private GridLayout grid;
 	private AudioManager audioManager = null;
@@ -62,6 +64,9 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 		
 		testTextEdit = (Button) findViewById(R.id.test_text_edit);
 		testTextEdit.setOnClickListener(this);
+		
+		storeButton = (Button) findViewById(R.id.store_button);
+		storeButton.setOnClickListener(this);
 		
 		tts = new TextToSpeech(this, this);
 		
@@ -139,18 +144,6 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 				testButton.setHeight((int) y);
 				testButton.invalidate();
 				
-				if (event.getAction() == MotionEvent.ACTION_UP){
-					//store
-					SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
-					Set<String> values = new HashSet<String>();
-					values.add(String.valueOf(x));
-					values.add(String.valueOf(y));
-					uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
-					uiEditor.commit();
-					
-					Log.d(TAG, "Stored!");
-				}
-				
 				return true;
 			}
 		});
@@ -166,19 +159,6 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 				testTextEdit.invalidate();
 				
 				//TODO: Change also Button text size?
-				
-				if (event.getAction() == MotionEvent.ACTION_UP){
-					//store
-//					SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
-					//TODO: store only font size
-//					Set<String> values = new HashSet<String>();
-//					values.add(String.valueOf(x));
-//					values.add(String.valueOf(y));
-//					uiEditor.putStringSet(getResources().getString(R.string.adapted_configuration_ui), values);
-//					uiEditor.commit();
-					
-					Log.d(TAG, "Stored!");
-				}
 				
 				return true;
 			}
@@ -219,6 +199,32 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 			this.testButton.invalidate();
 			
 			//TODO: also change button text color?
+		} else if (view.getId() == R.id.store_button){
+			//Store parameters
+			SharedPreferences.Editor uiEditor = minimunViewPreferences.edit();
+			final ViewParams buttonParams = new ViewParams(testButton.getWidth(), testButton.getHeight(), 
+					getBackgroundColor(this.testButton), this.testButton.getTextColors().getDefaultColor());
+			final ViewParams textEditParams = new ViewParams(testTextEdit.getWidth(), testTextEdit.getHeight(), 
+					getBackgroundColor(this.testTextEdit), this.testTextEdit.getTextColors().getDefaultColor());
+			
+			HashMap<String, ViewParams> viewsConf = new HashMap<String, ViewParams>();
+			viewsConf.put("Button", buttonParams);
+			viewsConf.put("TextEdit", textEditParams);
+			
+			HashMap<String, Float> parentViewConf = new HashMap<String, Float>();
+			parentViewConf.put("Brightness", this.brightnessValue);
+			parentViewConf.put("Volume", (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+			
+			HashMap <HashMap<String, ViewParams>, HashMap<String, Float>> userConfig = new HashMap<HashMap<String,ViewParams>, HashMap<String,Float>>();
+			userConfig.put(viewsConf, parentViewConf);
+			
+			Gson gson = new Gson();
+			final String json = gson.toJson(userConfig);
+			
+			uiEditor.putString(getResources().getString(R.string.adapted_configuration_ui), json);
+			uiEditor.commit();
+			
+			Log.d(TAG, "Stored!");
 		}
 	}
 	
