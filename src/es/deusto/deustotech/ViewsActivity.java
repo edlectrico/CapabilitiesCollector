@@ -12,7 +12,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -164,8 +163,9 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 				float x = event.getRawX();
 		
 				testTextEdit.setTextSize((float) (x / 10.0));
-				
 				testTextEdit.invalidate();
+				
+				//TODO: Change also Button text size?
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
@@ -186,6 +186,7 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 	}
 
 	private void enableNightMode(final boolean enable) {
+		//TODO: Night mode is more than changing just the background color...
 		View view = this.getWindow().getDecorView();
 		if (enable){
 			view.setBackgroundColor(Color.BLACK);
@@ -265,7 +266,7 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 	}
 
 	@Override
-	public void onInit(int arg0) { }
+	public void onInit(int status) { }
 
 	@Override
 	public void colorChanged(int color) {
