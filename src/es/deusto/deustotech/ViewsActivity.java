@@ -6,8 +6,15 @@ import java.util.Set;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -22,21 +29,26 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.Toast;
+import es.deusto.deustotech.utils.ColorPickerDialog;
 
 /**
  * This activity configures the minimum visual interaction values
  */
 public class ViewsActivity extends Activity implements android.view.View.OnClickListener, 
-OnCheckedChangeListener, TextToSpeech.OnInitListener {
+OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorChangedListener {
 
 	private static final String TAG = ViewsActivity.class.getSimpleName();
-	private Button previewButton;
-	private Button previewTextEdit;
+	private Button testButton;
+	private Button testTextEdit; //Actually, it is a button with a transparent background
 	private SharedPreferences minimunViewPreferences;
 	private GridLayout grid;
 	private AudioManager audioManager = null;
 	private TextToSpeech tts;
+	private int viewColor;
+	
+	private Bitmap mBitmap;
+	private Canvas mCanvas;
+	private Rect mBounds;
 	
 	//brightness
 	float brightnessValue = 0.5f; // dummy default value
@@ -46,11 +58,11 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.views_activity);
 
-		previewButton = (Button) findViewById(R.id.test_button);
-		previewButton.setOnClickListener(this);
+		testButton = (Button) findViewById(R.id.test_button);
+		testButton.setOnClickListener(this);
 		
-		previewTextEdit = (Button) findViewById(R.id.test_text_edit);
-		previewTextEdit.setOnClickListener(this);
+		testTextEdit = (Button) findViewById(R.id.test_text_edit);
+		testTextEdit.setOnClickListener(this);
 		
 		tts = new TextToSpeech(this, this);
 		
@@ -124,9 +136,9 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener {
 				float x = event.getRawX();
 				float y = event.getRawY();
 		
-				previewButton.setWidth((int) x);
-				previewButton.setHeight((int) y);
-				previewButton.invalidate();
+				testButton.setWidth((int) x);
+				testButton.setHeight((int) y);
+				testButton.invalidate();
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
@@ -151,9 +163,9 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener {
 				
 				float x = event.getRawX();
 		
-				previewTextEdit.setTextSize((float) (x / 10.0));
+				testTextEdit.setTextSize((float) (x / 10.0));
 				
-				previewTextEdit.invalidate();
+				testTextEdit.invalidate();
 				
 				if (event.getAction() == MotionEvent.ACTION_UP){
 					//store
@@ -191,7 +203,60 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener {
 
 	@Override
 	public void onClick(View view) {
-		Toast.makeText(getApplicationContext(), "This is a test!", Toast.LENGTH_SHORT).show();
+		//Launch color dialog
+		if (view.getId() == R.id.test_button){
+			int colorId = getBackgroundColor(this.testButton);
+			new ColorPickerDialog(this, this, colorId).show();
+//			new ColorPickerDialog(this, this, ((ColorDrawable) this.testButton.getBackground()).getColor()).show();
+			this.testButton.setBackgroundColor(this.viewColor);
+			this.testButton.invalidate();
+		} else if (view.getId() == R.id.test_text_edit){
+			final ColorStateList colors = this.testTextEdit.getTextColors();
+			
+			new ColorPickerDialog(this, this, colors.getDefaultColor()).show();
+			this.testTextEdit.setTextColor(viewColor);
+			this.testButton.invalidate();
+			
+			//TODO: also change button text color?
+		}
+	}
+	
+	public int getBackgroundColor(View view) {
+		// The actual color, not the id.
+		int color = Color.BLACK;
+
+		if(view.getBackground() instanceof ColorDrawable) {
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+				initIfNeeded();
+				// If the ColorDrawable makes use of its bounds in the draw method,
+				// we may not be able to get the color we want. This is not the usual
+				// case before Ice Cream Sandwich (4.0.1 r1).
+				// Yet, we change the bounds temporarily, just to be sure that we are
+				// successful.
+				ColorDrawable colorDrawable = (ColorDrawable)view.getBackground();
+
+				mBounds.set(colorDrawable.getBounds()); // Save the original bounds.
+				colorDrawable.setBounds(0, 0, 1, 1); // Change the bounds.
+
+				colorDrawable.draw(mCanvas);
+				color = mBitmap.getPixel(0, 0);
+
+				colorDrawable.setBounds(mBounds); // Restore the original bounds.
+			}
+			else {
+				color = ((ColorDrawable)view.getBackground()).getColor();
+			}
+		}
+
+		return color;
+	}
+
+	public void initIfNeeded() {
+		if(mBitmap == null) {
+			mBitmap = Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888);
+			mCanvas = new Canvas(mBitmap);
+			mBounds = new Rect();
+		}
 	}
 
 	@Override
@@ -200,9 +265,11 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener {
 	}
 
 	@Override
-	public void onInit(int arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onInit(int arg0) { }
+
+	@Override
+	public void colorChanged(int color) {
+		this.viewColor = color;
 	}
 	
 }
