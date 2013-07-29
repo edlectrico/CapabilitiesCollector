@@ -47,6 +47,9 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 	private TextToSpeech tts;
 	private int viewColor;
 	
+	private boolean buttonPressed = false;
+	private boolean textEditPressed = false;
+	
 	private Bitmap mBitmap;
 	private Canvas mCanvas;
 	private Rect mBounds;
@@ -123,15 +126,6 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 		this.minimunViewPreferences = getSharedPreferences(getResources().getString(R.string.preferences_name_minui), 0);
 		this.grid = (GridLayout) findViewById(R.id.default_layout);
 		
-		this.grid.getChildAt(0).setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				Log.d(TAG, "Layout 0");
-				
-				return false;
-			}
-		});
-		
 		this.grid.getChildAt(1).setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -186,18 +180,13 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 	public void onClick(View view) {
 		//Launch color dialog
 		if (view.getId() == R.id.test_button){
+			buttonPressed = true;
 			int colorId = getBackgroundColor(this.testButton);
 			new ColorPickerDialog(this, this, colorId).show();
-//			new ColorPickerDialog(this, this, ((ColorDrawable) this.testButton.getBackground()).getColor()).show();
-			this.testButton.setBackgroundColor(this.viewColor);
-			this.testButton.invalidate();
 		} else if (view.getId() == R.id.test_text_edit){
+			textEditPressed = true;
 			final ColorStateList colors = this.testTextEdit.getTextColors();
-			
 			new ColorPickerDialog(this, this, colors.getDefaultColor()).show();
-			this.testTextEdit.setTextColor(viewColor);
-			this.testButton.invalidate();
-			
 			//TODO: also change button text color?
 		} else if (view.getId() == R.id.store_button){
 			//Store parameters
@@ -207,25 +196,29 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 			final ViewParams textEditParams = new ViewParams(testTextEdit.getWidth(), testTextEdit.getHeight(), 
 					getBackgroundColor(this.testTextEdit), this.testTextEdit.getTextColors().getDefaultColor());
 			
-			HashMap<String, ViewParams> viewsConf = new HashMap<String, ViewParams>();
-			viewsConf.put("Button", buttonParams);
-			viewsConf.put("TextEdit", textEditParams);
-			
-			HashMap<String, Float> parentViewConf = new HashMap<String, Float>();
-			parentViewConf.put("Brightness", this.brightnessValue);
-			parentViewConf.put("Volume", (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-			
-			HashMap <HashMap<String, ViewParams>, HashMap<String, Float>> userConfig = new HashMap<HashMap<String,ViewParams>, HashMap<String,Float>>();
-			userConfig.put(viewsConf, parentViewConf);
-			
 			Gson gson = new Gson();
-			final String json = gson.toJson(userConfig);
+			final String json = gson.toJson(generateUserConfig(buttonParams, textEditParams));
 			
 			uiEditor.putString(getResources().getString(R.string.adapted_configuration_ui), json);
 			uiEditor.commit();
 			
 			Log.d(TAG, "Stored!");
 		}
+	}
+
+	private HashMap<HashMap<String, ViewParams>, HashMap<String, Float>> generateUserConfig(
+			final ViewParams buttonParams, final ViewParams textEditParams) {
+		HashMap<String, ViewParams> viewsConf = new HashMap<String, ViewParams>();
+		viewsConf.put("Button", buttonParams);
+		viewsConf.put("TextEdit", textEditParams);
+		
+		HashMap<String, Float> parentViewConf = new HashMap<String, Float>();
+		parentViewConf.put("Brightness", this.brightnessValue);
+		parentViewConf.put("Volume", (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+		
+		HashMap <HashMap<String, ViewParams>, HashMap<String, Float>> userConfig = new HashMap<HashMap<String,ViewParams>, HashMap<String,Float>>();
+		userConfig.put(viewsConf, parentViewConf);
+		return userConfig;
 	}
 	
 	public int getBackgroundColor(View view) {
@@ -277,6 +270,13 @@ OnCheckedChangeListener, TextToSpeech.OnInitListener, ColorPickerDialog.OnColorC
 	@Override
 	public void colorChanged(int color) {
 		this.viewColor = color;
+		if (buttonPressed){
+			this.testButton.setBackgroundColor(this.viewColor);
+			buttonPressed = false;
+		} else if (textEditPressed){
+			this.testTextEdit.setTextColor(this.viewColor);
+			textEditPressed = false;
+		}
 	}
 	
 }
