@@ -7,17 +7,17 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="17" />
-    
-	<uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-	<uses-permission android:name="android.permission.VIBRATE"/>
-    
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".InputActivity"
+            android:name="es.deusto.deustotech.InputActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity android:name="es.deusto.deustotech.views.ButtonConfigActivity" >
+        </activity>
         <activity
-            android:name=".ViewsActivity">
+            android:name="es.deusto.deustotech.views.TextEditConfigActivity"
+            android:label="@string/title_activity_text_edit_config" >
         </activity>
     </application>
 

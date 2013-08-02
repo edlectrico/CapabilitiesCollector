@@ -1,4 +1,6 @@
-package es.deusto.deustotech;
+package es.deusto.deustotech.views;
+
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,21 +13,22 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
+import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.ColorPickerDialog;
 
 /**
  * This activity configures the minimum visual interaction values
  */
-public class ViewsActivity extends Activity implements android.view.View.OnClickListener, 
+public class ButtonConfigActivity extends Activity implements android.view.View.OnClickListener, 
 	TextToSpeech.OnInitListener, ColorPickerDialog.OnColorChangedListener {
 
-	private static final String TAG = ViewsActivity.class.getSimpleName();
+	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 	private Button testButton;
 	private GridLayout grid;
 	private AudioManager audioManager = null;
@@ -41,7 +44,7 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.views_activity);
+		setContentView(R.layout.button_config_activity);
 
 		this.testButton = (Button) findViewById(R.id.test_button);
 		this.testButton.setOnClickListener(this);
@@ -79,11 +82,20 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	@Override
 	public void onClick(View view) {
 		//Launch color dialog
-		if (view.getId() == R.id.test_button){
-//			buttonPressed = true;
+		switch (view.getId()) {
+		case R.id.test_button:
 			int colorId = getBackgroundColor(this.testButton);
 			new ColorPickerDialog(this, this, colorId).show();
-		} 
+			break;
+			
+		case R.id.next_button:
+			//TODO: next activity for configuring TextEdit size and color
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 //	private HashMap<String, Object> generateUserConfig(
@@ -136,7 +148,24 @@ public class ViewsActivity extends Activity implements android.view.View.OnClick
 	}
 
 	@Override
-	public void onInit(int status) { }
+	public void onInit(int status) {
+		if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.US);
+ 
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+            	speakOut(getResources().getString(R.string.button_info_message));
+            }
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+	}
+	
+	private void speakOut(final String text) {
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
 
 	@Override
 	public void colorChanged(int color) {

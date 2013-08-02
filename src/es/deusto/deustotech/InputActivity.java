@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import es.deusto.deustotech.views.ButtonConfigActivity;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +42,7 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.input_activity);
 		
-		interactionIntent = new Intent(this, ViewsActivity.class);
+		interactionIntent = new Intent(this, ButtonConfigActivity.class);
 	
 		voiceRecognition = checkVoiceRecognition();
 		
