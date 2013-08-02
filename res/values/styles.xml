@@ -19,4 +19,12 @@
     	<item name="android:windowFullscreen">true</item>
     </style>
     
+    <style name="MediumText">
+	    <item name="android:textAppearance">@android:style/TextAppearance.Medium.Inverse</item>
+	</style>
+	
+    <style name="LargeText">
+	    <item name="android:textAppearance">@android:style/TextAppearance.Large.Inverse</item>
+	</style>
+    
 </resources>

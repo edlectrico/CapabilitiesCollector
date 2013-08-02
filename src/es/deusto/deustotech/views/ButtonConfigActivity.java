@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,12 +29,14 @@ import es.deusto.deustotech.utils.ColorPickerDialog;
 public class ButtonConfigActivity extends Activity implements android.view.View.OnClickListener, 
 	TextToSpeech.OnInitListener, ColorPickerDialog.OnColorChangedListener {
 
-	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 	private Button testButton;
 	private GridLayout grid;
 	private AudioManager audioManager = null;
 	private TextToSpeech tts;
 	private int viewColor;
+	
+	private int maxWidth;
+	private int maxHeight;
 	
 	private OnTouchListener onTouchListener;
 	
@@ -48,6 +51,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 
 		this.testButton = (Button) findViewById(R.id.test_button);
 		this.testButton.setOnClickListener(this);
+		findViewById(R.id.next_button).setOnClickListener(this);
 		
 		this.tts = new TextToSpeech(this, this);
 		
@@ -59,6 +63,8 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 		
 		this.grid.getChildAt(0).setOnTouchListener(this.onTouchListener);
 		this.grid.getChildAt(1).setOnTouchListener(this.onTouchListener);
+		this.grid.getChildAt(2).setOnTouchListener(this.onTouchListener);
+		
 		this.testButton.setOnTouchListener(this.onTouchListener);
 	}
 	
@@ -68,11 +74,11 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			public boolean onTouch(View view, MotionEvent event) {
 				final int width  = testButton.getWidth();
 				final int height = testButton.getHeight();
-//				final float textSize = testButton.getTextSize();
 				
-				testButton.setWidth(width + 10);
-				testButton.setHeight(height + 10);
-//				testButton.setTextSize(textSize + 0.1F);
+				if ((view.getWidth() > maxWidth) && (view.getHeight() > maxHeight)){
+					testButton.setWidth(width + 10);
+					testButton.setHeight(height + 10);
+				}
 				
 				return true;
 			}
@@ -90,6 +96,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			
 		case R.id.next_button:
 			//TODO: next activity for configuring TextEdit size and color
+			startActivity(new Intent(this, TextEditConfigActivity.class));
 			break;
 
 		default:

@@ -28,8 +28,7 @@
         <activity android:name="es.deusto.deustotech.views.ButtonConfigActivity" >
         </activity>
         <activity
-            android:name="es.deusto.deustotech.views.TextEditConfigActivity"
-            android:label="@string/title_activity_text_edit_config" >
+            android:name="es.deusto.deustotech.views.TextEditConfigActivity">
         </activity>
     </application>
 

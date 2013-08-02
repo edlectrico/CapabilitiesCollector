@@ -22,6 +22,8 @@ public class TextEditConfigActivity extends Activity implements android.view.Vie
 	private TextToSpeech tts;
 	private int viewColor;
 	
+	private Context context;
+	
 	private OnTouchListener onTouchListener;
 	
 	@Override
@@ -43,17 +45,15 @@ public class TextEditConfigActivity extends Activity implements android.view.Vie
 		this.grid.getChildAt(0).setOnTouchListener(this.onTouchListener);
 		this.grid.getChildAt(1).setOnTouchListener(this.onTouchListener);
 		this.testTextEdit.setOnTouchListener(this.onTouchListener);
+		
+		this.context = this.getApplicationContext();
 	}
 
 	public OnTouchListener createOnTouchListener(){
 		return new OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				final int width  = testTextEdit.getWidth();
-				final int height = testTextEdit.getHeight();
-				
-				testTextEdit.setWidth(width + 10);
-				testTextEdit.setHeight(height + 10);
+				testTextEdit.setTextAppearance(context, R.style.LargeText);				
 				
 				return true;
 			}

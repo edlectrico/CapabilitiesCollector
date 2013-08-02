@@ -22,6 +22,7 @@
     <LinearLayout
         android:id="@+id/linear_layout_1"
         android:layout_width="fill_parent"
+        android:layout_height="366dp"
         android:layout_gravity="top"
         android:layout_row="1" >
 
