@@ -14,8 +14,8 @@
     <string name="input_button_message">PUSH ME!</string>
     
     <!-- ViewsActivity -->
-    <string name="info_message">Draw on the screen any View with the desired size!</string>
-	<string name="button_message">Change Button Color</string>
+    <string name="button_info_message">Can yo see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can push it.</string>
+	<string name="button_message">Push me!</string>
 	<string name="textview_message">Change TextView Color</string>
 	<string name="brightness_message">Configure the desired Brightness</string>
 	<string name="night_mode_message">Night Mode</string>
