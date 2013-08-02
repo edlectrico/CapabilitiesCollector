@@ -9,7 +9,8 @@
     <string name="hearing_impairment">Hearing Impairment</string>
     
     <!-- InputActivity -->
-    <string name="push_button_message">Can you push the button?</string>
+    <string name="basic_input_message">If you prefer an audio based interaction, please say YES or
+        hold your finger over the screen. Otherwise, please say NO or push the button.</string>
     <string name="input_button_message">PUSH ME!</string>
     
     <!-- ViewsActivity -->

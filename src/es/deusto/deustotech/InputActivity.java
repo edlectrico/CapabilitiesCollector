@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,8 @@ import android.view.View.OnLongClickListener;
  */
 public class InputActivity extends Activity implements TextToSpeech.OnInitListener{
 
+	private static final String TAG = InputActivity.class.getSimpleName();
+	
 	//variable for checking Voice Recognition support on user device
 	private static final int VR_REQUEST = 999;
 	
@@ -42,8 +45,30 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 		voiceRecognition = checkVoiceRecognition();
 		
 		tts = new TextToSpeech(this, this);
+		
+		//TODO: why is not working the onDone call? This part of code was after
+		//the speakOut() call within the onInit method
+		tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+			
+			@Override
+			public void onStart(String message) {
+				Log.d(TAG, "onStart " + message);
+			}
+			
+			@Override
+			public void onError(String message) { }
+			
+			@Override
+			public void onDone(String message) {
+				Log.d(TAG, "onDone " + message);
+				listenToSpeech();
+			}
+		});
+		//
+		
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		
+		//OnLongClick -> audio-based interaction
 		findViewById(R.id.grid_layout).setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
@@ -52,22 +77,23 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 			}
 		});
 		
-		findViewById(R.id.input_button).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (!longPush){
-					vibrator.vibrate(500);
-					speakOut("Well done!");
-					startActivity(getDefaultIntent());
-				}
-			}
-		});
-		
 		findViewById(R.id.input_button).setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View view) {
 				onLongClickView();
 				return true;
+			}
+		});
+		
+		//OnClick -> default visual interaction
+		findViewById(R.id.input_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (!longPush){
+					vibrator.vibrate(500);
+					speakOut("Visual based interaction selected");
+					startActivity(getDefaultIntent());
+				}
 			}
 		});
 	}
@@ -100,8 +126,9 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-                speakOut("Can you push the button in the screen? " +
-                		"If you can not, then hold your finger over the screen for a while.");
+            	speakOut(getResources().getString(R.string.basic_input_message));
+            	//TODO: This method should be called once the tts finished reading the basic_input_message
+            	listenToSpeech();
             }
         } else {
             Log.e("TTS", "Initilization Failed!");
@@ -114,7 +141,6 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 	
 	private void onLongClickView() {
 		longPush = true;
-		speakOut("If you prefer an audio based interaction, please say YES. If not, please say NO.");
 		
 		if (voiceRecognition){
 			listenToSpeech();
@@ -150,8 +176,7 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
             	//TODO: Communication by audio (blind user)
             	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), true);
             } else if (suggestedWords.contains("no")){
-            	//Communication by visual interaction, but probably with a visual difficulty
-            	
+            	//TODO: Communication by visual interaction, but probably with a visual difficulty
             	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), true);
             	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), false);
             }
