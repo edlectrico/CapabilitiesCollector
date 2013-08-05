@@ -1,11 +1,19 @@
 package es.deusto.deustotech.views;
 
+import java.util.Random;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.widget.Button;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.utils.ViewParams;
 
 /**
  * This activity shows a Button and a TextEdit as configured in previous activities
@@ -15,10 +23,12 @@ import es.deusto.deustotech.R;
  * @author edlectrico
  *
  */
-public class BrightnessConfigActivity extends Activity {
+public class BrightnessConfigActivity extends Activity implements OnClickListener{
 
-	private Button button;
-	private EditText editText;
+	private ViewParams viewParams;
+	private GridLayout grid;
+	private OnTouchListener onTouchListener;
+	float brightnessValue = 0.5f; // dummy default value
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +36,63 @@ public class BrightnessConfigActivity extends Activity {
 		setContentView(R.layout.brightness_config);
 		
 		Bundle bundle = getIntent().getExtras();
+		viewParams = bundle.getParcelable("viewParams");
 		
 		//Button config
-		findViewById(R.id.test_button).setMinimumWidth(Integer.parseInt(bundle.getString(getResources().getString(R.string.button_width))));
-		findViewById(R.id.test_button).setMinimumHeight(Integer.parseInt(bundle.getString(getResources().getString(R.string.button_height))));
-		findViewById(R.id.test_button).setBackgroundColor(Integer.parseInt(bundle.getString(getResources().getString(R.string.button_background_color))));
+		findViewById(R.id.test_button).setMinimumWidth((int)viewParams.getButtonWidth());
+		findViewById(R.id.test_button).setMinimumHeight((int)viewParams.getButtonHeight());
+//		findViewById(R.id.test_button).setBackgroundColor(viewParams.getButtonBackgroundColor());
 		
 		//EditText config
-		((EditText)findViewById(R.id.test_text_edit)).setTextSize(Integer.parseInt(bundle.getString(getResources().getString(R.string.edit_text_size))));
-		((EditText) findViewById(R.id.test_text_edit)).setTextColor(Integer.parseInt(bundle.getString(getResources().getString(R.string.edit_text_text_color))));
-	}
+		((EditText)findViewById(R.id.test_text_edit)).setTextSize(viewParams.getTextEditSize());
+		((EditText) findViewById(R.id.test_text_edit)).setTextColor(viewParams.getTextColor());
+		
+		this.grid = (GridLayout) findViewById(R.id.default_layout);
+		findViewById(R.id.next_button).setOnClickListener(this);
+		
+		onTouchListener = new OnTouchListener() {
+			//Each time the user presses the screen a new brightness value
+			//is generated
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_DOWN){
+					
+					Random randomGenerator = new Random();
+				    int randomInt = randomGenerator.nextInt(100);
+					
+					brightnessValue = (float) randomInt / 100;
 
+					WindowManager.LayoutParams layoutParams = getWindow()
+							.getAttributes();
+					layoutParams.screenBrightness = brightnessValue;
+					getWindow().setAttributes(layoutParams);
+				}
+				
+				return false;
+			}
+		};
+		
+		this.grid.getChildAt(0).setOnTouchListener(onTouchListener);
+		this.grid.getChildAt(1).setOnTouchListener(onTouchListener);
+		this.grid.getChildAt(2).setOnTouchListener(onTouchListener);
+	}
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.brightness_config, menu);
-		return true;
+	public void onClick(View view) {
+		switch (view.getId()) {
+		case R.id.next_button:
+			Intent intent = new Intent(this, VolumeConfigActivity.class);
+			
+			viewParams.setBrightness(brightnessValue);
+			
+			intent.putExtra("viewParams", viewParams);
+			
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

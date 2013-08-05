@@ -1,25 +1,57 @@
 package es.deusto.deustotech.views;
 
-import es.deusto.deustotech.R;
-import es.deusto.deustotech.R.layout;
-import es.deusto.deustotech.R.menu;
-import android.os.Bundle;
+import java.util.Random;
+
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Context;
+import android.media.AudioManager;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import es.deusto.deustotech.R;
 
-public class VolumeConfigActivity extends Activity {
+/**
+ * This activity allows the user to configure the minimum volume
+ * level for interacting with the device just by tapping the
+ * screen 
+ * 
+ * @author edlectrico
+ *
+ */
 
+public class VolumeConfigActivity extends Activity implements OnClickListener, TextToSpeech.OnInitListener {
+
+	private LinearLayout layout;
+	private AudioManager audioManager = null;
+	private TextToSpeech tts;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.volume_config);
+		
+		layout = (LinearLayout) findViewById(R.id.volume_layout);
+		layout.setOnClickListener(this);
+		
+		tts = new TextToSpeech(this, this);
+
+		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.volume_config, menu);
-		return true;
+	public void onClick(View view) {
+		Random randomGenerator = new Random();
+	    int randomInt = randomGenerator.nextInt(100);
+		
+		audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+				randomInt, 0);
+
+		tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
 	}
+
+	@Override
+	public void onInit(int status) { }
 
 }

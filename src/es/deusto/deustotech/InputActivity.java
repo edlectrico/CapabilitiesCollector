@@ -73,7 +73,7 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 		//OnLongClick -> audio-based interaction
 		findViewById(R.id.grid_layout).setOnLongClickListener(new OnLongClickListener() {
 			@Override
-			public boolean onLongClick(View v) {
+			public boolean onLongClick(View view) {
 				onLongClickView();
 				return true;
 			}

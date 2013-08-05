@@ -12,6 +12,8 @@ public class ViewParams implements Parcelable {
 	private int buttonBackgroundColor;
 	private float textEditSize;
 	private int textEditBackgroundColor;
+	private float brightness;
+	private float volume;
 	
 	public ViewParams() {
 		super();
@@ -98,6 +100,22 @@ public class ViewParams implements Parcelable {
 	public void setTextEditBackgroundColor(int textEditBackgroundColor) {
 		this.textEditBackgroundColor = textEditBackgroundColor;
 	}
+	
+	public float getBrightness() {
+		return brightness;
+	}
+
+	public void setBrightness(float brightness) {
+		this.brightness = brightness;
+	}
+
+	public float getVolume() {
+		return volume;
+	}
+
+	public void setVolume(float volume) {
+		this.volume = volume;
+	}
 
 	@Override
 	public int describeContents() {
@@ -114,7 +132,8 @@ public class ViewParams implements Parcelable {
 		dest.writeInt(buttonBackgroundColor);
 		dest.writeFloat(textEditSize);
 		dest.writeInt(textEditBackgroundColor);
-		
+		dest.writeFloat(brightness);
+		dest.writeFloat(volume);
 	}
 	
 	private void readFromParcel(Parcel in) {   
@@ -125,6 +144,8 @@ public class ViewParams implements Parcelable {
 		buttonBackgroundColor = in.readInt();
 		textEditSize = in.readFloat();
 		textEditBackgroundColor = in.readInt();
+		brightness = in.readFloat();
+		volume = in.readFloat();
 	}
 	
 	public static final Parcelable.Creator<ViewParams> CREATOR = new Parcelable.Creator<ViewParams>() { 
