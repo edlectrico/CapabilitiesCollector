@@ -1,12 +1,14 @@
 package es.deusto.deustotech.utils;
 
-public class ViewParams {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-	private int width;
-	private int height;
+public class ViewParams implements Parcelable {
+
 	private int backgroundColor;
 	private int textColor;
-	private float buttonSize;
+	private float buttonWidth;
+	private float buttonHeight;
 	private int buttonBackgroundColor;
 	private float textEditSize;
 	private int textEditBackgroundColor;
@@ -15,34 +17,38 @@ public class ViewParams {
 		super();
 	}
 
-	public ViewParams(int width, int height, int backgroundColor,
-			int textColor, float buttonSize, int buttonBackgroundColor,
+	public ViewParams(int backgroundColor,
+			int textColor, float buttonWidth, float buttonHeight, int buttonBackgroundColor,
 			float textEditSize, int textEditBackgroundColor) {
 		super();
-		this.width = width;
-		this.height = height;
 		this.backgroundColor = backgroundColor;
 		this.textColor = textColor;
-		this.buttonSize = buttonSize;
+		this.buttonWidth = buttonWidth;
+		this.buttonHeight = buttonHeight;
 		this.buttonBackgroundColor = buttonBackgroundColor;
 		this.textEditSize = textEditSize;
 		this.textEditBackgroundColor = textEditBackgroundColor;
 	}
-
-	public int getWidth() {
-		return width;
+	
+	public ViewParams(Parcel in) { 
+		readFromParcel(in); 
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
+
+	public float getButtonWidth() {
+		return buttonWidth;
 	}
 
-	public int getHeight() {
-		return height;
+	public void setButtonWidth(float buttonWidth) {
+		this.buttonWidth = buttonWidth;
 	}
 
-	public void setHeight(int height) {
-		this.height = height;
+	public float getButtonHeight() {
+		return buttonHeight;
+	}
+
+	public void setButtonHeight(float buttonHeight) {
+		this.buttonHeight = buttonHeight;
 	}
 
 	public int getBackgroundColor() {
@@ -62,11 +68,11 @@ public class ViewParams {
 	}
 
 	public float getButtonSize() {
-		return buttonSize;
+		return buttonWidth;
 	}
 
 	public void setButtonSize(float buttonSize) {
-		this.buttonSize = buttonSize;
+		this.buttonWidth = buttonSize;
 	}
 
 	public int getButtonBackgroundColor() {
@@ -92,4 +98,42 @@ public class ViewParams {
 	public void setTextEditBackgroundColor(int textEditBackgroundColor) {
 		this.textEditBackgroundColor = textEditBackgroundColor;
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(backgroundColor);
+		dest.writeInt(textColor);
+		dest.writeFloat(buttonWidth);
+		dest.writeFloat(buttonHeight);
+		dest.writeInt(buttonBackgroundColor);
+		dest.writeFloat(textEditSize);
+		dest.writeInt(textEditBackgroundColor);
+		
+	}
+	
+	private void readFromParcel(Parcel in) {   
+		backgroundColor = in.readInt();
+		textColor = in.readInt();
+		buttonWidth = in.readFloat();
+		buttonHeight = in.readFloat();
+		buttonBackgroundColor = in.readInt();
+		textEditSize = in.readFloat();
+		textEditBackgroundColor = in.readInt();
+	}
+	
+	public static final Parcelable.Creator<ViewParams> CREATOR = new Parcelable.Creator<ViewParams>() { 
+		public ViewParams createFromParcel(Parcel in) { 
+			return new ViewParams(in); 
+		}   
+		
+		public ViewParams[] newArray(int size) { 
+			return new ViewParams[size]; 
+		} 
+	}; 
 }

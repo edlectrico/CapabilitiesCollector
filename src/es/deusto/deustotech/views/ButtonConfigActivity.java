@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.ColorPickerDialog;
+import es.deusto.deustotech.utils.ViewParams;
 
 /**
  * This activity configures the minimum visual interaction values
@@ -96,9 +97,17 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			
 		case R.id.next_button:
 			//TODO: next activity for configuring TextEdit size and color
-			Intent intent = new Intent(this, TextEditConfigActivity.class);
-			intent.putExtra(getResources().getString(R.string.button_size), testButton.getScaleX());
-			intent.putExtra(getResources().getString(R.string.button_background_color), getBackgroundColor(this.testButton));
+			Intent intent = new Intent(this, EditTextConfigActivity.class);
+//			intent.putExtra(getResources().getString(R.string.button_width), testButton.getScaleX());
+//			intent.putExtra(getResources().getString(R.string.button_height), testButton.getScaleY());
+//			intent.putExtra(getResources().getString(R.string.button_background_color), getBackgroundColor(this.testButton));
+			
+			ViewParams viewParams = new ViewParams();
+			viewParams.setButtonBackgroundColor(getBackgroundColor(this.testButton));
+			viewParams.setButtonWidth(testButton.getWidth());
+			viewParams.setButtonHeight(testButton.getHeight());
+			
+			intent.putExtra("viewParams", viewParams);
 			
 			startActivity(intent);
 			break;

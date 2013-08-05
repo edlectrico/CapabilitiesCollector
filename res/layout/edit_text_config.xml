@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_edit_info_message" />
+            android:text="@string/edit_text_info_message" />
     </LinearLayout>
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:id="@+id/test_text_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_edit_message" 
+            android:text="@string/edit_text_message" 
             android:background="@android:color/transparent"/>
 
     </LinearLayout>

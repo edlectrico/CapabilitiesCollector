@@ -3,7 +3,6 @@ package es.deusto.deustotech.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -13,8 +12,9 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.utils.ViewParams;
 
-public class TextEditConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener {
+public class EditTextConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 	private Button testTextEdit;
@@ -23,15 +23,21 @@ public class TextEditConfigActivity extends Activity implements View.OnClickList
 	private TextToSpeech tts;
 	private int viewColor;
 	
+	private ViewParams viewParams;
+	
 	private Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.text_edit_config);
+		setContentView(R.layout.edit_text_config);
+		
+		Bundle bundle = getIntent().getExtras();
+		viewParams = bundle.getParcelable("viewParams");
 		
 		this.testTextEdit = (Button) findViewById(R.id.test_text_edit);
 		this.testTextEdit.setOnClickListener(this);
+		findViewById(R.id.next_button).setOnClickListener(this);
 		
 		this.tts = new TextToSpeech(this, this);
 		
@@ -65,8 +71,11 @@ public class TextEditConfigActivity extends Activity implements View.OnClickList
 		switch (view.getId()) {
 		case R.id.next_button:
 			Intent intent = new Intent(this, BrightnessConfigActivity.class);
-			intent.putExtra(getResources().getString(R.string.textedit_size), testTextEdit.getTextSize());
-			intent.putExtra(getResources().getString(R.string.textedit_text_color), testTextEdit.getTextColors().getDefaultColor());
+			
+			viewParams.setTextColor(testTextEdit.getTextColors().getDefaultColor());
+			viewParams.setTextEditSize(testTextEdit.getTextSize());
+			
+			intent.putExtra("viewParams", viewParams);
 			
 			startActivity(intent);
 			break;
