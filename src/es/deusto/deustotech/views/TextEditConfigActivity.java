@@ -12,8 +12,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 
-public class TextEditConfigActivity extends Activity implements android.view.View.OnClickListener,
-		TextToSpeech.OnInitListener {
+public class TextEditConfigActivity extends Activity implements TextToSpeech.OnInitListener {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 	private Button testTextEdit;
@@ -24,15 +23,12 @@ public class TextEditConfigActivity extends Activity implements android.view.Vie
 	
 	private Context context;
 	
-	private OnTouchListener onTouchListener;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.text_edit_config);
 		
 		this.testTextEdit = (Button) findViewById(R.id.test_text_edit);
-		this.testTextEdit.setOnClickListener(this);
 		
 		this.tts = new TextToSpeech(this, this);
 		
@@ -40,30 +36,23 @@ public class TextEditConfigActivity extends Activity implements android.view.Vie
 		
 		this.grid = (GridLayout) findViewById(R.id.default_layout);
 		
-		this.onTouchListener = createOnTouchListener();
-		
-		this.grid.getChildAt(0).setOnTouchListener(this.onTouchListener);
-		this.grid.getChildAt(1).setOnTouchListener(this.onTouchListener);
-		this.testTextEdit.setOnTouchListener(this.onTouchListener);
+		this.grid.getChildAt(1).setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				float x = event.getRawX();
+
+				testTextEdit.setTextSize((float) (x / 10.0));
+				testTextEdit.invalidate();
+
+				return true;
+			}
+		});
 		
 		this.context = this.getApplicationContext();
 	}
 
-	public OnTouchListener createOnTouchListener(){
-		return new OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				testTextEdit.setTextAppearance(context, R.style.LargeText);				
-				
-				return true;
-			}
-		};
-	}
 	
-	@Override
-	public void onClick(View view) {
-		
-	}
 
 	@Override
 	public void onInit(int status) {
