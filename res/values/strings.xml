@@ -7,6 +7,10 @@
     <!-- Interaction Intent -->
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
+    <string name="button_background_color">Button Background Color</string>
+    <string name="button_size">Button Size</string>
+    <string name="textedit_text_color">TextEdit Text Color</string>
+    <string name="textedit_size">TextEdit Size</string>
 
     <!-- InputActivity -->
     <string name="basic_input_message">If you prefer an audio based interaction, please say YES or
@@ -24,9 +28,13 @@
     <string name="store_message">Store preferences</string>
     <string name="preferences_name_minui">MinUIPreferences</string>
     <string name="adapted_configuration_ui">TestConfiguration</string>
-    
+
     <!-- Text_Edit_Config_Activity -->
     <string name="title_activity_text_edit_config">TextEditConfigActivity</string>
- 	<string name="text_edit_info_message">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
-	<string name="text_edit_message">Read me!</string>
+    <string name="text_edit_info_message">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
+    <string name="text_edit_message">Read me!</string>
+    <string name="title_activity_brightness_config">BrightnessConfigActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_volume_config">VolumeConfigActivity</string>
+
 </resources>

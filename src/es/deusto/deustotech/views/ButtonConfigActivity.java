@@ -96,7 +96,11 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			
 		case R.id.next_button:
 			//TODO: next activity for configuring TextEdit size and color
-			startActivity(new Intent(this, TextEditConfigActivity.class));
+			Intent intent = new Intent(this, TextEditConfigActivity.class);
+			intent.putExtra(getResources().getString(R.string.button_size), testButton.getScaleX());
+			intent.putExtra(getResources().getString(R.string.button_background_color), getBackgroundColor(this.testButton));
+			
+			startActivity(intent);
 			break;
 
 		default:

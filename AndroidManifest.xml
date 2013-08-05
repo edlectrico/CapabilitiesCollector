@@ -27,8 +27,12 @@
         </activity>
         <activity android:name="es.deusto.deustotech.views.ButtonConfigActivity" >
         </activity>
+        <activity android:name="es.deusto.deustotech.views.TextEditConfigActivity" >
+        </activity>
+        <activity android:name="es.deusto.deustotech.views.BrightnessConfigActivity" >
+        </activity>
         <activity
-            android:name="es.deusto.deustotech.views.TextEditConfigActivity">
+            android:name="es.deusto.deustotech.views.VolumeConfigActivity" >
         </activity>
     </application>
 

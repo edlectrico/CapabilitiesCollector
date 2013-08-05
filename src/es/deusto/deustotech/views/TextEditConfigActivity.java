@@ -2,6 +2,8 @@ package es.deusto.deustotech.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -12,7 +14,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 
-public class TextEditConfigActivity extends Activity implements TextToSpeech.OnInitListener {
+public class TextEditConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 	private Button testTextEdit;
@@ -29,6 +31,7 @@ public class TextEditConfigActivity extends Activity implements TextToSpeech.OnI
 		setContentView(R.layout.text_edit_config);
 		
 		this.testTextEdit = (Button) findViewById(R.id.test_text_edit);
+		this.testTextEdit.setOnClickListener(this);
 		
 		this.tts = new TextToSpeech(this, this);
 		
@@ -52,11 +55,25 @@ public class TextEditConfigActivity extends Activity implements TextToSpeech.OnI
 		this.context = this.getApplicationContext();
 	}
 
-	
-
 	@Override
 	public void onInit(int status) {
 		
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+		case R.id.next_button:
+			Intent intent = new Intent(this, BrightnessConfigActivity.class);
+			intent.putExtra(getResources().getString(R.string.textedit_size), testTextEdit.getTextSize());
+			intent.putExtra(getResources().getString(R.string.textedit_text_color), testTextEdit.getTextColors().getDefaultColor());
+			
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 
