@@ -1,10 +1,8 @@
-package es.deusto.deustotech;
+package es.deusto.deustotech.views;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import es.deusto.deustotech.views.ButtonConfigActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,9 +18,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import es.deusto.deustotech.R;
 
 /**
  * This activity checks user basic input capabilities
+ * 
+ * @author edlectrico
+ * 
  */
 public class InputActivity extends Activity implements TextToSpeech.OnInitListener{
 
@@ -176,10 +178,10 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
             ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (suggestedWords.contains("yes")){
             	//TODO: Communication by audio (blind user)
-            	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), true);
+            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), true);
             } else if (suggestedWords.contains("no")){
             	//TODO: Communication by visual interaction, but probably with a visual difficulty
-            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), true);
+            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), false);
             	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), false);
             }
             //TODO: If no answer, hearing_impairments = true

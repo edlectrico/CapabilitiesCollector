@@ -3,14 +3,12 @@ package es.deusto.deustotech.views;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -26,15 +24,17 @@ import es.deusto.deustotech.utils.ViewParams;
 
 /**
  * This activity configures the minimum visual interaction values
+ * 
+ * @author edlectrico
+ * 
  */
 public class ButtonConfigActivity extends Activity implements android.view.View.OnClickListener, 
 	TextToSpeech.OnInitListener, ColorPickerDialog.OnColorChangedListener {
 
 	private Button testButton;
 	private GridLayout grid;
-	private AudioManager audioManager = null;
 	private TextToSpeech tts;
-	private int viewColor;
+//	private int viewColor;
 	
 	private int maxWidth;
 	private int maxHeight;
@@ -50,23 +50,27 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.button_config_activity);
 
-		this.testButton = (Button) findViewById(R.id.test_button);
-		this.testButton.setOnClickListener(this);
+		testButton = (Button) findViewById(R.id.test_button);
+		testButton.setOnClickListener(this);
 		findViewById(R.id.next_button).setOnClickListener(this);
 		
-		this.tts = new TextToSpeech(this, this);
+		Bundle bundle = getIntent().getExtras();
+		//If blind user, voice control
+		if (bundle.getBoolean(getResources().getString(R.string.visual_impairment))){
+			tts = new TextToSpeech(this, this);
+			
+			speakOut(getResources().getString(R.string.button_info_message));
+		}
 		
-		this.audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		grid = (GridLayout) findViewById(R.id.default_layout);
 		
-		this.grid = (GridLayout) findViewById(R.id.default_layout);
+		onTouchListener = createOnTouchListener();
 		
-		this.onTouchListener = createOnTouchListener();
+		grid.getChildAt(0).setOnTouchListener(this.onTouchListener);
+		grid.getChildAt(1).setOnTouchListener(this.onTouchListener);
+		grid.getChildAt(2).setOnTouchListener(this.onTouchListener);
 		
-		this.grid.getChildAt(0).setOnTouchListener(this.onTouchListener);
-		this.grid.getChildAt(1).setOnTouchListener(this.onTouchListener);
-		this.grid.getChildAt(2).setOnTouchListener(this.onTouchListener);
-		
-		this.testButton.setOnTouchListener(this.onTouchListener);
+		testButton.setOnTouchListener(this.onTouchListener);
 	}
 	
 	public OnTouchListener createOnTouchListener(){
@@ -88,47 +92,23 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 
 	@Override
 	public void onClick(View view) {
-		//Launch color dialog
-		switch (view.getId()) {
-		case R.id.test_button:
-			int colorId = getBackgroundColor(this.testButton);
-			new ColorPickerDialog(this, this, colorId).show();
-			break;
-			
-		case R.id.next_button:
-			//TODO: next activity for configuring TextEdit size and color
-			Intent intent = new Intent(this, EditTextConfigActivity.class);
-//			intent.putExtra(getResources().getString(R.string.button_width), testButton.getScaleX());
-//			intent.putExtra(getResources().getString(R.string.button_height), testButton.getScaleY());
-//			intent.putExtra(getResources().getString(R.string.button_background_color), getBackgroundColor(this.testButton));
-			
-			ViewParams viewParams = new ViewParams();
-			viewParams.setButtonBackgroundColor(getBackgroundColor(this.testButton));
-			viewParams.setButtonWidth(testButton.getWidth());
-			viewParams.setButtonHeight(testButton.getHeight());
-			
-			intent.putExtra("viewParams", viewParams);
-			
-			startActivity(intent);
-			break;
-
-		default:
-			break;
+		//TODO: next activity for configuring TextEdit size and color
+		if (view.getId() == R.id.test_button){
+			speakOut("Well done!");
 		}
 		
+		Intent intent = new Intent(this, EditTextConfigActivity.class);
+
+		ViewParams viewParams = new ViewParams();
+		viewParams.setButtonBackgroundColor(getBackgroundColor(this.testButton));
+		viewParams.setButtonWidth(testButton.getWidth());
+		viewParams.setButtonHeight(testButton.getHeight());
+
+		intent.putExtra("viewParams", viewParams);
+
+		startActivity(intent);
 	}
 
-//	private HashMap<String, Object> generateUserConfig(
-//			final ViewParams buttonParams, final ViewParams textEditParams) {
-//		HashMap<String, Object> viewConf = new HashMap<String, Object>();
-//		viewConf.put("Button", buttonParams);
-//		viewConf.put("TextEdit", textEditParams);
-//		viewConf.put("Brightness", this.brightnessValue);
-//		viewConf.put("Volume", (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-//
-//		return viewConf;
-//	}
-	
 	public int getBackgroundColor(View view) {
 		// The actual color, not the id.
 		int color = Color.BLACK;
@@ -189,7 +169,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 
 	@Override
 	public void colorChanged(int color) {
-		this.viewColor = color;
+//		this.viewColor = color;
 //		if (buttonPressed){
 //			this.testButton.setBackgroundColor(this.viewColor);
 //			buttonPressed = false;

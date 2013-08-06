@@ -1,9 +1,7 @@
 package es.deusto.deustotech.views;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
@@ -16,16 +14,13 @@ import es.deusto.deustotech.utils.ViewParams;
 
 public class EditTextConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener {
 
-	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 	private Button testTextEdit;
 	private GridLayout grid;
-	private AudioManager audioManager = null;
 	private TextToSpeech tts;
 	private int viewColor;
 	
 	private ViewParams viewParams;
 	
-	private Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +35,6 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		findViewById(R.id.next_button).setOnClickListener(this);
 		
 		this.tts = new TextToSpeech(this, this);
-		
-		this.audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		
 		this.grid = (GridLayout) findViewById(R.id.default_layout);
 		
@@ -58,7 +51,6 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 			}
 		});
 		
-		this.context = this.getApplicationContext();
 	}
 
 	@Override
