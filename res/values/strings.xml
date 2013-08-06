@@ -40,4 +40,7 @@
     
     <!-- Brightness_Config_Activity -->
 	<string name="brightness_info_message">lolailo</string>
+	
+	<!-- Volume_Config_Activity -->
+	<string name="end_message">End</string>
 </resources>

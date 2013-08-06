@@ -75,6 +75,9 @@ public class BrightnessConfigActivity extends Activity implements OnClickListene
 		this.grid.getChildAt(0).setOnTouchListener(onTouchListener);
 		this.grid.getChildAt(1).setOnTouchListener(onTouchListener);
 		this.grid.getChildAt(2).setOnTouchListener(onTouchListener);
+		this.grid.getChildAt(3).setOnTouchListener(onTouchListener);
+		
+		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
 	}
 	
 	@Override
