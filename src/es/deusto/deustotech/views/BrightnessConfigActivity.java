@@ -47,8 +47,11 @@ public class BrightnessConfigActivity extends Activity implements OnClickListene
 		((EditText)findViewById(R.id.test_text_edit)).setTextSize(viewParams.getTextEditSize());
 		((EditText) findViewById(R.id.test_text_edit)).setTextColor(viewParams.getTextColor());
 		
-		this.grid = (GridLayout) findViewById(R.id.default_layout);
+		grid = (GridLayout) findViewById(R.id.default_layout);
+		
 		findViewById(R.id.next_button).setOnClickListener(this);
+		findViewById(R.id.next_button).setMinimumWidth((int)viewParams.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) viewParams.getButtonHeight());
 		
 		onTouchListener = new OnTouchListener() {
 			//Each time the user presses the screen a new brightness value

@@ -42,8 +42,8 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		
-		this.grid.getChildAt(0).setOnClickListener(this);
-		this.grid.getChildAt(1).setOnClickListener(this);
+		grid.getChildAt(0).setOnClickListener(this);
+		grid.getChildAt(1).setOnClickListener(this);
 		
 		Bundle bundle = getIntent().getExtras();
 		viewParams = bundle.getParcelable("viewParams");
@@ -52,6 +52,10 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 				.getAttributes();
 		layoutParams.screenBrightness = viewParams.getBrightness();
 		getWindow().setAttributes(layoutParams);
+		
+		findViewById(R.id.next_button).setOnClickListener(this);
+		findViewById(R.id.next_button).setMinimumWidth((int)viewParams.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) viewParams.getButtonHeight());
 		
 		tts = new TextToSpeech(this, this);
 
