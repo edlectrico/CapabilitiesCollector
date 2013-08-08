@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.utils.ViewParams;
+import es.deusto.deustotech.utils.UserMinimumPreferences;
 
 /**
  * This activity allows the user to configure the minimum volume
@@ -32,7 +32,7 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 	private GridLayout grid;
 	private AudioManager audioManager = null;
 	private TextToSpeech tts;
-	private ViewParams viewParams;
+	private UserMinimumPreferences userPrefs;
 	private int volumeLevel = 0;
 	
 	@Override
@@ -46,16 +46,22 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		grid.getChildAt(1).setOnClickListener(this);
 		
 		Bundle bundle = getIntent().getExtras();
-		viewParams = bundle.getParcelable("viewParams");
+		userPrefs = bundle.getParcelable("viewParams");
+		
+		if (userPrefs.getCapabilities()[0]){
+			tts = new TextToSpeech(this, this);
+			
+			speakOut(getResources().getString(R.string.volume_message));
+		}
 		
 		WindowManager.LayoutParams layoutParams = getWindow()
 				.getAttributes();
-		layoutParams.screenBrightness = viewParams.getBrightness();
+		layoutParams.screenBrightness = userPrefs.getBrightness();
 		getWindow().setAttributes(layoutParams);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
-		findViewById(R.id.next_button).setMinimumWidth((int)viewParams.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) viewParams.getButtonHeight());
+		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		
 		tts = new TextToSpeech(this, this);
 
@@ -66,13 +72,13 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 	public void onClick(View view) {
 		if (view.getId() == R.id.end_button){
 			//Store
-			viewParams.setVolume(volumeLevel);
+			userPrefs.setVolume(volumeLevel);
 			
 			SharedPreferences  preferences = getPreferences(MODE_PRIVATE);
 			Editor prefsEditor = preferences.edit();
 			
 			Gson gson = new Gson();
-			String json = gson.toJson(viewParams);
+			String json = gson.toJson(userPrefs);
 			prefsEditor.putString("viewParams", json);
 			prefsEditor.commit();
 		} else {
@@ -88,5 +94,9 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 
 	@Override
 	public void onInit(int status) { }
+	
+	private void speakOut(final String text) {
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
 
 }

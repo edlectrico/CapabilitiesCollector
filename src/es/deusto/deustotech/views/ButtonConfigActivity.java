@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.ColorPickerDialog;
-import es.deusto.deustotech.utils.ViewParams;
+import es.deusto.deustotech.utils.UserMinimumPreferences;
 
 /**
  * This activity configures the minimum visual interaction values
@@ -45,6 +45,8 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	private Canvas mCanvas;
 	private Rect mBounds;
 	
+	private UserMinimumPreferences userPrefs;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,8 +57,14 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 		findViewById(R.id.next_button).setOnClickListener(this);
 		
 		Bundle bundle = getIntent().getExtras();
+		
+		userPrefs = new UserMinimumPreferences();
+		boolean[] caps = new boolean[]{bundle.getBoolean(getResources().getString(R.string.visual_impairment)),
+				bundle.getBoolean(getResources().getString(R.string.hearing_impairment))};
+		userPrefs.setCapabilities(caps);
+		
 		//If blind user, voice control
-		if (bundle.getBoolean(getResources().getString(R.string.visual_impairment))){
+		if (caps[0]){
 			tts = new TextToSpeech(this, this);
 			
 			speakOut(getResources().getString(R.string.button_info_message));
@@ -100,18 +108,17 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	@Override
 	public void onClick(View view) {
 		//TODO: next activity for configuring TextEdit size and color
-		if (view.getId() == R.id.test_button){
+		if ((view.getId() == R.id.test_button) && (userPrefs.getCapabilities()[0])){
 			speakOut("Well done!");
 		}
 		
 		Intent intent = new Intent(this, EditTextConfigActivity.class);
 
-		ViewParams viewParams = new ViewParams();
-		viewParams.setButtonBackgroundColor(getBackgroundColor(this.testButton));
-		viewParams.setButtonWidth(testButton.getWidth());
-		viewParams.setButtonHeight(testButton.getHeight());
+		userPrefs.setButtonBackgroundColor(getBackgroundColor(this.testButton));
+		userPrefs.setButtonWidth(testButton.getWidth());
+		userPrefs.setButtonHeight(testButton.getHeight());
 
-		intent.putExtra("viewParams", viewParams);
+		intent.putExtra("viewParams", userPrefs);
 
 		startActivity(intent);
 	}

@@ -5,15 +5,15 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.utils.ViewParams;
+import es.deusto.deustotech.utils.UserMinimumPreferences;
 
 /**
  * This activity shows a Button and a TextEdit as configured in previous activities
@@ -23,11 +23,12 @@ import es.deusto.deustotech.utils.ViewParams;
  * @author edlectrico
  *
  */
-public class BrightnessConfigActivity extends Activity implements OnClickListener{
+public class BrightnessConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener{
 
-	private ViewParams viewParams;
+	private UserMinimumPreferences userPrefs;
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
+	private TextToSpeech tts;
 	float brightnessValue = 0.5f; // dummy default value
 	
 	@Override
@@ -36,22 +37,28 @@ public class BrightnessConfigActivity extends Activity implements OnClickListene
 		setContentView(R.layout.brightness_config);
 		
 		Bundle bundle = getIntent().getExtras();
-		viewParams = bundle.getParcelable("viewParams");
+		userPrefs = bundle.getParcelable("viewParams");
+		
+		if (userPrefs.getCapabilities()[0]){
+			tts = new TextToSpeech(this, this);
+			
+			speakOut(getResources().getString(R.string.brightness_info_message));
+		}
 		
 		//Button config
-		findViewById(R.id.test_button).setMinimumWidth((int)viewParams.getButtonWidth());
-		findViewById(R.id.test_button).setMinimumHeight((int)viewParams.getButtonHeight());
+		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.test_button).setMinimumHeight((int)userPrefs.getButtonHeight());
 //		findViewById(R.id.test_button).setBackgroundColor(viewParams.getButtonBackgroundColor());
 		
 		//EditText config
-		((EditText)findViewById(R.id.test_text_edit)).setTextSize(viewParams.getTextEditSize());
-		((EditText) findViewById(R.id.test_text_edit)).setTextColor(viewParams.getTextColor());
+		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
+		((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextColor());
 		
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
-		findViewById(R.id.next_button).setMinimumWidth((int)viewParams.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) viewParams.getButtonHeight());
+		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		
 		onTouchListener = new OnTouchListener() {
 			//Each time the user presses the screen a new brightness value
@@ -89,9 +96,13 @@ public class BrightnessConfigActivity extends Activity implements OnClickListene
 		case R.id.next_button:
 			Intent intent = new Intent(this, VolumeConfigActivity.class);
 			
-			viewParams.setBrightness(brightnessValue);
+			userPrefs.setBrightness(brightnessValue);
 			
-			intent.putExtra("viewParams", viewParams);
+			intent.putExtra("viewParams", userPrefs);
+			
+			if (userPrefs.getCapabilities()[0]){
+				speakOut("Well done!");
+			}
 			
 			startActivity(intent);
 			break;
@@ -100,5 +111,12 @@ public class BrightnessConfigActivity extends Activity implements OnClickListene
 			break;
 		}
 	}
+
+	@Override
+	public void onInit(int status) { }
+	
+	private void speakOut(final String text) {
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
 
 }

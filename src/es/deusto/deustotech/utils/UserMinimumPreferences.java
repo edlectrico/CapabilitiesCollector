@@ -3,7 +3,7 @@ package es.deusto.deustotech.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ViewParams implements Parcelable {
+public class UserMinimumPreferences implements Parcelable {
 
 	private int backgroundColor;
 	private int textColor;
@@ -15,11 +15,13 @@ public class ViewParams implements Parcelable {
 	private float brightness;
 	private float volume;
 	
-	public ViewParams() {
+	private boolean[] capabilities;
+	
+	public UserMinimumPreferences() {
 		super();
 	}
 
-	public ViewParams(int backgroundColor,
+	public UserMinimumPreferences(int backgroundColor,
 			int textColor, float buttonWidth, float buttonHeight, int buttonBackgroundColor,
 			float textEditSize, int textEditBackgroundColor) {
 		super();
@@ -30,12 +32,14 @@ public class ViewParams implements Parcelable {
 		this.buttonBackgroundColor = buttonBackgroundColor;
 		this.textEditSize = textEditSize;
 		this.textEditBackgroundColor = textEditBackgroundColor;
+		
+		capabilities[0] = false; //sight problem
+		capabilities[1] = false; //hearing problem
 	}
 	
-	public ViewParams(Parcel in) { 
+	public UserMinimumPreferences(Parcel in) { 
 		readFromParcel(in); 
 	}
-
 
 	public float getButtonWidth() {
 		return buttonWidth;
@@ -116,10 +120,17 @@ public class ViewParams implements Parcelable {
 	public void setVolume(float volume) {
 		this.volume = volume;
 	}
+	
+	public boolean[] getCapabilities() {
+		return capabilities;
+	}
+
+	public void setCapabilities(boolean[] capabilities) {
+		this.capabilities = capabilities;
+	}
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -134,6 +145,7 @@ public class ViewParams implements Parcelable {
 		dest.writeInt(textEditBackgroundColor);
 		dest.writeFloat(brightness);
 		dest.writeFloat(volume);
+		dest.writeBooleanArray(capabilities);
 	}
 	
 	private void readFromParcel(Parcel in) {   
@@ -146,15 +158,18 @@ public class ViewParams implements Parcelable {
 		textEditBackgroundColor = in.readInt();
 		brightness = in.readFloat();
 		volume = in.readFloat();
+		
+		capabilities[0] = (in.readInt() == 1) ? true : false;
+		capabilities[1] = (in.readInt() == 1) ? true : false;
 	}
 	
-	public static final Parcelable.Creator<ViewParams> CREATOR = new Parcelable.Creator<ViewParams>() { 
-		public ViewParams createFromParcel(Parcel in) { 
-			return new ViewParams(in); 
+	public static final Parcelable.Creator<UserMinimumPreferences> CREATOR = new Parcelable.Creator<UserMinimumPreferences>() { 
+		public UserMinimumPreferences createFromParcel(Parcel in) { 
+			return new UserMinimumPreferences(in); 
 		}   
 		
-		public ViewParams[] newArray(int size) { 
-			return new ViewParams[size]; 
+		public UserMinimumPreferences[] newArray(int size) { 
+			return new UserMinimumPreferences[size]; 
 		} 
 	}; 
 }
