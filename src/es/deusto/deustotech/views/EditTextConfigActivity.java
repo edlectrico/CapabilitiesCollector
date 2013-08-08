@@ -30,15 +30,18 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		Bundle bundle = getIntent().getExtras();
 		viewParams = bundle.getParcelable("viewParams");
 		
-		this.testTextEdit = (Button) findViewById(R.id.test_text_edit);
-		this.testTextEdit.setOnClickListener(this);
+		testTextEdit = (Button) findViewById(R.id.test_text_edit);
+		testTextEdit.setOnClickListener(this);
+		
 		findViewById(R.id.next_button).setOnClickListener(this);
+		findViewById(R.id.next_button).setMinimumWidth((int)viewParams.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) viewParams.getButtonHeight());
 		
-		this.tts = new TextToSpeech(this, this);
+		tts = new TextToSpeech(this, this);
 		
-		this.grid = (GridLayout) findViewById(R.id.default_layout);
+		grid = (GridLayout) findViewById(R.id.default_layout);
 		
-		this.grid.getChildAt(1).setOnTouchListener(new OnTouchListener() {
+		grid.getChildAt(1).setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 

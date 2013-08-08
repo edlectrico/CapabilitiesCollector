@@ -79,13 +79,20 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			public boolean onTouch(View view, MotionEvent event) {
 				final int width  = testButton.getWidth();
 				final int height = testButton.getHeight();
-				
+				//TODO: And the Text size?
 				if ((view.getWidth() > maxWidth) && (view.getHeight() > maxHeight)){
 					testButton.setWidth(width + 10);
 					testButton.setHeight(height + 10);
 				}
 				
+				resizeNextButton();
+				
 				return true;
+			}
+
+			private void resizeNextButton() {
+				findViewById(R.id.next_button).setMinimumWidth(testButton.getWidth());
+				findViewById(R.id.next_button).setMinimumHeight(testButton.getHeight());
 			}
 		};
 	}
