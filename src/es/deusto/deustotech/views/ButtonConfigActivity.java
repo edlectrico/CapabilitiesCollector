@@ -1,6 +1,7 @@
 package es.deusto.deustotech.views;
 
 import java.util.Locale;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +39,8 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	
 	private int maxWidth;
 	private int maxHeight;
+	private int buttonBackgroundColor;
+	private int buttonTextColor;
 	
 	private OnTouchListener onTouchListener;
 	
@@ -54,17 +57,23 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 
 		testButton = (Button) findViewById(R.id.test_button);
 		testButton.setOnClickListener(this);
+		buttonBackgroundColor = getBackgroundColor(testButton);
+		buttonTextColor = testButton.getTextColors().getDefaultColor();
+		
 		findViewById(R.id.next_button).setOnClickListener(this);
 		
 		Bundle bundle = getIntent().getExtras();
 		
 		userPrefs = new UserMinimumPreferences();
-		boolean[] caps = new boolean[]{bundle.getBoolean(getResources().getString(R.string.visual_impairment)),
-				bundle.getBoolean(getResources().getString(R.string.hearing_impairment))};
-		userPrefs.setCapabilities(caps);
+		userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
+		userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
+		
+		//TODO: by default (not working)
+		userPrefs.setButtonBackgroundColor(getBackgroundColor(testButton));
+		userPrefs.setButtonTextColor(testButton.getTextColors().getDefaultColor());
 		
 		//If blind user, voice control
-		if (caps[0]){
+		if (userPrefs.getSightProblem() == 1){
 			tts = new TextToSpeech(this, this);
 			
 			speakOut(getResources().getString(R.string.button_info_message));
@@ -77,8 +86,12 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 		grid.getChildAt(0).setOnTouchListener(this.onTouchListener);
 		grid.getChildAt(1).setOnTouchListener(this.onTouchListener);
 		grid.getChildAt(2).setOnTouchListener(this.onTouchListener);
+		grid.getChildAt(3).setOnTouchListener(this.onTouchListener);
 		
 		testButton.setOnTouchListener(this.onTouchListener);
+		
+		findViewById(R.id.background_color_button).setOnClickListener(this);
+		findViewById(R.id.text_color_button).setOnClickListener(this);
 	}
 	
 	public OnTouchListener createOnTouchListener(){
@@ -93,34 +106,66 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 					testButton.setHeight(height + 10);
 				}
 				
-				resizeNextButton();
+				resizeButtons();
 				
 				return true;
 			}
 
-			private void resizeNextButton() {
+			private void resizeButtons() {
 				findViewById(R.id.next_button).setMinimumWidth(testButton.getWidth());
 				findViewById(R.id.next_button).setMinimumHeight(testButton.getHeight());
+				
+				findViewById(R.id.background_color_button).setMinimumWidth(testButton.getWidth());
+				findViewById(R.id.background_color_button).setMinimumHeight(testButton.getHeight());
+				
+				findViewById(R.id.text_color_button).setMinimumWidth(testButton.getWidth());
+				findViewById(R.id.text_color_button).setMinimumHeight(testButton.getHeight());
 			}
 		};
 	}
 
 	@Override
 	public void onClick(View view) {
-		//TODO: next activity for configuring TextEdit size and color
-		if ((view.getId() == R.id.test_button) && (userPrefs.getCapabilities()[0])){
-			speakOut("Well done!");
+		switch (view.getId()) {
+		case R.id.next_button:
+			//TODO: next activity for configuring TextEdit size and color
+			if (userPrefs.getSightProblem() == 1){
+				speakOut("Well done!");
+			}
+			Intent intent = new Intent(this, EditTextConfigActivity.class);
+
+			userPrefs.setButtonBackgroundColor(getBackgroundColor(this.testButton));
+			userPrefs.setButtonWidth(testButton.getWidth());
+			userPrefs.setButtonHeight(testButton.getHeight());
+//			userPrefs.setButtonBackgroundColor(buttonBackgroundColor);
+			userPrefs.setButtonTextColor(buttonTextColor);
+
+			intent.putExtra("viewParams", userPrefs);
+
+			startActivity(intent);
+			break;
+			
+		case R.id.background_color_button:
+			Random randomBackColor = new Random(); 
+			int backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));   
+			testButton.setBackgroundColor(backgroundColor);
+			this.buttonBackgroundColor = backgroundColor;
+			findViewById(R.id.next_button).setBackgroundColor(backgroundColor);
+			findViewById(R.id.background_color_button).setBackgroundColor(backgroundColor);
+			findViewById(R.id.text_color_button).setBackgroundColor(backgroundColor);
+			
+		case R.id.text_color_button:
+			Random randomTextColor = new Random(); 
+			int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));   
+			testButton.setTextColor(textColor);
+			this.buttonTextColor = textColor;
+			((Button)findViewById(R.id.next_button)).setTextColor(textColor);
+			((Button)findViewById(R.id.background_color_button)).setTextColor(textColor);
+			((Button)findViewById(R.id.text_color_button)).setTextColor(textColor);
+			
+		default:
+			break;
 		}
-		
-		Intent intent = new Intent(this, EditTextConfigActivity.class);
-
-		userPrefs.setButtonBackgroundColor(getBackgroundColor(this.testButton));
-		userPrefs.setButtonWidth(testButton.getWidth());
-		userPrefs.setButtonHeight(testButton.getHeight());
-
-		intent.putExtra("viewParams", userPrefs);
-
-		startActivity(intent);
 	}
 
 	public int getBackgroundColor(View view) {

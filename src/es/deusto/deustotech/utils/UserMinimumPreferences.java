@@ -6,39 +6,47 @@ import android.os.Parcelable;
 public class UserMinimumPreferences implements Parcelable {
 
 	private int backgroundColor;
-	private int textColor;
 	private float buttonWidth;
 	private float buttonHeight;
 	private int buttonBackgroundColor;
+	private int buttonTextColor;
 	private float textEditSize;
 	private int textEditBackgroundColor;
+	private int textEditTextColor;
 	private float brightness;
 	private float volume;
 	
-	private boolean[] capabilities;
+	private int sightProblem = 0; //false
+	private int hearingProblem = 0;
 	
 	public UserMinimumPreferences() {
 		super();
 	}
 
 	public UserMinimumPreferences(int backgroundColor,
-			int textColor, float buttonWidth, float buttonHeight, int buttonBackgroundColor,
-			float textEditSize, int textEditBackgroundColor) {
+			float buttonWidth, float buttonHeight, int buttonBackgroundColor, int buttonTextColor, 
+			float textEditSize, int textEditBackgroundColor, int textEditTextColor) {
 		super();
 		this.backgroundColor = backgroundColor;
-		this.textColor = textColor;
 		this.buttonWidth = buttonWidth;
 		this.buttonHeight = buttonHeight;
 		this.buttonBackgroundColor = buttonBackgroundColor;
+		this.buttonTextColor = buttonTextColor;
 		this.textEditSize = textEditSize;
 		this.textEditBackgroundColor = textEditBackgroundColor;
-		
-		capabilities[0] = false; //sight problem
-		capabilities[1] = false; //hearing problem
+		this.textEditTextColor = textEditTextColor;
 	}
 	
 	public UserMinimumPreferences(Parcel in) { 
 		readFromParcel(in); 
+	}
+
+	public int getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(int backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 
 	public float getButtonWidth() {
@@ -57,36 +65,20 @@ public class UserMinimumPreferences implements Parcelable {
 		this.buttonHeight = buttonHeight;
 	}
 
-	public int getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	public void setBackgroundColor(int backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-
-	public int getTextColor() {
-		return textColor;
-	}
-
-	public void setTextColor(int textColor) {
-		this.textColor = textColor;
-	}
-
-	public float getButtonSize() {
-		return buttonWidth;
-	}
-
-	public void setButtonSize(float buttonSize) {
-		this.buttonWidth = buttonSize;
-	}
-
 	public int getButtonBackgroundColor() {
 		return buttonBackgroundColor;
 	}
 
 	public void setButtonBackgroundColor(int buttonBackgroundColor) {
 		this.buttonBackgroundColor = buttonBackgroundColor;
+	}
+
+	public int getButtonTextColor() {
+		return buttonTextColor;
+	}
+
+	public void setButtonTextColor(int buttonTextColor) {
+		this.buttonTextColor = buttonTextColor;
 	}
 
 	public float getTextEditSize() {
@@ -104,7 +96,15 @@ public class UserMinimumPreferences implements Parcelable {
 	public void setTextEditBackgroundColor(int textEditBackgroundColor) {
 		this.textEditBackgroundColor = textEditBackgroundColor;
 	}
-	
+
+	public int getTextEditTextColor() {
+		return textEditTextColor;
+	}
+
+	public void setTextEditTextColor(int textEditTextColor) {
+		this.textEditTextColor = textEditTextColor;
+	}
+
 	public float getBrightness() {
 		return brightness;
 	}
@@ -121,12 +121,24 @@ public class UserMinimumPreferences implements Parcelable {
 		this.volume = volume;
 	}
 	
-	public boolean[] getCapabilities() {
-		return capabilities;
+	public int getSightProblem() {
+		return sightProblem;
 	}
 
-	public void setCapabilities(boolean[] capabilities) {
-		this.capabilities = capabilities;
+	public void setSightProblem(int sightProblem) {
+		this.sightProblem = sightProblem;
+	}
+
+	public int getHearingProblem() {
+		return hearingProblem;
+	}
+
+	public void setHearingProblem(int hearingProblem) {
+		this.hearingProblem = hearingProblem;
+	}
+
+	public static Parcelable.Creator<UserMinimumPreferences> getCreator() {
+		return CREATOR;
 	}
 
 	@Override
@@ -137,30 +149,32 @@ public class UserMinimumPreferences implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(backgroundColor);
-		dest.writeInt(textColor);
 		dest.writeFloat(buttonWidth);
 		dest.writeFloat(buttonHeight);
 		dest.writeInt(buttonBackgroundColor);
+		dest.writeInt(buttonTextColor);
 		dest.writeFloat(textEditSize);
 		dest.writeInt(textEditBackgroundColor);
+		dest.writeInt(textEditTextColor);
 		dest.writeFloat(brightness);
 		dest.writeFloat(volume);
-		dest.writeBooleanArray(capabilities);
+		dest.writeInt(sightProblem);
+		dest.writeInt(hearingProblem);
 	}
 	
 	private void readFromParcel(Parcel in) {   
 		backgroundColor = in.readInt();
-		textColor = in.readInt();
 		buttonWidth = in.readFloat();
 		buttonHeight = in.readFloat();
 		buttonBackgroundColor = in.readInt();
+		buttonTextColor = in.readInt();
 		textEditSize = in.readFloat();
 		textEditBackgroundColor = in.readInt();
+		textEditTextColor = in.readInt();
 		brightness = in.readFloat();
 		volume = in.readFloat();
-		
-		capabilities[0] = (in.readInt() == 1) ? true : false;
-		capabilities[1] = (in.readInt() == 1) ? true : false;
+		sightProblem = in.readInt();
+		hearingProblem = in.readInt();
 	}
 	
 	public static final Parcelable.Creator<UserMinimumPreferences> CREATOR = new Parcelable.Creator<UserMinimumPreferences>() { 

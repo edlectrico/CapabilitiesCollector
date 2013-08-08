@@ -103,8 +103,8 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 	}
 	
 	private Intent getDefaultIntent() {
-		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), false);
-		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), false);
+		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
+		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
 		
 		return interactionIntent;
 	}
@@ -178,11 +178,11 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
             ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (suggestedWords.contains("yes")){
             	//TODO: Communication by audio (blind user)
-            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), true);
+            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
             } else if (suggestedWords.contains("no")){
             	//TODO: Communication by visual interaction, but probably with a visual difficulty
-            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), false);
-            	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), false);
+            	interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
+            	interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
             }
             //TODO: If no answer, hearing_impairments = true
             startActivity(interactionIntent);

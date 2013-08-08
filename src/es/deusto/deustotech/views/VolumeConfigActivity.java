@@ -14,6 +14,7 @@ import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.UserMinimumPreferences;
@@ -48,8 +49,8 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
-		if (userPrefs.getCapabilities()[0]){
-			tts = new TextToSpeech(this, this);
+		tts = new TextToSpeech(this, this);
+		if (userPrefs.getSightProblem() == 1){
 			
 			speakOut(getResources().getString(R.string.volume_message));
 		}
@@ -59,12 +60,12 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		layoutParams.screenBrightness = userPrefs.getBrightness();
 		getWindow().setAttributes(layoutParams);
 		
-		findViewById(R.id.next_button).setOnClickListener(this);
-		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		findViewById(R.id.end_button).setOnClickListener(this);
+		findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
 		
-		tts = new TextToSpeech(this, this);
-
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 

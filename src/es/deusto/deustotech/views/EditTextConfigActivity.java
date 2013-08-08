@@ -1,7 +1,10 @@
 package es.deusto.deustotech.views;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
@@ -34,10 +37,12 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		testTextEdit.setOnClickListener(this);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
-		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		findViewById(R.id.background_color_button).setOnClickListener(this);
+		findViewById(R.id.text_color_button).setOnClickListener(this);
 		
-		if (userPrefs.getCapabilities()[0]){
+		redrawButtons();
+		
+		if (userPrefs.getSightProblem() == 1){
 			tts = new TextToSpeech(this, this);
 			
 			speakOut(getResources().getString(R.string.edit_text_info_message));
@@ -45,10 +50,10 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		
-		grid.getChildAt(1).setOnTouchListener(new OnTouchListener() {
+		OnTouchListener listener = new OnTouchListener() {
+			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-
 				float x = event.getRawX();
 
 				testTextEdit.setTextSize((float) (x / 10.0));
@@ -56,7 +61,28 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 
 				return true;
 			}
-		});
+		};
+		
+		grid.getChildAt(1).setOnTouchListener(listener);
+		grid.getChildAt(2).setOnTouchListener(listener);
+		grid.getChildAt(3).setOnTouchListener(listener);
+	}
+
+	private void redrawButtons() {
+		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		findViewById(R.id.background_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.background_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.background_color_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		findViewById(R.id.text_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.text_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.text_color_button)).setTextColor(userPrefs.getButtonTextColor());
 	}
 
 	@Override
@@ -68,18 +94,31 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 			case R.id.next_button:
 				Intent intent = new Intent(this, BrightnessConfigActivity.class);
 				
-				userPrefs.setTextColor(testTextEdit.getTextColors().getDefaultColor());
+//				userPrefs.setTextEditTextColor(testTextEdit.getTextColors().getDefaultColor());
 				userPrefs.setTextEditSize(testTextEdit.getTextSize());
 				
 				intent.putExtra("viewParams", userPrefs);
 				
-				if (userPrefs.getCapabilities()[0]){
+				if (userPrefs.getSightProblem() == 1){
 					speakOut("Well done!");
 				}
 				
 				startActivity(intent);
 				break;
 
+			case R.id.background_color_button:
+				Random randomBackColor = new Random(); 
+				int backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
+//				testTextEdit.setBackgroundColor(backgroundColor);
+				((Button)findViewById(R.id.test_text_edit)).setBackgroundColor(backgroundColor);
+				userPrefs.setTextEditBackgroundColor(backgroundColor);
+				
+			case R.id.text_color_button:
+				Random randomTextColor = new Random(); 
+				int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
+//				testTextEdit.setTextColor(textColor);
+				((Button)findViewById(R.id.test_text_edit)).setTextColor(textColor);
+				userPrefs.setTextEditTextColor(textColor);
 		default:
 			break;
 		}

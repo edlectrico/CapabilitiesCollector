@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
@@ -39,26 +40,22 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
-		if (userPrefs.getCapabilities()[0]){
+		if (userPrefs.getSightProblem() == 1){
 			tts = new TextToSpeech(this, this);
 			
 			speakOut(getResources().getString(R.string.brightness_info_message));
 		}
 		
-		//Button config
-		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.test_button).setMinimumHeight((int)userPrefs.getButtonHeight());
-//		findViewById(R.id.test_button).setBackgroundColor(viewParams.getButtonBackgroundColor());
-		
 		//EditText config
 		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
-		((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextColor());
+		((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
+		((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
-		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		
+		redrawButtons();
 		
 		onTouchListener = new OnTouchListener() {
 			//Each time the user presses the screen a new brightness value
@@ -90,6 +87,18 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
 	}
 	
+	private void redrawButtons() {
+		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
+	}
+
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
@@ -100,7 +109,7 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 			
 			intent.putExtra("viewParams", userPrefs);
 			
-			if (userPrefs.getCapabilities()[0]){
+			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
 			}
 			
