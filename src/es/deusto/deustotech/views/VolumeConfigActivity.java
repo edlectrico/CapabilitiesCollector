@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
@@ -40,6 +41,8 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.volume_config);
+		
+		findViewById(R.id.end_button).setOnClickListener(this);
 		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		
@@ -82,6 +85,12 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 			String json = gson.toJson(userPrefs);
 			prefsEditor.putString("viewParams", json);
 			prefsEditor.commit();
+			
+			Intent intent = new Intent(this, MailSenderActivity.class);
+			
+			intent.putExtra("viewParams", userPrefs);
+			
+			startActivity(intent);
 		} else {
 			Random randomGenerator = new Random();
 			volumeLevel = randomGenerator.nextInt(100);

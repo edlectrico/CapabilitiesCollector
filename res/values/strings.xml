@@ -46,4 +46,10 @@
 	<!-- Volume_Config_Activity -->
 	<string name="volume_info_message">lolailo</string>
 	<string name="end_message">End</string>
+	
+	<!-- Mail_Sender_Activity -->
+	<string name="to">To: </string>
+	<string name="subject">Subject: </string>	
+	<string name="message">Message: </string>
+	<string name="send">Send</string>
 </resources>
