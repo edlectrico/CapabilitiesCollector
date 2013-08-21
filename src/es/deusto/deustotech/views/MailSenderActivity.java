@@ -38,6 +38,18 @@ public class MailSenderActivity extends Activity {
 		buttonSend.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		buttonSend.setTextColor(userPrefs.getButtonTextColor());
 		
+		textTo.setTextSize(userPrefs.getTextEditSize());
+		textTo.setTextColor(userPrefs.getTextEditTextColor());
+		textTo.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		
+		textSubject.setTextSize(userPrefs.getTextEditSize());
+		textSubject.setTextColor(userPrefs.getTextEditTextColor());
+		textSubject.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		
+		textMessage.setTextSize(userPrefs.getTextEditSize());
+		textMessage.setTextColor(userPrefs.getTextEditTextColor());
+		textMessage.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		
 		WindowManager.LayoutParams layoutParams = getWindow()
 				.getAttributes();
 		layoutParams.screenBrightness = userPrefs.getBrightness();
