@@ -33,7 +33,7 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 
 	private UserMinimumPreferences userPrefs;
 
-	private int topLayoutClicks 	= 0;
+//	private int topLayoutClicks 	= 0;
 	private int bottomLayoutClicks 	= 0;
 	private int editTextClicks 		= 0;
 	
@@ -56,6 +56,11 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 
+		customizeActivity();
+		addListeners();
+	}
+
+	private void customizeActivity() {
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 		buttonSend.setBackgroundColor(userPrefs.getButtonBackgroundColor());
@@ -76,8 +81,17 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 		WindowManager.LayoutParams layoutParams = getWindow()
 				.getAttributes();
 		layoutParams.screenBrightness = userPrefs.getBrightness();
+	}
 
+	private void addListeners() {
 		buttonSend.setOnClickListener(this);
+		textMessage.setOnClickListener(this);
+		textSubject.setOnClickListener(this);
+		textTo.setOnClickListener(this);
+//		findViewById(R.id.linearLayout0).setOnClickListener(this);
+//		findViewById(R.id.linearLayout1).setOnClickListener(this);
+		//is he/she capable of pushing the button with one single click?
+		findViewById(R.id.linearLayout2).setOnClickListener(this);
 	}
 
 	@Override
@@ -105,9 +119,9 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 				
 				break;
 	
-			case R.id.linearLayout1: 
-				topLayoutClicks++;
-				
+//			case R.id.linearLayout1: 
+//				topLayoutClicks++;
+//				
 			case R.id.linearLayout2:
 				bottomLayoutClicks++;
 				
@@ -154,12 +168,14 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 	private void buildInteractionModel() {
 		Map<String, Integer> model = new HashMap<String, Integer>();
 		
-		model.put("topLayoutClicks", topLayoutClicks);
+//		System.out.println("topLayoutClicks: " + topLayoutClicks);
+		System.out.println("bottomLayoutClicks: " + bottomLayoutClicks);
+		System.out.println("editTextClicks: " + editTextClicks);
+		
+//		model.put("topLayoutClicks", topLayoutClicks);
 		model.put("bottomLayoutClicks", bottomLayoutClicks);
 		model.put("editTextClicks", editTextClicks);
 		model.put("elapsedTime", (int)elapsedTime);
-		
 	}
-
 
 }
