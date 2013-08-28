@@ -6,7 +6,6 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -40,13 +39,15 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 	
 	private long startedAt;
 	private long elapsedTime;
-	private static long static_timer;
+	private long finishedAt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.email_activity);
 
+		startedAt = System.currentTimeMillis();
+		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
@@ -97,6 +98,7 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 				//need this to prompts email client only
 				email.setType("message/rfc822");
 				
+				calculateElapsedtime();
 				buildInteractionModel();
 	
 				startActivity(Intent.createChooser(email, "Choose an Email client :"));
@@ -122,28 +124,31 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 				break;
 		}
 	}
-	
+
+	private void calculateElapsedtime() {
+		finishedAt = System.currentTimeMillis();
+		elapsedTime = finishedAt - startedAt;
+	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
-		elapsedTime = SystemClock.elapsedRealtime();
+		if (startedAt == 0){
+			startedAt = System.currentTimeMillis();
+		}
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
-		if (startedAt != null) { 
-			static_timer += SystemClock.elapsedRealtime(); 
-			startedAt = null; 
-		}
+		calculateElapsedtime();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
+		calculateElapsedtime();
 	}
 
 	private void buildInteractionModel() {
@@ -152,6 +157,8 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 		model.put("topLayoutClicks", topLayoutClicks);
 		model.put("bottomLayoutClicks", bottomLayoutClicks);
 		model.put("editTextClicks", editTextClicks);
+		model.put("elapsedTime", (int)elapsedTime);
+		
 	}
 
 
