@@ -1,8 +1,13 @@
 package es.deusto.deustotech.views;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +29,7 @@ import es.deusto.deustotech.utils.UserMinimumPreferences;
  *
  */
 
+@SuppressLint("SimpleDateFormat")
 public class MailSenderActivity extends Activity implements OnClickListener{
 
 	private Button buttonSend;
@@ -139,9 +145,16 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 		}
 	}
 
-	private void calculateElapsedtime() {
+	private String calculateElapsedtime() {
 		finishedAt = System.currentTimeMillis();
 		elapsedTime = finishedAt - startedAt;
+		
+		DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
+		df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+		
+		System.out.println("Elapsed time in Activity: " + df.format(new Date(elapsedTime)));
+		
+		return df.format(new Date(elapsedTime));
 	}
 
 	@Override
@@ -166,7 +179,7 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 	}
 
 	private void buildInteractionModel() {
-		Map<String, Integer> model = new HashMap<String, Integer>();
+		Map<String, Object> model = new HashMap<String, Object>();
 		
 //		System.out.println("topLayoutClicks: " + topLayoutClicks);
 		System.out.println("bottomLayoutClicks: " + bottomLayoutClicks);
@@ -175,7 +188,7 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 //		model.put("topLayoutClicks", topLayoutClicks);
 		model.put("bottomLayoutClicks", bottomLayoutClicks);
 		model.put("editTextClicks", editTextClicks);
-		model.put("elapsedTime", (int)elapsedTime);
+		model.put("elapsedTime", calculateElapsedtime());
 	}
 
 }
