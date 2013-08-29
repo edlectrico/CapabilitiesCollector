@@ -40,13 +40,12 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 
 	private UserMinimumPreferences userPrefs;
 
-//	private int topLayoutClicks 	= 0;
-	private int bottomLayoutClicks 	= 0;
-	private int editTextClicks 		= 0;
-	
 	private long elapsedTime;
 	
+	private boolean firstClick = false;
+	
 	private Map<View, Long> timeToFillEditText;
+	private long launchedAt 		= 0;
 	private long timeToStartTask	= 0;
 	private long timeToFinishTask	= 0;
 	private long timeToNextView 	= 0;
@@ -61,7 +60,7 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.email_activity);
 
-		timeToStartTask = System.currentTimeMillis();
+		launchedAt = System.currentTimeMillis();
 		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		textTo = (EditText) findViewById(R.id.editTextTo);
@@ -118,6 +117,11 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 
 	@Override
 	public void onClick(View view) {
+		if (!firstClick){
+			firstClick = true;
+			
+			timeToStartTask = System.currentTimeMillis() - launchedAt;
+		}
 		switch (view.getId()) {
 			case R.id.buttonSend:
 				String to = textTo.getText().toString();
@@ -141,20 +145,20 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 				
 				break;
 	
-//			case R.id.linearLayout1: 
-//				topLayoutClicks++;
-//				
+			case R.id.linearLayout1: 
+				lostClicks++;
+				
 			case R.id.linearLayout2:
-				bottomLayoutClicks++;
+				lostClicks++;
 				
 			case R.id.editTextTo:
-				editTextClicks++;
+				System.out.println("editTextTo clicked!");
 				
 			case R.id.editTextSubject:
-				editTextClicks++;
+				System.out.println("editTextClicks clicked!");
 				
 			case R.id.editTextMessage:
-				editTextClicks++;
+				System.out.println("editTextMessage clicked!");
 				
 			default:
 				break;
@@ -164,6 +168,7 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	@Override
 	public void onFocusChange(View view, boolean hasFocus) {
 		if (hasFocus){
+			System.out.println(view + " focused!");
 			focusStarted = System.currentTimeMillis();
 		} else {
 			focusElapsedTime = System.currentTimeMillis() - focusStarted;
@@ -179,7 +184,7 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 
 	private String calculateElapsedtime() {
 		timeToFinishTask = System.currentTimeMillis();
-		elapsedTime = timeToFinishTask - timeToStartTask;
+		elapsedTime = timeToFinishTask - launchedAt;
 		
 		DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
 		df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
@@ -193,8 +198,8 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	protected void onResume() {
 		super.onResume();
 		
-		if (timeToStartTask == 0){
-			timeToStartTask = System.currentTimeMillis();
+		if (launchedAt == 0){
+			launchedAt = System.currentTimeMillis();
 		}
 	}
 	
@@ -213,18 +218,16 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	private void buildInteractionModel() {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
-//		System.out.println("topLayoutClicks: " + topLayoutClicks);
-		System.out.println("bottomLayoutClicks: " + bottomLayoutClicks);
-		System.out.println("editTextClicks: " + editTextClicks);
-		
-//		model.put("topLayoutClicks", topLayoutClicks);
-		model.put("bottomLayoutClicks", bottomLayoutClicks);
-		model.put("editTextClicks", editTextClicks);
-		model.put("TotalElapsedTime", calculateElapsedtime());
-		//Time per view
-		//Time for starting the task
 		//Number of wrong clicks
-		//Time for next view
+		model.put("lostClicks", lostClicks);
+		//Time per view
+		model.put("timeToFillEditText", timeToFillEditText);
+		//Time for starting the task
+		model.put("timeToStartTask", timeToStartTask);
+		//TODO:Time for next view
+		
+		
+		model.put("TotalElapsedTime", calculateElapsedtime());
 	}
 
 }
