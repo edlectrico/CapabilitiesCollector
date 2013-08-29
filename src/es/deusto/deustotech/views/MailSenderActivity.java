@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +31,7 @@ import es.deusto.deustotech.utils.UserMinimumPreferences;
  */
 
 @SuppressLint("SimpleDateFormat")
-public class MailSenderActivity extends Activity implements OnClickListener{
+public class MailSenderActivity extends Activity implements OnClickListener, OnFocusChangeListener{
 
 	private Button buttonSend;
 	private EditText textTo;
@@ -43,22 +44,32 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 	private int bottomLayoutClicks 	= 0;
 	private int editTextClicks 		= 0;
 	
-	private long startedAt;
 	private long elapsedTime;
-	private long finishedAt;
+	
+	private Map<View, Long> timeToFillEditText;
+	private long timeToStartTask	= 0;
+	private long timeToFinishTask	= 0;
+	private long timeToNextView 	= 0;
+	private long lostClicks 		= 0; //Numbers of clicks that do not matter for the interaction
+	
+	private long focusStarted = 0;
+	private long focusElapsedTime = 0;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.email_activity);
 
-		startedAt = System.currentTimeMillis();
+		timeToStartTask = System.currentTimeMillis();
 		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
 
+		timeToFillEditText = new HashMap<View, Long>();
+		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 
@@ -94,6 +105,11 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 		textMessage.setOnClickListener(this);
 		textSubject.setOnClickListener(this);
 		textTo.setOnClickListener(this);
+		
+		textMessage.setOnFocusChangeListener(this);
+		textSubject.setOnFocusChangeListener(this);
+		textTo.setOnFocusChangeListener(this);
+		
 //		findViewById(R.id.linearLayout0).setOnClickListener(this);
 //		findViewById(R.id.linearLayout1).setOnClickListener(this);
 		//is he/she capable of pushing the button with one single click?
@@ -144,15 +160,31 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 				break;
 		}
 	}
+	
+	@Override
+	public void onFocusChange(View view, boolean hasFocus) {
+		if (hasFocus){
+			focusStarted = System.currentTimeMillis();
+		} else {
+			focusElapsedTime = System.currentTimeMillis() - focusStarted;
+			
+			DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
+			df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+			
+			System.out.println("elapsedFocus for " + view.getId() + ": " + df.format(new Date(focusElapsedTime)));
+			
+			timeToFillEditText.put(view, focusElapsedTime);
+		}
+	}
 
 	private String calculateElapsedtime() {
-		finishedAt = System.currentTimeMillis();
-		elapsedTime = finishedAt - startedAt;
+		timeToFinishTask = System.currentTimeMillis();
+		elapsedTime = timeToFinishTask - timeToStartTask;
 		
 		DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
 		df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
 		
-		System.out.println("Elapsed time in Activity: " + df.format(new Date(elapsedTime)));
+		System.out.println("Elapsed total time: " + df.format(new Date(elapsedTime)));
 		
 		return df.format(new Date(elapsedTime));
 	}
@@ -161,8 +193,8 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 	protected void onResume() {
 		super.onResume();
 		
-		if (startedAt == 0){
-			startedAt = System.currentTimeMillis();
+		if (timeToStartTask == 0){
+			timeToStartTask = System.currentTimeMillis();
 		}
 	}
 	
@@ -188,7 +220,11 @@ public class MailSenderActivity extends Activity implements OnClickListener{
 //		model.put("topLayoutClicks", topLayoutClicks);
 		model.put("bottomLayoutClicks", bottomLayoutClicks);
 		model.put("editTextClicks", editTextClicks);
-		model.put("elapsedTime", calculateElapsedtime());
+		model.put("TotalElapsedTime", calculateElapsedtime());
+		//Time per view
+		//Time for starting the task
+		//Number of wrong clicks
+		//Time for next view
 	}
 
 }
