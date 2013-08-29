@@ -39,7 +39,6 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	
 	private int maxWidth;
 	private int maxHeight;
-	private int buttonBackgroundColor;
 	private int buttonTextColor;
 	
 	private OnTouchListener onTouchListener;
@@ -57,7 +56,6 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 
 		testButton = (Button) findViewById(R.id.test_button);
 		testButton.setOnClickListener(this);
-		buttonBackgroundColor = getBackgroundColor(testButton);
 		buttonTextColor = testButton.getTextColors().getDefaultColor();
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
@@ -137,7 +135,6 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			userPrefs.setButtonBackgroundColor(getBackgroundColor(this.testButton));
 			userPrefs.setButtonWidth(testButton.getWidth());
 			userPrefs.setButtonHeight(testButton.getHeight());
-//			userPrefs.setButtonBackgroundColor(buttonBackgroundColor);
 			userPrefs.setButtonTextColor(buttonTextColor);
 
 			intent.putExtra("viewParams", userPrefs);
@@ -149,8 +146,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			Random randomBackColor = new Random(); 
 			int backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));   
 			testButton.setBackgroundColor(backgroundColor);
-			this.buttonBackgroundColor = backgroundColor;
-			findViewById(R.id.next_button).setBackgroundColor(backgroundColor);
+			findViewById(R.id.next_button).setBackgroundColor(getBackgroundColor(this.testButton));
 			findViewById(R.id.background_color_button).setBackgroundColor(backgroundColor);
 			findViewById(R.id.text_color_button).setBackgroundColor(backgroundColor);
 			
