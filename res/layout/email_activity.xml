@@ -12,7 +12,7 @@
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
@@ -41,7 +41,8 @@
             <EditText
                 android:id="@+id/editTextSubject"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content" 
+                android:inputType="text">
             </EditText>
 
             <TextView

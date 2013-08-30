@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.UserMinimumPreferences;
 
@@ -44,13 +45,14 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		
 		findViewById(R.id.end_button).setOnClickListener(this);
 		
+		Bundle bundle = getIntent().getExtras();
+		userPrefs = bundle.getParcelable("viewParams");
+		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		
 		grid.getChildAt(0).setOnClickListener(this);
 		grid.getChildAt(1).setOnClickListener(this);
-		
-		Bundle bundle = getIntent().getExtras();
-		userPrefs = bundle.getParcelable("viewParams");
+		grid.setBackgroundColor(userPrefs.getBackgroundColor());
 		
 		tts = new TextToSpeech(this, this);
 		if (userPrefs.getSightProblem() == 1){
@@ -68,6 +70,9 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
 		
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}

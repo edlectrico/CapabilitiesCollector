@@ -39,7 +39,9 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	
 	private int maxWidth;
 	private int maxHeight;
+	private int buttonBackgroundColor;
 	private int buttonTextColor;
+	private int backgroundColor;
 	
 	private OnTouchListener onTouchListener;
 	
@@ -90,6 +92,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 		
 		findViewById(R.id.background_color_button).setOnClickListener(this);
 		findViewById(R.id.text_color_button).setOnClickListener(this);
+		findViewById(R.id.back_color_button).setOnClickListener(this);
 	}
 	
 	public OnTouchListener createOnTouchListener(){
@@ -118,6 +121,9 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 				
 				findViewById(R.id.text_color_button).setMinimumWidth(testButton.getWidth());
 				findViewById(R.id.text_color_button).setMinimumHeight(testButton.getHeight());
+				
+				findViewById(R.id.back_color_button).setMinimumWidth(testButton.getWidth());
+				findViewById(R.id.back_color_button).setMinimumHeight(testButton.getHeight());
 			}
 		};
 	}
@@ -136,6 +142,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			userPrefs.setButtonWidth(testButton.getWidth());
 			userPrefs.setButtonHeight(testButton.getHeight());
 			userPrefs.setButtonTextColor(buttonTextColor);
+			userPrefs.setBackgroundColor(backgroundColor);
 
 			intent.putExtra("viewParams", userPrefs);
 
@@ -144,11 +151,13 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			
 		case R.id.background_color_button:
 			Random randomBackColor = new Random(); 
-			int backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));   
-			testButton.setBackgroundColor(backgroundColor);
+			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));   
+			testButton.setBackgroundColor(buttonBackgroundColor);
 			findViewById(R.id.next_button).setBackgroundColor(getBackgroundColor(this.testButton));
-			findViewById(R.id.background_color_button).setBackgroundColor(backgroundColor);
-			findViewById(R.id.text_color_button).setBackgroundColor(backgroundColor);
+			findViewById(R.id.background_color_button).setBackgroundColor(buttonBackgroundColor);
+			findViewById(R.id.text_color_button).setBackgroundColor(buttonBackgroundColor);
+			findViewById(R.id.back_color_button).setBackgroundColor(buttonBackgroundColor);
+			break;
 			
 		case R.id.text_color_button:
 			Random randomTextColor = new Random(); 
@@ -158,6 +167,15 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			((Button)findViewById(R.id.next_button)).setTextColor(textColor);
 			((Button)findViewById(R.id.background_color_button)).setTextColor(textColor);
 			((Button)findViewById(R.id.text_color_button)).setTextColor(textColor);
+			((Button)findViewById(R.id.back_color_button)).setTextColor(textColor);
+			break;
+			
+		case R.id.back_color_button:
+			Random randomColor = new Random(); 
+			backgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
+			grid.setBackgroundColor(backgroundColor);
+			Log.d(ButtonConfigActivity.class.getSimpleName(), "BackgroundColor: " + backgroundColor);
+			break;
 			
 		default:
 			break;

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -40,7 +41,7 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		findViewById(R.id.background_color_button).setOnClickListener(this);
 		findViewById(R.id.text_color_button).setOnClickListener(this);
 		
-		redrawButtons();
+		redrawViews();
 		
 		if (userPrefs.getSightProblem() == 1){
 			tts = new TextToSpeech(this, this);
@@ -66,9 +67,11 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		grid.getChildAt(1).setOnTouchListener(listener);
 		grid.getChildAt(2).setOnTouchListener(listener);
 		grid.getChildAt(3).setOnTouchListener(listener);
+		Log.d(EditTextConfigActivity.class.getSimpleName(), "BackgroundColor: " + userPrefs.getBackgroundColor());
+		grid.setBackgroundColor(userPrefs.getBackgroundColor());
 	}
 
-	private void redrawButtons() {
+	private void redrawViews() {
 		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());

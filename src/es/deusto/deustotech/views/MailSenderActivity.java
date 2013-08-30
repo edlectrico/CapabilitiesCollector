@@ -11,12 +11,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.LinearLayout;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.UserMinimumPreferences;
 
@@ -33,12 +36,16 @@ import es.deusto.deustotech.utils.UserMinimumPreferences;
 @SuppressLint("SimpleDateFormat")
 public class MailSenderActivity extends Activity implements OnClickListener, OnFocusChangeListener{
 
+	private final String TAG = MailSenderActivity.class.getSimpleName();
+	
 	private Button buttonSend;
 	private EditText textTo;
 	private EditText textSubject;
 	private EditText textMessage;
 
 	private UserMinimumPreferences userPrefs;
+	
+	private LinearLayout layout;
 
 	private long elapsedTime;
 	
@@ -48,11 +55,12 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	private long launchedAt 		= 0;
 	private long timeToStartTask	= 0;
 	private long timeToFinishTask	= 0;
-	private long timeToNextView 	= 0;
-	private long lostClicks 		= 0; //Numbers of clicks that do not matter for the interaction
+	private int lostClicks 			= 0; //Numbers of clicks that do not matter for the interaction
+	private int editTextClicks		= 0;
 	
-	private long focusStarted = 0;
-	private long focusElapsedTime = 0;
+	private long focusStarted 		= 0;
+	private long focusElapsedTime 	= 0;
+	private int focusCounter 		= 0;
 	
 
 	@Override
@@ -71,6 +79,18 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
+		
+		((TextView)findViewById(R.id.textViewPhoneNo)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.textViewPhoneNo)).setTextColor(userPrefs.getTextEditTextColor());
+		
+		((TextView)findViewById(R.id.textViewSubject)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.textViewSubject)).setTextColor(userPrefs.getTextEditTextColor());
+		
+		((TextView)findViewById(R.id.textViewMessage)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.textViewMessage)).setTextColor(userPrefs.getTextEditTextColor());
+		
+		layout = (LinearLayout) findViewById(R.id.linearLayout0);
+		layout.setBackgroundColor(userPrefs.getBackgroundColor());
 
 		customizeActivity();
 		addListeners();
@@ -109,8 +129,8 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		textSubject.setOnFocusChangeListener(this);
 		textTo.setOnFocusChangeListener(this);
 		
-//		findViewById(R.id.linearLayout0).setOnClickListener(this);
-//		findViewById(R.id.linearLayout1).setOnClickListener(this);
+		findViewById(R.id.linearLayout0).setOnClickListener(this);
+		findViewById(R.id.linearLayout1).setOnClickListener(this);
 		//is he/she capable of pushing the button with one single click?
 		findViewById(R.id.linearLayout2).setOnClickListener(this);
 	}
@@ -144,6 +164,9 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 				startActivity(Intent.createChooser(email, "Choose an Email client :"));
 				
 				break;
+				
+			case R.id.linearLayout0: 
+				lostClicks++;
 	
 			case R.id.linearLayout1: 
 				lostClicks++;
@@ -152,13 +175,16 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 				lostClicks++;
 				
 			case R.id.editTextTo:
-				System.out.println("editTextTo clicked!");
+				Log.d(TAG, "editTextTo clicked!");
+				editTextClicks++;
 				
 			case R.id.editTextSubject:
-				System.out.println("editTextClicks clicked!");
+				Log.d(TAG, "editTextClicks clicked!");
+				editTextClicks++;
 				
 			case R.id.editTextMessage:
-				System.out.println("editTextMessage clicked!");
+				Log.d(TAG, "editTextMessage clicked!");
+				editTextClicks++;
 				
 			default:
 				break;
@@ -168,15 +194,16 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	@Override
 	public void onFocusChange(View view, boolean hasFocus) {
 		if (hasFocus){
-			System.out.println(view + " focused!");
+			Log.d(TAG, view + " focused!");
 			focusStarted = System.currentTimeMillis();
 		} else {
-			focusElapsedTime = System.currentTimeMillis() - focusStarted;
+			focusElapsedTime = focusElapsedTime + (System.currentTimeMillis() - focusStarted); //accumulate 
+			focusCounter++;
 			
 			DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
 			df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
 			
-			System.out.println("elapsedFocus for " + view.getId() + ": " + df.format(new Date(focusElapsedTime)));
+			Log.d(TAG, "elapsedFocus for " + view.getId() + ": " + df.format(new Date(focusElapsedTime)));
 			
 			timeToFillEditText.put(view, focusElapsedTime);
 		}
@@ -189,7 +216,7 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
 		df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
 		
-		System.out.println("Elapsed total time: " + df.format(new Date(elapsedTime)));
+		Log.d(TAG, "Elapsed total time: " + df.format(new Date(elapsedTime)));
 		
 		return df.format(new Date(elapsedTime));
 	}
@@ -218,16 +245,18 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	private void buildInteractionModel() {
 		Map<String, Object> model = new HashMap<String, Object>();
 		
-		//Number of wrong clicks
+		//Number of EditText clicks
+		model.put("editTextClicks", editTextClicks);
+		//Number of "wrong" clicks
 		model.put("lostClicks", lostClicks);
-		//Time per view
+		//Time to fill each EditText
 		model.put("timeToFillEditText", timeToFillEditText);
 		//Time for starting the task
 		model.put("timeToStartTask", timeToStartTask);
-		//TODO:Time for next view
-		
-		
+		//Time for finishing the task
 		model.put("TotalElapsedTime", calculateElapsedtime());
+		//Time for next view (mean) = focusElapsedTime (accumulate) / number of focus changes
+		model.put("focusedElapsedTime", focusElapsedTime/focusCounter);
 	}
 
 }

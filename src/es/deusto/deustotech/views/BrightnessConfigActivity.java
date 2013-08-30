@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.utils.UserMinimumPreferences;
 
@@ -51,6 +52,9 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
 		((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
+		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
+		
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
@@ -83,6 +87,7 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		this.grid.getChildAt(1).setOnTouchListener(onTouchListener);
 		this.grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		this.grid.getChildAt(3).setOnTouchListener(onTouchListener);
+		grid.setBackgroundColor(userPrefs.getBackgroundColor());
 		
 		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
 	}
