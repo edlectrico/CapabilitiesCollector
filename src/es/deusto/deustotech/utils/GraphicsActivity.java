@@ -16,11 +16,13 @@
 
 package es.deusto.deustotech.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+@SuppressLint("Registered")
 class GraphicsActivity extends Activity {
     // set to true to test Picture
     private static final boolean TEST_PICTURE = false;

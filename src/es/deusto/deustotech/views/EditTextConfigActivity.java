@@ -14,7 +14,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.utils.UserMinimumPreferences;
+import es.deusto.deustotech.model.UserMinimumPreferences;
 
 public class EditTextConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener {
 

@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.utils.UserMinimumPreferences;
+import es.deusto.deustotech.model.UserMinimumPreferences;
 
 /**
  * This activity shows a Button and a TextEdit as configured in previous activities

@@ -20,8 +20,8 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.model.UserMinimumPreferences;
 import es.deusto.deustotech.utils.ColorPickerDialog;
-import es.deusto.deustotech.utils.UserMinimumPreferences;
 
 /**
  * This activity configures the minimum visual interaction values

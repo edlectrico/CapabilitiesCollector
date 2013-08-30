@@ -1,4 +1,4 @@
-package es.deusto.deustotech.utils;
+package es.deusto.deustotech.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

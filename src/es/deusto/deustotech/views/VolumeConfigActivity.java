@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.utils.UserMinimumPreferences;
+import es.deusto.deustotech.model.UserMinimumPreferences;
 
 /**
  * This activity allows the user to configure the minimum volume

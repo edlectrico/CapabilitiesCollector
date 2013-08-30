@@ -58,7 +58,7 @@
     </LinearLayout>
     
     <LinearLayout
-        android:id="@+id/linear_layout_2"
+        android:id="@+id/linear_layout_3"
         android:layout_width="fill_parent"
         android:layout_height="130dp"
         android:layout_gravity="top"

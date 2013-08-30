@@ -1,12 +1,5 @@
 package es.deusto.deustotech.views;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,10 +11,11 @@ import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.utils.UserMinimumPreferences;
+import es.deusto.deustotech.model.UserInteraction;
+import es.deusto.deustotech.model.UserMinimumPreferences;
 
 /**
  * @author edlectrico
@@ -50,17 +44,20 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	private long elapsedTime;
 	
 	private boolean firstClick = false;
+	private boolean isEditText = false;
 	
-	private Map<View, Long> timeToFillEditText;
+	private long timeToFillEditText = 0;
 	private long launchedAt 		= 0;
 	private long timeToStartTask	= 0;
 	private long timeToFinishTask	= 0;
-	private int lostClicks 			= 0; //Numbers of clicks that do not matter for the interaction
+	private int lostClicks 			= 0; //Amount of clicks that do not matter for the interaction
 	private int editTextClicks		= 0;
+	private int buttonClicks		= 0; //Amount of clicks trying to push a button
 	
 	private long focusStarted 		= 0;
 	private long focusElapsedTime 	= 0;
 	private int focusCounter 		= 0;
+	private int editTextCounter		= 0;
 	
 
 	@Override
@@ -75,8 +72,6 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
 
-		timeToFillEditText = new HashMap<View, Long>();
-		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
@@ -173,13 +168,14 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 				
 			case R.id.linearLayout2:
 				lostClicks++;
+				buttonClicks++;
 				
 			case R.id.editTextTo:
 				Log.d(TAG, "editTextTo clicked!");
 				editTextClicks++;
 				
 			case R.id.editTextSubject:
-				Log.d(TAG, "editTextClicks clicked!");
+				Log.d(TAG, "editTextSubject clicked!");
 				editTextClicks++;
 				
 			case R.id.editTextMessage:
@@ -196,29 +192,39 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		if (hasFocus){
 			Log.d(TAG, view + " focused!");
 			focusStarted = System.currentTimeMillis();
+			
+			if (view instanceof EditText){
+				isEditText = true;
+				editTextCounter++;
+			}
 		} else {
 			focusElapsedTime = focusElapsedTime + (System.currentTimeMillis() - focusStarted); //accumulate 
 			focusCounter++;
 			
-			DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
-			df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+//			DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
+//			df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+//			
+//			Log.d(TAG, "elapsedFocus for " + view.getId() + ": " + df.format(new Date(focusElapsedTime)));
 			
-			Log.d(TAG, "elapsedFocus for " + view.getId() + ": " + df.format(new Date(focusElapsedTime)));
-			
-			timeToFillEditText.put(view, focusElapsedTime);
+			if (isEditText){
+				timeToFillEditText = timeToFillEditText + focusElapsedTime;
+				isEditText = false;
+			}
 		}
 	}
 
-	private String calculateElapsedtime() {
+	private long calculateElapsedtime() {
 		timeToFinishTask = System.currentTimeMillis();
 		elapsedTime = timeToFinishTask - launchedAt;
 		
-		DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
-		df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+		return elapsedTime;
 		
-		Log.d(TAG, "Elapsed total time: " + df.format(new Date(elapsedTime)));
-		
-		return df.format(new Date(elapsedTime));
+//		DateFormat df = new SimpleDateFormat("HH 'hours', mm 'mins,' ss 'seconds'");
+//		df.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+//		
+//		Log.d(TAG, "Elapsed total time: " + df.format(new Date(elapsedTime)));
+//		
+//		return df.format(new Date(elapsedTime));
 	}
 
 	@Override
@@ -243,6 +249,18 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	}
 
 	private void buildInteractionModel() {
+		
+		UserInteraction userInteraction = new UserInteraction();
+		userInteraction.setButtonClicks(buttonClicks);
+		userInteraction.setEditTextClicks(editTextClicks);
+		userInteraction.setLostClicks(lostClicks);
+		userInteraction.setTimeToFillEditText(timeToFillEditText/editTextCounter);
+		userInteraction.setTimeToFinishTask(timeToFinishTask);
+		userInteraction.setTimeToNextView(focusElapsedTime/focusCounter);
+		userInteraction.setTimeToStartTask(timeToStartTask);
+		
+		System.out.println();
+		/*
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		//Number of EditText clicks
@@ -257,6 +275,7 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		model.put("TotalElapsedTime", calculateElapsedtime());
 		//Time for next view (mean) = focusElapsedTime (accumulate) / number of focus changes
 		model.put("focusedElapsedTime", focusElapsedTime/focusCounter);
+		*/
 	}
 
 }
