@@ -31,7 +31,9 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
 	private TextToSpeech tts;
-	float brightnessValue = 0.5f; // dummy default value
+	
+	private float brightnessValue = 0.5f; // dummy default value
+	private boolean brightnessChanged = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN){
+					brightnessChanged = true;
 					
 					Random randomGenerator = new Random();
 				    int randomInt = randomGenerator.nextInt(100);
@@ -116,7 +119,12 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		case R.id.next_button:
 			Intent intent = new Intent(this, VolumeConfigActivity.class);
 			
-			userPrefs.setBrightness(brightnessValue);
+			if (brightnessChanged){
+				userPrefs.setBrightness(brightnessValue);
+				brightnessChanged = false;
+			} else {
+				userPrefs.setBrightness(0);
+			}
 			
 			intent.putExtra("viewParams", userPrefs);
 			

@@ -111,10 +111,12 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 			((TextView)findViewById(R.id.textViewSubject)).setTextColor(userPrefs.getTextEditTextColor());
 			((TextView)findViewById(R.id.textViewMessage)).setTextColor(userPrefs.getTextEditTextColor());
 		}
-
-		WindowManager.LayoutParams layoutParams = getWindow()
-				.getAttributes();
-		layoutParams.screenBrightness = userPrefs.getBrightness();
+		
+		if (userPrefs.getBrightness() != 0){
+			WindowManager.LayoutParams layoutParams = getWindow()
+					.getAttributes();
+			layoutParams.screenBrightness = userPrefs.getBrightness();
+		}
 	}
 
 	private void addListeners() {

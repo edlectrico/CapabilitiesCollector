@@ -60,10 +60,12 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 			speakOut(getResources().getString(R.string.volume_message));
 		}
 		
-		WindowManager.LayoutParams layoutParams = getWindow()
-				.getAttributes();
-		layoutParams.screenBrightness = userPrefs.getBrightness();
-		getWindow().setAttributes(layoutParams);
+		if (userPrefs.getBrightness() != 0){
+			WindowManager.LayoutParams layoutParams = getWindow()
+					.getAttributes();
+			layoutParams.screenBrightness = userPrefs.getBrightness();
+			getWindow().setAttributes(layoutParams);
+		}
 		
 		findViewById(R.id.end_button).setOnClickListener(this);
 		findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
