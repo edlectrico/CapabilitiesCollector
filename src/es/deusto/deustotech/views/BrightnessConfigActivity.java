@@ -95,13 +95,16 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 	private void redrawButtons() {
 		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
 		
 		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
+
+		if (userPrefs.getBackgroundColor() != 0){
+			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		}
 	}
 
 	@Override
@@ -130,7 +133,7 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 	public void onInit(int status) { }
 	
 	private void speakOut(final String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
 }

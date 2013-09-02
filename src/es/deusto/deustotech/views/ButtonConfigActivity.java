@@ -43,6 +43,8 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	private int buttonTextColor;
 	private int backgroundColor;
 	
+	private boolean buttonBackgroundColorChanged = false;
+	
 	private OnTouchListener onTouchListener;
 	
 	private Bitmap mBitmap;
@@ -138,7 +140,12 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
 
-			userPrefs.setButtonBackgroundColor(getBackgroundColor(this.testButton));
+			if (buttonBackgroundColorChanged){
+				userPrefs.setButtonBackgroundColor(getBackgroundColor(testButton));
+//				buttonBackgroundColorChanged = false;
+			} else {
+				userPrefs.setButtonBackgroundColor(0);
+			}
 			userPrefs.setButtonWidth(testButton.getWidth());
 			userPrefs.setButtonHeight(testButton.getHeight());
 			userPrefs.setButtonTextColor(buttonTextColor);
@@ -171,6 +178,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 			break;
 			
 		case R.id.back_color_button:
+			buttonBackgroundColorChanged = true;
 			Random randomColor = new Random(); 
 			backgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(backgroundColor);
@@ -237,7 +245,7 @@ public class ButtonConfigActivity extends Activity implements android.view.View.
 	}
 	
 	private void speakOut(final String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
 	@Override

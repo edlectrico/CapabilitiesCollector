@@ -74,18 +74,21 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 	private void redrawViews() {
 		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
 		
 		findViewById(R.id.background_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.background_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.background_color_button)).setTextColor(userPrefs.getButtonTextColor());
 		
 		findViewById(R.id.text_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.text_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.text_color_button)).setTextColor(userPrefs.getButtonTextColor());
+
+		if (userPrefs.getButtonBackgroundColor() != 0){
+			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		}
 	}
 
 	@Override
@@ -128,7 +131,7 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 	}
 
 	private void speakOut(final String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 	
 }

@@ -94,7 +94,10 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	private void customizeActivity() {
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
-		buttonSend.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		
+		if (userPrefs.getBackgroundColor() != 0){
+			buttonSend.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		}
 		buttonSend.setTextColor(userPrefs.getButtonTextColor());
 
 		textTo.setTextSize(userPrefs.getTextEditSize());

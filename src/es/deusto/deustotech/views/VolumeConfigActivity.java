@@ -68,8 +68,11 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		findViewById(R.id.end_button).setOnClickListener(this);
 		findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
+
+		if (userPrefs.getBackgroundColor() != 0){
+			((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		}
 		
 		((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
 		((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
@@ -111,7 +114,7 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 	public void onInit(int status) { }
 	
 	private void speakOut(final String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
 }

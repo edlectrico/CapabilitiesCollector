@@ -140,7 +140,7 @@ public class InputActivity extends Activity implements TextToSpeech.OnInitListen
 	}
 	
 	private void speakOut(final String text) {
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 	
 	private void onLongClickView() {
