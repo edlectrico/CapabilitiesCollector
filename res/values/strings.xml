@@ -9,9 +9,10 @@
     <string name="hearing_impairment">Hearing Impairment</string>
     <string name="button_background_color">Button Back Color</string>
     <!-- <string name="button_width">Button Width</string>
-    <string name="button_height">Button Height</string>
+    <string name="button_height">Button Height</string>-->
     <string name="edit_text_text_color">Edit Text Text Color</string>
-    <string name="edit_text_size">Edit Text Size</string> -->
+    <string name="edit_text_background_color">Edit Text Back Color</string>
+    <string name="edit_text_size">Edit Text Size</string> 
     <string name="button_text_color">Button Text Color</string>
     <string name="button_back_color">Background Color</string>
 
