@@ -2,10 +2,8 @@ package es.deusto.deustotech.views;
 
 import java.util.Random;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -15,7 +13,6 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.model.UserMinimumPreferences;
 
 /**
  * This activity shows a Button and a TextEdit as configured in previous activities
@@ -25,12 +22,12 @@ import es.deusto.deustotech.model.UserMinimumPreferences;
  * @author edlectrico
  *
  */
-public class BrightnessConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener{
+public class BrightnessConfigActivity extends AbstractActivity {
 
-	private UserMinimumPreferences userPrefs;
+	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
+	
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
-	private TextToSpeech tts;
 	
 	private float brightnessValue = 0.5f; // dummy default value
 	private boolean brightnessChanged = false;
@@ -43,19 +40,65 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
-		if (userPrefs.getSightProblem() == 1){
-			tts = new TextToSpeech(this, this);
-			
-			speakOut(getResources().getString(R.string.brightness_info_message));
-		}
-		
 		grid = (GridLayout) findViewById(R.id.default_layout);
-		
-		findViewById(R.id.next_button).setOnClickListener(this);
+		onTouchListener = createOnTouchListener();
 		
 		redrawViews();
+		initializeServices(TAG);
+		addListeners();
+	}
+	
+	@Override
+	public void initializeServices(String TAG) {
+		if (userPrefs.getSightProblem() == 1){
+			super.initializeServices(TAG);
+			
+			speakOut(getResources().getString(R.string.edit_text_info_message));
+		}
+	}
+	
+	@Override
+	public void addListeners() {
+		grid.getChildAt(0).setOnTouchListener(onTouchListener);
+		grid.getChildAt(1).setOnTouchListener(onTouchListener);
+		grid.getChildAt(2).setOnTouchListener(onTouchListener);
+		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 		
-		onTouchListener = new OnTouchListener() {
+		findViewById(R.id.next_button).setOnClickListener(this);
+		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
+	}
+	
+	@Override
+	public void redrawViews() {
+		//EditText config
+		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
+		
+		if (userPrefs.getTextEditTextColor() != 0){
+			((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
+			((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		}
+		
+		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
+		
+		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		grid.setBackgroundColor(userPrefs.getBackgroundColor());
+
+		if (userPrefs.getBackgroundColor() != 0){
+			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		}
+	}
+	
+	private OnTouchListener createOnTouchListener() {
+		return new OnTouchListener() {
 			//Each time the user presses the screen a new brightness value
 			//is generated
 			@Override
@@ -77,40 +120,6 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 				return false;
 			}
 		};
-		
-		this.grid.getChildAt(0).setOnTouchListener(onTouchListener);
-		this.grid.getChildAt(1).setOnTouchListener(onTouchListener);
-		this.grid.getChildAt(2).setOnTouchListener(onTouchListener);
-		this.grid.getChildAt(3).setOnTouchListener(onTouchListener);
-		grid.setBackgroundColor(userPrefs.getBackgroundColor());
-		
-		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
-	}
-	
-	private void redrawViews() {
-		//EditText config
-		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
-		
-		if (userPrefs.getTextEditTextColor() != 0){
-			((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
-			((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-		}
-		
-		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize());
-		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
-		
-		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
-		
-		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
-
-		if (userPrefs.getBackgroundColor() != 0){
-			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		}
 	}
 
 	@Override
@@ -139,12 +148,5 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 			break;
 		}
 	}
-
-	@Override
-	public void onInit(int status) { }
-	
-	private void speakOut(final String text) {
-//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-    }
 
 }

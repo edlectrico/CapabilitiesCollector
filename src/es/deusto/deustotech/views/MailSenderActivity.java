@@ -1,12 +1,9 @@
 package es.deusto.deustotech.views;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.model.UserInteraction;
-import es.deusto.deustotech.model.UserMinimumPreferences;
 
 /**
  * @author edlectrico
@@ -27,8 +23,7 @@ import es.deusto.deustotech.model.UserMinimumPreferences;
  *
  */
 
-@SuppressLint("SimpleDateFormat")
-public class MailSenderActivity extends Activity implements OnClickListener, OnFocusChangeListener{
+public class MailSenderActivity extends AbstractActivity implements OnFocusChangeListener{
 
 	private final String TAG = MailSenderActivity.class.getSimpleName();
 	
@@ -36,9 +31,6 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 	private EditText textTo;
 	private EditText textSubject;
 	private EditText textMessage;
-
-	private UserMinimumPreferences userPrefs;
-	
 	private LinearLayout layout;
 
 	private long elapsedTime;
@@ -65,28 +57,38 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.email_activity);
 
-		launchedAt = System.currentTimeMillis();
-		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
+		layout = (LinearLayout) findViewById(R.id.linearLayout0);
 
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
+		redrawViews();
+		initializeServices(TAG);
+		addListeners();
+	}
+	
+	@Override
+	public void initializeServices(String TAG) {
+		launchedAt = System.currentTimeMillis();
+		
+		if (userPrefs.getBrightness() != 0){
+			WindowManager.LayoutParams layoutParams = getWindow()
+					.getAttributes();
+			layoutParams.screenBrightness = userPrefs.getBrightness();
+		}
+	}
+	
+	@Override
+	public void redrawViews() {
+		layout.setBackgroundColor(userPrefs.getBackgroundColor());
 		((TextView)findViewById(R.id.textViewPhoneNo)).setTextSize(userPrefs.getTextEditSize());
 		((TextView)findViewById(R.id.textViewSubject)).setTextSize(userPrefs.getTextEditSize());
 		((TextView)findViewById(R.id.textViewMessage)).setTextSize(userPrefs.getTextEditSize());
 		
-		layout = (LinearLayout) findViewById(R.id.linearLayout0);
-		layout.setBackgroundColor(userPrefs.getBackgroundColor());
-
-		customizeActivity();
-		addListeners();
-	}
-
-	private void customizeActivity() {
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 		
@@ -111,15 +113,10 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 			((TextView)findViewById(R.id.textViewSubject)).setTextColor(userPrefs.getTextEditTextColor());
 			((TextView)findViewById(R.id.textViewMessage)).setTextColor(userPrefs.getTextEditTextColor());
 		}
-		
-		if (userPrefs.getBrightness() != 0){
-			WindowManager.LayoutParams layoutParams = getWindow()
-					.getAttributes();
-			layoutParams.screenBrightness = userPrefs.getBrightness();
-		}
 	}
-
-	private void addListeners() {
+	
+	@Override
+	public void addListeners() {
 		buttonSend.setOnClickListener(this);
 		textMessage.setOnClickListener(this);
 		textSubject.setOnClickListener(this);
@@ -134,6 +131,7 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		//is he/she capable of pushing the button with one single click?
 		findViewById(R.id.linearLayout2).setOnClickListener(this);
 	}
+
 
 	@Override
 	public void onClick(View view) {

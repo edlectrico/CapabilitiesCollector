@@ -2,31 +2,25 @@ package es.deusto.deustotech.views;
 
 import java.util.Random;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.model.UserMinimumPreferences;
 
-public class EditTextConfigActivity extends Activity implements View.OnClickListener, TextToSpeech.OnInitListener {
+public class EditTextConfigActivity extends AbstractActivity {
 
+	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
+	
 	private Button testTextEdit;
 	private GridLayout grid;
-	private TextToSpeech tts;
-//	private int viewColor;
-	
-	private UserMinimumPreferences userPrefs;
+	private OnTouchListener onTouchListener;
 	
 	private boolean editTextTextColorChanged = false;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,43 +31,37 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		userPrefs = bundle.getParcelable("viewParams");
 		
 		testTextEdit = (Button) findViewById(R.id.test_text_edit);
-		testTextEdit.setOnClickListener(this);
+		grid = (GridLayout) findViewById(R.id.default_layout);
+		onTouchListener = createOnTouchListener();
+		
+		redrawViews();
+		initializeServices(TAG);
+		addListeners();
+	}
+	
+	@Override
+	public void initializeServices(String TAG) {
+		if (userPrefs.getSightProblem() == 1){
+			super.initializeServices(TAG);
+			
+			speakOut(getResources().getString(R.string.edit_text_info_message));
+		}
+	}
+	
+	@Override
+	public void addListeners() {
+		grid.getChildAt(1).setOnTouchListener(onTouchListener);
+		grid.getChildAt(2).setOnTouchListener(onTouchListener);
+		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
 		findViewById(R.id.background_color_button).setOnClickListener(this);
 		findViewById(R.id.text_color_button).setOnClickListener(this);
-		
-		redrawViews();
-		
-		if (userPrefs.getSightProblem() == 1){
-			tts = new TextToSpeech(this, this);
-			
-			speakOut(getResources().getString(R.string.edit_text_info_message));
-		}
-		
-		grid = (GridLayout) findViewById(R.id.default_layout);
-		
-		OnTouchListener listener = new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				float x = event.getRawX();
-
-				testTextEdit.setTextSize((float) (x / 10.0));
-				testTextEdit.invalidate();
-
-				return true;
-			}
-		};
-		
-		grid.getChildAt(1).setOnTouchListener(listener);
-		grid.getChildAt(2).setOnTouchListener(listener);
-		grid.getChildAt(3).setOnTouchListener(listener);
-		Log.d(EditTextConfigActivity.class.getSimpleName(), "BackgroundColor: " + userPrefs.getBackgroundColor());
-		grid.setBackgroundColor(userPrefs.getBackgroundColor());
+		testTextEdit.setOnClickListener(this);
 	}
 
-	private void redrawViews() {
+	@Override
+	public void redrawViews() {
 		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
@@ -85,6 +73,8 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		findViewById(R.id.text_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.text_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.text_color_button)).setTextColor(userPrefs.getButtonTextColor());
+		
+		grid.setBackgroundColor(userPrefs.getBackgroundColor());
 
 		if (userPrefs.getButtonBackgroundColor() != 0){
 			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
@@ -92,10 +82,21 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 			((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}
 	}
+	
+	private OnTouchListener createOnTouchListener(){
+		return new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				float x = event.getRawX();
 
-	@Override
-	public void onInit(int status) { }
+				testTextEdit.setTextSize((float) (x / 10.0));
+				testTextEdit.invalidate();
 
+				return true;
+			}
+		};
+	}
+	
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
@@ -139,8 +140,4 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 		}
 	}
 
-	private void speakOut(final String text) {
-//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-    }
-	
 }

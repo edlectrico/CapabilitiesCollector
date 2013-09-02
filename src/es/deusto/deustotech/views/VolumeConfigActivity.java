@@ -2,9 +2,6 @@ package es.deusto.deustotech.views;
 
 import java.util.Random;
 
-import com.google.gson.Gson;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,13 +10,14 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.model.UserMinimumPreferences;
 
 /**
  * This activity allows the user to configure the minimum volume
@@ -30,12 +28,12 @@ import es.deusto.deustotech.model.UserMinimumPreferences;
  *
  */
 
-public class VolumeConfigActivity extends Activity implements OnClickListener, TextToSpeech.OnInitListener {
+public class VolumeConfigActivity extends AbstractActivity {
 
+	private static final String TAG = VolumeConfigActivity.class.getSimpleName();
+	
 	private GridLayout grid;
 	private AudioManager audioManager = null;
-	private TextToSpeech tts;
-	private UserMinimumPreferences userPrefs;
 	private int volumeLevel = 0;
 	
 	@Override
@@ -43,23 +41,23 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.volume_config);
 		
-		findViewById(R.id.end_button).setOnClickListener(this);
-		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		
-		grid.getChildAt(0).setOnClickListener(this);
-		grid.getChildAt(1).setOnClickListener(this);
-		grid.setBackgroundColor(userPrefs.getBackgroundColor());
-		
-		tts = new TextToSpeech(this, this);
+		redrawViews();
+		initializeServices(TAG);
+		addListeners();
+	}
+	
+	@Override
+	public void initializeServices(String TAG) {
 		if (userPrefs.getSightProblem() == 1){
+			super.initializeServices(TAG);
 			
-			speakOut(getResources().getString(R.string.volume_message));
+			speakOut(getResources().getString(R.string.edit_text_info_message));
 		}
-		
 		if (userPrefs.getBrightness() != 0){
 			WindowManager.LayoutParams layoutParams = getWindow()
 					.getAttributes();
@@ -67,23 +65,35 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 			getWindow().setAttributes(layoutParams);
 		}
 		
+		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+	}
+	
+	@Override
+	public void addListeners() {
 		findViewById(R.id.end_button).setOnClickListener(this);
+		findViewById(R.id.end_button).setOnClickListener(this);
+		
+		grid.getChildAt(0).setOnClickListener(this);
+		grid.getChildAt(1).setOnClickListener(this);
+	}
+	
+	@Override
+	public void redrawViews() {
+		grid.setBackgroundColor(userPrefs.getBackgroundColor());
+		
 		findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+		
 		((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
+		((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
 
 		if (userPrefs.getBackgroundColor() != 0){
 			((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}
 		
-		((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
-		
 		if (userPrefs.getTextEditTextColor() != 0){
 			((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
-			
 		}
-
-		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 
 	@Override
@@ -115,12 +125,5 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 			tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
-
-	@Override
-	public void onInit(int status) { }
-	
-	private void speakOut(final String text) {
-//        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-    }
 
 }
