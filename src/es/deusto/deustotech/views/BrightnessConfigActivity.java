@@ -47,19 +47,11 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 			speakOut(getResources().getString(R.string.brightness_info_message));
 		}
 		
-		//EditText config
-		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
-		((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
-		((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-		
-		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize());
-		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
-		
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		
 		findViewById(R.id.next_button).setOnClickListener(this);
 		
-		redrawButtons();
+		redrawViews();
 		
 		onTouchListener = new OnTouchListener() {
 			//Each time the user presses the screen a new brightness value
@@ -92,7 +84,18 @@ public class BrightnessConfigActivity extends Activity implements View.OnClickLi
 		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
 	}
 	
-	private void redrawButtons() {
+	private void redrawViews() {
+		//EditText config
+		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
+		
+		if (userPrefs.getTextEditTextColor() != 0){
+			((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
+			((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		}
+		
+		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize());
+		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
+		
 		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());

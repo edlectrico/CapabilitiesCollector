@@ -75,8 +75,12 @@ public class VolumeConfigActivity extends Activity implements OnClickListener, T
 		}
 		
 		((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
-		((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
 		
+		if (userPrefs.getTextEditTextColor() != 0){
+			((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+			
+		}
+
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 

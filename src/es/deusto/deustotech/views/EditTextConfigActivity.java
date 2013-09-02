@@ -25,6 +25,8 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 	
 	private UserMinimumPreferences userPrefs;
 	
+	private boolean editTextTextColorChanged = false;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,11 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 			case R.id.next_button:
 				Intent intent = new Intent(this, BrightnessConfigActivity.class);
 				
+				if (editTextTextColorChanged){
+					editTextTextColorChanged = false;
+				} else {
+					userPrefs.setTextEditTextColor(0);
+				}
 //				userPrefs.setTextEditTextColor(testTextEdit.getTextColors().getDefaultColor());
 				userPrefs.setTextEditSize(testTextEdit.getTextSize());
 				
@@ -113,6 +120,7 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 				break;
 
 			case R.id.background_color_button:
+				editTextTextColorChanged = true;
 				Random randomBackColor = new Random(); 
 				int backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 //				testTextEdit.setBackgroundColor(backgroundColor);
@@ -120,6 +128,7 @@ public class EditTextConfigActivity extends Activity implements View.OnClickList
 				userPrefs.setTextEditBackgroundColor(backgroundColor);
 				
 			case R.id.text_color_button:
+				editTextTextColorChanged = true;
 				Random randomTextColor = new Random(); 
 				int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
 //				testTextEdit.setTextColor(textColor);

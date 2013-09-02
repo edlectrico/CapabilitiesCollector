@@ -76,13 +76,8 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		userPrefs = bundle.getParcelable("viewParams");
 		
 		((TextView)findViewById(R.id.textViewPhoneNo)).setTextSize(userPrefs.getTextEditSize());
-		((TextView)findViewById(R.id.textViewPhoneNo)).setTextColor(userPrefs.getTextEditTextColor());
-		
 		((TextView)findViewById(R.id.textViewSubject)).setTextSize(userPrefs.getTextEditSize());
-		((TextView)findViewById(R.id.textViewSubject)).setTextColor(userPrefs.getTextEditTextColor());
-		
 		((TextView)findViewById(R.id.textViewMessage)).setTextSize(userPrefs.getTextEditSize());
-		((TextView)findViewById(R.id.textViewMessage)).setTextColor(userPrefs.getTextEditTextColor());
 		
 		layout = (LinearLayout) findViewById(R.id.linearLayout0);
 		layout.setBackgroundColor(userPrefs.getBackgroundColor());
@@ -101,16 +96,21 @@ public class MailSenderActivity extends Activity implements OnClickListener, OnF
 		buttonSend.setTextColor(userPrefs.getButtonTextColor());
 
 		textTo.setTextSize(userPrefs.getTextEditSize());
-		textTo.setTextColor(userPrefs.getTextEditTextColor());
-		textTo.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-
 		textSubject.setTextSize(userPrefs.getTextEditSize());
-		textSubject.setTextColor(userPrefs.getTextEditTextColor());
-		textSubject.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-
 		textMessage.setTextSize(userPrefs.getTextEditSize());
-		textMessage.setTextColor(userPrefs.getTextEditTextColor());
-		textMessage.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		
+		if (userPrefs.getTextEditTextColor() != 0){
+			textTo.setTextColor(userPrefs.getTextEditTextColor());
+			textTo.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			textSubject.setTextColor(userPrefs.getTextEditTextColor());
+			textSubject.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			textMessage.setTextColor(userPrefs.getTextEditTextColor());
+			textMessage.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			
+			((TextView)findViewById(R.id.textViewPhoneNo)).setTextColor(userPrefs.getTextEditTextColor());
+			((TextView)findViewById(R.id.textViewSubject)).setTextColor(userPrefs.getTextEditTextColor());
+			((TextView)findViewById(R.id.textViewMessage)).setTextColor(userPrefs.getTextEditTextColor());
+		}
 
 		WindowManager.LayoutParams layoutParams = getWindow()
 				.getAttributes();
