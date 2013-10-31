@@ -5,7 +5,7 @@
     android:columnCount="1"
     android:orientation="horizontal"
     android:rowCount="4" >
-    
+
     <LinearLayout
         android:id="@+id/linear_layout_0"
         android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_message" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:id="@+id/linear_layout_2"
         android:layout_width="fill_parent"
@@ -44,11 +44,10 @@
             android:id="@+id/test_text_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_text_message"
-            android:inputType="text" 
-        />
+            android:inputType="text"
+            android:text="@string/edit_text_message" />
     </LinearLayout>
-    
+
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="fill_parent"
@@ -63,7 +62,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="@string/next_message" />
-
     </RelativeLayout>
-    
+
 </GridLayout>

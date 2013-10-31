@@ -1,4 +1,4 @@
-package es.deusto.deustotech.views;
+package es.deusto.deustotech.capabilities.views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 
 /**
@@ -18,9 +19,9 @@ import es.deusto.deustotech.R;
  * @author edlectrico
  * 
  */
-public class InputActivity extends AbstractActivity{
+public class MainInputActivity extends AbstractActivity {
 
-	private static final String TAG = InputActivity.class.getSimpleName();
+	private static final String TAG = MainInputActivity.class.getSimpleName();
 	
 	private boolean longPush 			= false;
 	private boolean voiceRecognition 	= false;
@@ -40,7 +41,8 @@ public class InputActivity extends AbstractActivity{
 	@Override
 	public void addListeners() {
 		//OnLongClick -> audio-based interaction
-		findViewById(R.id.grid_layout).setOnLongClickListener(this);
+		GridLayout grid = (GridLayout) findViewById(R.id.grid_layout);
+		grid.setOnLongClickListener(this);
 		findViewById(R.id.input_button).setOnLongClickListener(this);
 		findViewById(R.id.input_button).setOnClickListener(this);
 	}
@@ -58,7 +60,7 @@ public class InputActivity extends AbstractActivity{
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		if (activities.size() == 0) {
-			Log.d(InputActivity.class.getSimpleName(), "Voice recognizer not present");
+			Log.d(MainInputActivity.class.getSimpleName(), "Voice recognizer not present");
 			return false;
 		} 
 		return true;
@@ -93,17 +95,10 @@ public class InputActivity extends AbstractActivity{
 
 	@Override
 	public boolean onLongClick(View view) {
-		switch (view.getId()) {
-		case R.id.grid_layout:
+		if (view.getId() == R.id.grid_layout) {
 			onLongClickView();
-			break;
-		
-		case R.id.input_button:
+		} else if (view.getId() == R.id.input_button){
 			onLongClickView();
-			break;
-			
-		default:
-			return true;
 		}
 		
 		return super.onLongClick(view);
@@ -111,17 +106,12 @@ public class InputActivity extends AbstractActivity{
 	
 	@Override
 	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.input_button:
+		if (view.getId() == R.id.input_button){
 				if (!longPush){
 					vibrator.vibrate(500);
 					speakOut("Visual based interaction selected");
 					startActivity(getDefaultIntent());
 				}
-				break;
-				
-			default:
-				break;
 		}
 	}
 	

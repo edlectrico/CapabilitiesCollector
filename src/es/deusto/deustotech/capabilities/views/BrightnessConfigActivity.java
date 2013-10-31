@@ -1,4 +1,4 @@
-package es.deusto.deustotech.views;
+package es.deusto.deustotech.capabilities.views;
 
 import java.util.Random;
 
@@ -124,8 +124,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		switch (view.getId()) {
-		case R.id.next_button:
+		if (view.getId() == R.id.next_button){
 			Intent intent = new Intent(this, VolumeConfigActivity.class);
 			
 			if (brightnessChanged){
@@ -142,10 +141,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			}
 			
 			startActivity(intent);
-			break;
-
-		default:
-			break;
+			
 		}
 	}
 

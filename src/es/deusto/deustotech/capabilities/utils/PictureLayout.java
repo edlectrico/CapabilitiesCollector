@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.deusto.deustotech.utils;
+package es.deusto.deustotech.capabilities.utils;
 
 import android.content.Context;
 import android.graphics.Canvas;

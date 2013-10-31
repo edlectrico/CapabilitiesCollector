@@ -1,4 +1,4 @@
-package es.deusto.deustotech.views;
+package es.deusto.deustotech.capabilities.views;
 
 import java.util.Locale;
 
@@ -12,7 +12,7 @@ import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.model.UserMinimumPreferences;
+import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {
 

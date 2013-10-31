@@ -1,4 +1,4 @@
-package es.deusto.deustotech.views;
+package es.deusto.deustotech.capabilities.views;
 
 import java.util.Random;
 
@@ -111,8 +111,11 @@ public class VolumeConfigActivity extends AbstractActivity {
 			prefsEditor.commit();
 			
 			Intent intent = new Intent(this, MailSenderActivity.class);
-			
 			intent.putExtra("viewParams", userPrefs);
+			
+			if (userPrefs.getSightProblem() == 1){
+				speakOut("Now try to send an email!");
+			}
 			
 			startActivity(intent);
 		} else {
