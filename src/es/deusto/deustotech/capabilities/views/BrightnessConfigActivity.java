@@ -135,6 +135,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			}
 			
 			intent.putExtra("viewParams", userPrefs);
+			intent.putExtra("caller", 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");

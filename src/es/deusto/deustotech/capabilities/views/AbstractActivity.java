@@ -68,6 +68,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	
 	public void listenToSpeech() {
 		Intent listenIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		
 		listenIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
 		listenIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a word!");
 		listenIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -94,7 +95,10 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	}
 	
 	public void speakOut(final String text) {
-//      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+		if (tts == null){
+			tts = new TextToSpeech(this, this);
+		}
+      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
   }
 	
 	public void redrawViews(){ }

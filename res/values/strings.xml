@@ -22,7 +22,7 @@
     <string name="input_button_message">PUSH ME!</string>
 
     <!-- Button_Config_Activity -->
-    <string name="button_info_message">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can push it.</string>
+    <string name="button_info_message">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
     <string name="button_message">Push me!</string>
     <string name="next_message">Next</string>
     <!-- <string name="textview_message">Change TextView Color</string> -->

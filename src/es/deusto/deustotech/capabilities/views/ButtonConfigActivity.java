@@ -45,6 +45,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private Bitmap mBitmap;
 	private Canvas mCanvas;
 	private Rect mBounds;
+	
+	int callerActivity = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +57,21 @@ public class ButtonConfigActivity extends AbstractActivity {
 		buttonTextColor = testButton.getTextColors().getDefaultColor();
 
 		Bundle bundle = getIntent().getExtras();
+		
+		callerActivity = bundle.getInt("caller");
 
-		userPrefs = new UserMinimumPreferences();
-		userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
-		userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
-
-		//TODO: by default (not working)
-		userPrefs.setButtonBackgroundColor(getBackgroundColor(testButton));
-		userPrefs.setButtonTextColor(testButton.getTextColors().getDefaultColor());
+		if (callerActivity != 2){ //2: VolumeActivity
+			userPrefs = new UserMinimumPreferences();
+			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
+			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
+			
+			//TODO: by default (not working)
+			userPrefs.setButtonBackgroundColor(getBackgroundColor(testButton));
+			userPrefs.setButtonTextColor(testButton.getTextColors().getDefaultColor());
+		} else {
+			//TODO: Read instructions
+			speakOut(getResources().getString(R.string.button_info_message));
+		}
 
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		onTouchListener = createOnTouchListener();

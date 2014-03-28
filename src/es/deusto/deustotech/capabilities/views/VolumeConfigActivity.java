@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 
 /**
  * This activity allows the user to configure the minimum volume
@@ -35,6 +35,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 	private GridLayout grid;
 	private AudioManager audioManager = null;
 	private int volumeLevel = 0;
+	int callerActivity = -1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,16 @@ public class VolumeConfigActivity extends AbstractActivity {
 		setContentView(R.layout.volume_config);
 		
 		Bundle bundle = getIntent().getExtras();
-		userPrefs = bundle.getParcelable("viewParams");
+		
+		callerActivity = bundle.getInt("caller");
+		
+		if (callerActivity == 1){ //BrightnessActivity
+			userPrefs = bundle.getParcelable("viewParams");
+		}
+		
 		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
+		grid.setOnClickListener(this);
 		
 		redrawViews();
 		initializeServices(TAG);
@@ -53,16 +61,18 @@ public class VolumeConfigActivity extends AbstractActivity {
 	
 	@Override
 	public void initializeServices(String TAG) {
-		if (userPrefs.getSightProblem() == 1){
-			super.initializeServices(TAG);
-			
-			speakOut(getResources().getString(R.string.edit_text_info_message));
-		}
-		if (userPrefs.getBrightness() != 0){
-			WindowManager.LayoutParams layoutParams = getWindow()
-					.getAttributes();
-			layoutParams.screenBrightness = userPrefs.getBrightness();
-			getWindow().setAttributes(layoutParams);
+		if (callerActivity == 1){ //BrightnessActivity
+			if (userPrefs.getSightProblem() == 1){
+				super.initializeServices(TAG);
+				
+				speakOut(getResources().getString(R.string.edit_text_info_message));
+			}
+			if (userPrefs.getBrightness() != 0){
+				WindowManager.LayoutParams layoutParams = getWindow()
+						.getAttributes();
+				layoutParams.screenBrightness = userPrefs.getBrightness();
+				getWindow().setAttributes(layoutParams);
+			}
 		}
 		
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -79,20 +89,22 @@ public class VolumeConfigActivity extends AbstractActivity {
 	
 	@Override
 	public void redrawViews() {
-		grid.setBackgroundColor(userPrefs.getBackgroundColor());
-		
-		findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		
-		((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
-		((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
-
-		if (userPrefs.getBackgroundColor() != 0){
-			((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		}
-		
-		if (userPrefs.getTextEditTextColor() != 0){
-			((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+		if (callerActivity == 1){ //BrightnessActivity
+			grid.setBackgroundColor(userPrefs.getBackgroundColor());
+			
+			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
+			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
+			
+			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
+			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
+	
+			if (userPrefs.getBackgroundColor() != 0){
+				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			}
+			
+			if (userPrefs.getTextEditTextColor() != 0){
+				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+			}
 		}
 	}
 
@@ -100,6 +112,10 @@ public class VolumeConfigActivity extends AbstractActivity {
 	public void onClick(View view) {
 		if (view.getId() == R.id.end_button){
 			//Store
+			if (userPrefs == null){
+				userPrefs = new UserMinimumPreferences();
+			}
+			
 			userPrefs.setVolume(volumeLevel);
 			
 			SharedPreferences  preferences = getPreferences(MODE_PRIVATE);
@@ -110,14 +126,20 @@ public class VolumeConfigActivity extends AbstractActivity {
 			prefsEditor.putString("viewParams", json);
 			prefsEditor.commit();
 			
-			Intent intent = new Intent(this, MailSenderActivity.class);
-			intent.putExtra("viewParams", userPrefs);
-			
-			if (userPrefs.getSightProblem() == 1){
-				speakOut("Now try to send an email!");
+			if (callerActivity == 1){ //BrightnessActivity
+				Intent intent = new Intent(this, MailSenderActivity.class);
+				intent.putExtra("viewParams", userPrefs);
+				
+				if (userPrefs.getSightProblem() == 1){
+					speakOut("Now try to send an email!");
+				}
+				
+				startActivity(intent);
+			} else { //MainActivity
+				Intent intent = new Intent(this, ButtonConfigActivity.class);
+				intent.putExtra("caller", 2); //0: MainActivity; 1: BrightnessActivity; 2: VolumeActivity
+				startActivity(intent);
 			}
-			
-			startActivity(intent);
 		} else {
 			Random randomGenerator = new Random();
 			volumeLevel = randomGenerator.nextInt(100);
@@ -125,7 +147,8 @@ public class VolumeConfigActivity extends AbstractActivity {
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 					volumeLevel, 0);
 			
-			tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
+			speakOut("Testing volume");
+//			tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
 

@@ -70,16 +70,21 @@ import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * @author david
+ * 
+ * @author edlectrico (adaptation for Android)
  */
 public class OntologyManager {
 
     private transient OWLOntology ontology = null;
     private transient OWLReasoner reasoner = null;
-    private final transient OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+    private transient OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
     public OntologyManager() { }
 
@@ -1032,6 +1037,5 @@ public class OntologyManager {
                 ", manager=" + manager +
                 '}';
     }
-
 
 }
