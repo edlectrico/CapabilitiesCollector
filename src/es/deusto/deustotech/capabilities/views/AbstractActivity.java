@@ -98,7 +98,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		if (tts == null){
 			tts = new TextToSpeech(this, this);
 		}
-      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
   }
 	
 	public void redrawViews(){ }

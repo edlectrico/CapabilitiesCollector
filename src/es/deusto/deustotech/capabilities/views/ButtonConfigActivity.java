@@ -30,8 +30,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
 	private Button testButton;
+	private Button backgroundColorButton;
+	private Button backColorButton;
+	private Button textColorButton;
 	private GridLayout grid;
-
+	
 	private int maxWidth;
 	private int maxHeight;
 	private int buttonBackgroundColor;
@@ -55,6 +58,13 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 		testButton = (Button) findViewById(R.id.test_button);
 		buttonTextColor = testButton.getTextColors().getDefaultColor();
+		backgroundColorButton = (Button) findViewById(R.id.background_color_button);
+		textColorButton = (Button) findViewById(R.id.text_color_button);
+		backColorButton = (Button) findViewById(R.id.back_color_button);
+		
+		backgroundColorButton.setVisibility(View.INVISIBLE);
+		textColorButton.setVisibility(View.INVISIBLE);
+		backColorButton.setVisibility(View.INVISIBLE);
 
 		Bundle bundle = getIntent().getExtras();
 		
@@ -75,7 +85,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		onTouchListener = createOnTouchListener();
-
+		
 		initializeServices(TAG);
 		addListeners();
 	}
@@ -96,7 +106,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 		grid.getChildAt(1).setOnTouchListener(onTouchListener);
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
-		testButton.setOnTouchListener(onTouchListener);
 
 		findViewById(R.id.next_button).setOnClickListener(this);
 		findViewById(R.id.background_color_button).setOnClickListener(this);
@@ -186,6 +195,10 @@ public class ButtonConfigActivity extends AbstractActivity {
 			backgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(backgroundColor);
 			Log.d(ButtonConfigActivity.class.getSimpleName(), "BackgroundColor: " + backgroundColor);
+		} else if (view.getId() == R.id.test_button){
+			textColorButton.setVisibility(View.VISIBLE);
+			backgroundColorButton.setVisibility(View.VISIBLE);
+			backColorButton.setVisibility(View.VISIBLE);
 		}
 	}
 
