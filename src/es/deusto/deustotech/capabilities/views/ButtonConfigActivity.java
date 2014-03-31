@@ -27,6 +27,8 @@ import es.deusto.deustotech.capabilities.UserMinimumPreferences;
  */
 public class ButtonConfigActivity extends AbstractActivity {
 
+	private static final int VIEW_MAX_SIZE = 500;
+
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
 	private Button testButton;
@@ -138,8 +140,10 @@ public class ButtonConfigActivity extends AbstractActivity {
 				final int height = testButton.getHeight();
 				//TODO: And the Text size?
 				if ((view.getWidth() > maxWidth) && (view.getHeight() > maxHeight)){
-					testButton.setWidth(width + 10);
-					testButton.setHeight(height + 10);
+					if (testButton.getWidth() < VIEW_MAX_SIZE) {
+						testButton.setWidth(width + 10);
+						testButton.setHeight(height + 10);
+					}
 				}
 
 				redrawViews();
