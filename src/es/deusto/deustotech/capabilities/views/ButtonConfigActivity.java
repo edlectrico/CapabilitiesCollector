@@ -35,6 +35,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private OntologyManager ontManager;
 	private static List<String> buttons;
+	private static List<String> backgrounds;
 	
 	private Button testButton;
 	private Button backgroundColorButton;
@@ -150,7 +151,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 						testButton.setHeight(height + 10);
 					}
 				}
-
 				redrawViews();
 				return true;
 			}
@@ -182,11 +182,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 			//Store in the ontology
 			ontManager = super.getOntologyManager();
 			buttons = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Button");
-			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasWidth", String.valueOf(testButton.getWidth()));
-			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasHeight", String.valueOf(testButton.getHeight()));
-//			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasColor", value);
-//			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasTextColor", buttonTextColor);
-//			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasTextSize", value);
+			backgrounds = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Background");
+			
+			ontManager.addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasWidth", testButton.getWidth());
+			ontManager.addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasHeight", testButton.getHeight());
+			ontManager.addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasColor", buttonBackgroundColor);
+			ontManager.addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasTextColor", buttonTextColor);
+			ontManager.addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasTextSize", testButton.getTextSize());
+			ontManager.addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "userViewHasColor", buttonBackgroundColor);
 
 			startActivity(intent);
 		}				
