@@ -69,7 +69,6 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -80,7 +79,7 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  * 
  * @author edlectrico (adaptation for Android)
  */
-public class OntologyManager {
+public class OntologyManager implements Parcelable {
 
     private transient OWLOntology ontology = null;
     private transient OWLReasoner reasoner = null;
@@ -1038,4 +1037,35 @@ public class OntologyManager {
                 '}';
     }
 
+
+    protected OntologyManager(Parcel in) {
+        ontology = (OWLOntology) in.readValue(OWLOntology.class.getClassLoader());
+        reasoner = (OWLReasoner) in.readValue(OWLReasoner.class.getClassLoader());
+        manager = (OWLOntologyManager) in.readValue(OWLOntologyManager.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(ontology);
+        dest.writeValue(reasoner);
+        dest.writeValue(manager);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<OntologyManager> CREATOR = new Parcelable.Creator<OntologyManager>() {
+        @Override
+        public OntologyManager createFromParcel(Parcel in) {
+            return new OntologyManager(in);
+        }
+
+        @Override
+        public OntologyManager[] newArray(int size) {
+            return new OntologyManager[size];
+        }
+    };
 }

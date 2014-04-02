@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
+import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {
 
@@ -22,6 +23,10 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public TextToSpeech tts;
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
+	
+	private static OntologyManager ontManager 		= new OntologyManager();
+	private static final String ADAPT_UI 			= "http://www.morelab.deusto.es/ontologies/adaptui#";
+	private static final String ONTOLOGY_FILENAME	= "adaptui.owl";
 	
 	public void initializeServices(final String TAG){
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -44,6 +49,18 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 				listenToSpeech();
 			}
 		});
+	}
+	
+	public static OntologyManager getOntologyManager() {
+		return ontManager;
+	}
+	
+	public static String getOntologyNamespace() {
+		return ADAPT_UI;
+	}
+	
+	public static String getOntologyFilename() {
+		return ONTOLOGY_FILENAME;
 	}
 	
 	public void addListeners(){ }
@@ -102,5 +119,6 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
   }
 	
 	public void redrawViews(){ }
+	
 
 }

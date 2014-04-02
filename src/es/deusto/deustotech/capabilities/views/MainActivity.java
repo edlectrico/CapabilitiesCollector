@@ -31,17 +31,17 @@ public class MainActivity extends AbstractActivity {
 	private boolean longPush 			= false;
 	private boolean voiceRecognition 	= false;
 	private Intent interactionIntent;
-
-	private final static String ONTOLOGY 		= "adaptui_rdf_rules.owl";
-	private static final String ADAPT_UI 		= "http://www.morelab.deusto.es/ontologies/adaptui#";
-	private static OntologyManager ontManager 	= new OntologyManager();
-
+	
+	private OntologyManager ontManager;
+	private static String ontFilename;
+	private static String adaptui;
+	
 	private static List<String> displays;
 	private static List<String> users;
 	private static List<String> audios;
 
 	private ProgressDialog dialog;
-
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.input_activity);
@@ -49,7 +49,11 @@ public class MainActivity extends AbstractActivity {
 		dialog = ProgressDialog.show(MainActivity.this, "", 
 				"Loading. Please wait...", true);        
 		dialog.show();
-
+		
+		ontManager = super.getOntologyManager();
+		adaptui = super.getOntologyNamespace();
+		ontFilename = super.getOntologyFilename();
+		
 		new OntologyImports().execute("pepe");
 
 		initializeServices(TAG);
@@ -64,7 +68,7 @@ public class MainActivity extends AbstractActivity {
 		protected String doInBackground(String... urls) {
 			try {
 				try {
-					ontManager.loadOntologyFromFile(getAssets().open(ONTOLOGY));
+					ontManager.loadOntologyFromFile(getAssets().open(ontFilename));
 					insertDefaultUser();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -77,10 +81,10 @@ public class MainActivity extends AbstractActivity {
 		}
 
 		protected void onPostExecute(String string) {
-			System.out.println("userDisplayApplicableIsStatic: " + ontManager.getPropertyValue(displays.get(0), ADAPT_UI + "userDisplayApplicableIsStatic"));
-			System.out.println("userDisplayHasApplicable: " 	+ ontManager.getPropertyValue(displays.get(0), ADAPT_UI + "userDisplayHasApplicable"));
-			System.out.println("userAudioHasApplicable: " 		+ ontManager.getPropertyValue(audios.get(0), ADAPT_UI + "userAudioHasApplicable"));
-			System.out.println("userDisplayHasBrightness: " 	+ ontManager.getPropertyValue(displays.get(0), ADAPT_UI + "userDisplayHasBrightness"));
+			System.out.println("userDisplayApplicableIsStatic: " + ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayApplicableIsStatic"));
+			System.out.println("userDisplayHasApplicable: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasApplicable"));
+			System.out.println("userAudioHasApplicable: " 		+ ontManager.getPropertyValue(audios.get(0), adaptui + "userAudioHasApplicable"));
+			System.out.println("userDisplayHasBrightness: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasBrightness"));
 
 			dialog.dismiss();
 		}
@@ -90,16 +94,16 @@ public class MainActivity extends AbstractActivity {
 		System.out.println("\n Input users");
 		System.out.println("-----------");
 
-		ontManager.addIndividualMembership(ADAPT_UI + "defaultUser", ADAPT_UI + "User");
-		ontManager.addIndividualMembership(ADAPT_UI + "display", 	 ADAPT_UI + "Display");
-		ontManager.addIndividualMembership(ADAPT_UI + "audio", 		 ADAPT_UI + "Audio");
+		ontManager.addIndividualMembership(adaptui + "defaultUser", adaptui + "User");
+		ontManager.addIndividualMembership(adaptui + "display", 	 adaptui + "Display");
+		ontManager.addIndividualMembership(adaptui + "audio", 		 adaptui + "Audio");
 
-		users 	 = ontManager.getIndividualOfClass(ADAPT_UI + "User");
-		displays = ontManager.getIndividualOfClass(ADAPT_UI + "Display");
-		audios 	 = ontManager.getIndividualOfClass(ADAPT_UI + "Audio");
+		users 	 = ontManager.getIndividualOfClass(adaptui + "User");
+		displays = ontManager.getIndividualOfClass(adaptui + "Display");
+		audios 	 = ontManager.getIndividualOfClass(adaptui + "Audio");
 
-		ontManager.addObjectPropertyValue(users.get(0), ADAPT_UI + "userIsDefinedBy", 	displays.get(0));
-		ontManager.addObjectPropertyValue(users.get(0), ADAPT_UI + "userIsDefinedBy", 	audios.get(0));
+		ontManager.addObjectPropertyValue(users.get(0), adaptui + "userIsDefinedBy", 	displays.get(0));
+		ontManager.addObjectPropertyValue(users.get(0), adaptui + "userIsDefinedBy", 	audios.get(0));
 
 		for (String user : users) {
 			System.out.println("users: " + user);
@@ -113,7 +117,7 @@ public class MainActivity extends AbstractActivity {
 			System.out.println("audios: " + audio);
 		}
 
-		System.out.println("userIsDefinedBy: " 	+ ontManager.getPropertyValue(users.get(0), ADAPT_UI + "userIsDefinedBy"));
+		System.out.println("userIsDefinedBy: " 	+ ontManager.getPropertyValue(users.get(0), adaptui + "userIsDefinedBy"));
 
 		//TODO: Aún no lo sabemos... Si el usuario responde YES (o mantiene pulsado) puede que sea ciego 
 //		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayApplicableIsStatic", false);
@@ -171,7 +175,7 @@ public class MainActivity extends AbstractActivity {
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
 			} else if (suggestedWords.contains("no")){
 				//TODO: Communication by visual interaction, but probably with a visual difficulty
-				ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasApplicabe", true);
+				ontManager.addDataTypePropertyValue(displays.get(0), 	adaptui + "userDisplayHasApplicabe", true);
 				
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 				interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
@@ -189,7 +193,7 @@ public class MainActivity extends AbstractActivity {
 //			onLongClickView();
 //		}
 
-		ontManager.addDataTypePropertyValue(audios.get(0), 	ADAPT_UI + "userAudioHasApplicabe", true);
+		ontManager.addDataTypePropertyValue(audios.get(0), 	adaptui + "userAudioHasApplicabe", true);
 		longPush = false;
 
 		Intent intent = new Intent(this, VolumeConfigActivity.class);

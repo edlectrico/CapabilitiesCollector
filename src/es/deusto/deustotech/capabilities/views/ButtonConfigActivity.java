@@ -1,5 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.List;
 import java.util.Random;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
+import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
 /**
  * This activity configures the minimum visual interaction values
@@ -31,6 +33,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
+	private OntologyManager ontManager;
+	private static List<String> buttons;
+	
 	private Button testButton;
 	private Button backgroundColorButton;
 	private Button backColorButton;
@@ -173,6 +178,15 @@ public class ButtonConfigActivity extends AbstractActivity {
 			userPrefs.setBackgroundColor(backgroundColor);
 
 			intent.putExtra("viewParams", userPrefs);
+			
+			//Store in the ontology
+			ontManager = super.getOntologyManager();
+			buttons = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Button");
+			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasWidth", String.valueOf(testButton.getWidth()));
+			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasHeight", String.valueOf(testButton.getHeight()));
+//			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasColor", value);
+//			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasTextColor", buttonTextColor);
+//			ontManager.addObjectPropertyValue(buttons.get(0), super.getOntologyNamespace() + "userViewHasTextSize", value);
 
 			startActivity(intent);
 		}				
