@@ -1,5 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.List;
 import java.util.Random;
 
 import android.content.Intent;
@@ -11,14 +12,21 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
 public class EditTextConfigActivity extends AbstractActivity {
 
 	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
+	
+	private OntologyManager ontManager;
+	private static List<String> edits;
 
 	private Button testTextEdit;
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
+	
+	private int backgroundColor = 0;
+	private int textColor = 0;
 
 	private boolean editTextTextColorChanged = false;
 
@@ -27,6 +35,8 @@ public class EditTextConfigActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_text_config);
 
+		ontManager = super.getOntologyManager();
+		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
@@ -102,16 +112,22 @@ public class EditTextConfigActivity extends AbstractActivity {
 		if (view.getId() == R.id.next_button){
 			Intent intent = new Intent(this, BrightnessConfigActivity.class);
 
-			if (editTextTextColorChanged){
-				editTextTextColorChanged = false;
-			} else {
-				userPrefs.setTextEditTextColor(0);
-			}
+//			if (editTextTextColorChanged){
+//				editTextTextColorChanged = false;
+//			} else {
+//				userPrefs.setTextEditTextColor(0);
+//			}
 			//				userPrefs.setTextEditTextColor(testTextEdit.getTextColors().getDefaultColor());
 			userPrefs.setTextEditSize(testTextEdit.getTextSize());
 
 			intent.putExtra("viewParams", userPrefs);
-
+			
+			edits = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasHeight", testTextEdit.getHeight());
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasTextSize", testTextEdit.getTextSize());
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasColor", backgroundColor);
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasTextColor", (int) textColor);
+			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
 			}
@@ -120,7 +136,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		} else if (view.getId() == R.id.background_color_button){
 			editTextTextColorChanged = true;
 			Random randomBackColor = new Random(); 
-			int backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
+			backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 			//				testTextEdit.setBackgroundColor(backgroundColor);
 			((Button)findViewById(R.id.test_text_edit)).setBackgroundColor(backgroundColor);
 			userPrefs.setTextEditBackgroundColor(backgroundColor);
@@ -128,7 +144,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		} else if (view.getId() == R.id.text_color_button){
 			editTextTextColorChanged = true;
 			Random randomTextColor = new Random(); 
-			int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
+			textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
 			//				testTextEdit.setTextColor(textColor);
 			((Button)findViewById(R.id.test_text_edit)).setTextColor(textColor);
 			userPrefs.setTextEditTextColor(textColor);

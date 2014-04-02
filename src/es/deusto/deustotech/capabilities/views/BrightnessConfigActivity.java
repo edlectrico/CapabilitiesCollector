@@ -42,6 +42,8 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brightness_config);
 		
+		ontManager = super.getOntologyManager();
+		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
@@ -142,10 +144,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra("viewParams", userPrefs);
 			intent.putExtra("caller", 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
-			ontManager = super.getOntologyManager();
 			displays = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Display");
-			
-//			ontManager.getDataTypePropertyValue(displays.get(0), "userDisplayHasBrightness");
 			ontManager.addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasBrightness", (int) brightnessValue);
 			
 			if (userPrefs.getSightProblem() == 1){
