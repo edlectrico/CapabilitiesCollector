@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
-import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
@@ -62,7 +61,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.button_config_activity);
+		setContentView(R.layout.button_config);
 		
 		ontManager = super.getOntologyManager();
 

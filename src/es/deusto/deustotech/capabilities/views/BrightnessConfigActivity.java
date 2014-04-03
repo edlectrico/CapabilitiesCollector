@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
-import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
 /**

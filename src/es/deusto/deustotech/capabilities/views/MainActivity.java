@@ -14,7 +14,6 @@ import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
-import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.utils.OntologyLoadException;
 import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
@@ -130,11 +129,9 @@ public class MainActivity extends AbstractActivity {
 		//OnLongClick -> audio-based interaction
 		GridLayout grid = (GridLayout) findViewById(R.id.grid_layout);
 		grid.setOnLongClickListener(this);
-		//		grid.setOnTouchListener(this);
 
 		findViewById(R.id.input_button).setOnLongClickListener(this);
 		findViewById(R.id.input_button).setOnClickListener(this);
-		//		findViewById(R.id.input_button).setOnTouchListener(this);
 	}
 
 	private Intent getDefaultIntent() {

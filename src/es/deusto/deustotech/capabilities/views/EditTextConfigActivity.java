@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
-import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.utils.OntologyManager;
 
 public class EditTextConfigActivity extends AbstractActivity {
