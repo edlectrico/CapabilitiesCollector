@@ -19,6 +19,9 @@ package es.deusto.deustotech.capabilities.utils;
  *      under the License.
  *******************************************************************************/
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,6 +60,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
@@ -71,6 +75,7 @@ import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
@@ -131,6 +136,23 @@ public class OntologyManager implements Parcelable {
 
         try {
             ontology = getManager().loadOntologyFromOntologyDocument(filePath);
+        } catch (OWLOntologyCreationException e) {
+            throw new OntologyLoadException(e.getMessage());
+        }
+
+        createReasonerAndEngine();
+    }
+    
+    /**
+     * Load an ontology from a file
+     *
+     * @param file File
+     * 
+     */
+    public void loadOntologyFromFile(final File file) throws OntologyLoadException {
+
+        try {
+            ontology = getManager().loadOntologyFromOntologyDocument(file);
         } catch (OWLOntologyCreationException e) {
             throw new OntologyLoadException(e.getMessage());
         }
@@ -1068,4 +1090,16 @@ public class OntologyManager implements Parcelable {
             return new OntologyManager[size];
         }
     };
+    
+    public void saveOntologyAs(final String file) throws OntologySavingException {
+        try {
+            manager.saveOntology(getOntology(), new FileOutputStream(file));
+        } catch (OWLOntologyStorageException e) {
+            Log.e("Error saving ontology in " + file, e.getMessage());
+            throw new OntologySavingException(e.getMessage(), e.getCause());
+        } catch (FileNotFoundException e) {
+        	Log.e("Error saving ontology in " + file, e.getMessage());
+            throw new OntologySavingException(e.getMessage(), e.getCause());
+        }
+    }
 }

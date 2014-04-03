@@ -1,5 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -66,12 +68,8 @@ public class MainActivity extends AbstractActivity {
 
 		protected String doInBackground(String... urls) {
 			try {
-				try {
-					ontManager.loadOntologyFromFile(getAssets().open(ontFilename));
-					insertDefaultUser();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				ontManager.loadOntologyFromFile(new File(Environment.getExternalStorageDirectory() + "/data/" + ontFilename));
+				insertDefaultUser();
 			} catch (OntologyLoadException e) {
 				e.printStackTrace();
 			}
@@ -80,10 +78,10 @@ public class MainActivity extends AbstractActivity {
 		}
 
 		protected void onPostExecute(String string) {
-			System.out.println("userDisplayApplicableIsStatic: " + ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayApplicableIsStatic"));
-			System.out.println("userDisplayHasApplicable: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasApplicable"));
-			System.out.println("userAudioHasApplicable: " 		+ ontManager.getPropertyValue(audios.get(0), adaptui + "userAudioHasApplicable"));
-			System.out.println("userDisplayHasBrightness: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasBrightness"));
+//			System.out.println("userDisplayApplicableIsStatic: " + ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayApplicableIsStatic"));
+//			System.out.println("userDisplayHasApplicable: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasApplicable"));
+//			System.out.println("userAudioHasApplicable: " 		+ ontManager.getPropertyValue(audios.get(0), adaptui + "userAudioHasApplicable"));
+//			System.out.println("userDisplayHasBrightness: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasBrightness"));
 
 			dialog.dismiss();
 		}
@@ -93,9 +91,11 @@ public class MainActivity extends AbstractActivity {
 		System.out.println("\n Input users");
 		System.out.println("-----------");
 
-		ontManager.addIndividualMembership(adaptui + "defaultUser", adaptui + "User");
-		ontManager.addIndividualMembership(adaptui + "display", 	 adaptui + "Display");
-		ontManager.addIndividualMembership(adaptui + "audio", 		 adaptui + "Audio");
+//		ontManager.addIndividualMembership(adaptui + "defaultUser", adaptui + "User");
+//		ontManager.addIndividualMembership(adaptui + "display", 	 adaptui + "Display");
+//		ontManager.addIndividualMembership(adaptui + "audio", 		 adaptui + "Audio");
+		
+		ontManager.getDataTypePropertyValue(adaptui + "audio", "userAudioHasVolume");
 
 		users 	 = ontManager.getIndividualOfClass(adaptui + "User");
 		displays = ontManager.getIndividualOfClass(adaptui + "Display");

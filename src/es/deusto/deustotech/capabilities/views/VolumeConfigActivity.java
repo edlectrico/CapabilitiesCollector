@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 import es.deusto.deustotech.capabilities.utils.OntologyManager;
+import es.deusto.deustotech.capabilities.utils.OntologySavingException;
 
 /**
  * This activity allows the user to configure the minimum volume
@@ -55,7 +57,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 		if (callerActivity == 1){ //BrightnessActivity
 			userPrefs = bundle.getParcelable("viewParams");
 		}
-		
 		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		grid.setOnClickListener(this);
@@ -126,6 +127,12 @@ public class VolumeConfigActivity extends AbstractActivity {
 			
 			audios = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Audio");
 			ontManager.addDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "userAudioHasVolume", volumeLevel);
+			
+			try {
+				ontManager.saveOntologyAs(Environment.getExternalStorageDirectory() + "/data/" + super.getOntologyFilename());
+			} catch (OntologySavingException e) {
+				e.printStackTrace();
+			}
 			
 			SharedPreferences  preferences = getPreferences(MODE_PRIVATE);
 			Editor prefsEditor = preferences.edit();
