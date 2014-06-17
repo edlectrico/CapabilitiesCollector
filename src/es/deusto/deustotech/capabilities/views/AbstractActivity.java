@@ -2,6 +2,7 @@ package es.deusto.deustotech.capabilities.views;
 
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +12,12 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
+import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
-import es.deusto.deustotech.capabilities.utils.OntologyManager;
+import es.deusto.deustotech.pellet4android.MainActivity;
+import es.deusto.deustotech.pellet4android.OntologyManager;
 
+@SuppressLint("NewApi")
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {
 
 	//variable for checking Voice Recognition support on user device
@@ -23,9 +27,9 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
 	
-	private static OntologyManager ontManager 		= new OntologyManager();
-	private static final String ADAPT_UI 			= "http://www.morelab.deusto.es/ontologies/adaptui#";
-	private static final String ONTOLOGY_FILENAME	= "adaptui.owl";
+//	private static OntologyManager ontManager 		= new OntologyManager();
+	private static final String ADAPTUI_NAMESPACE	= "http://www.morelab.deusto.es/ontologies/adaptui#";
+	private static final String ADAPTUI				= "adaptui.owl";
 	
 	public void initializeServices(final String TAG){
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -51,15 +55,15 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	}
 	
 	public static OntologyManager getOntologyManager() {
-		return ontManager;
+		return MainActivity.getOntologyManager();
 	}
 	
 	public static String getOntologyNamespace() {
-		return ADAPT_UI;
+		return ADAPTUI_NAMESPACE;
 	}
 	
 	public static String getOntologyFilename() {
-		return ONTOLOGY_FILENAME;
+		return ADAPTUI;
 	}
 	
 	public void addListeners(){ }
@@ -80,6 +84,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
         } else {
             Log.e("TTS", "Initilization Failed!");
         }
+		
 	}
 	
 	public void listenToSpeech() {
@@ -119,5 +124,4 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	
 	public void redrawViews(){ }
 	
-
 }

@@ -3,6 +3,7 @@ package es.deusto.deustotech.capabilities.views;
 import java.util.List;
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
-import es.deusto.deustotech.capabilities.utils.OntologyManager;
+import es.deusto.deustotech.R;
+import es.deusto.deustotech.pellet4android.OntologyManager;
 
+@SuppressLint("NewApi")
 public class EditTextConfigActivity extends AbstractActivity {
 
 	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
@@ -57,6 +60,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		}
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void addListeners() {
 		grid.getChildAt(1).setOnTouchListener(onTouchListener);

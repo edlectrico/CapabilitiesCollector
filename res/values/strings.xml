@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="action_settings">Settings</string>
-    <string name="app_name">DynamicCapacityTester</string>
-
-    <!-- Interaction Intent -->
+    <string name="app_name">Pellet4Android</string>
+    
+	<!-- Interaction Intent -->
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
     <string name="button_background_color">Button Back Color</string>
-    <!-- <string name="button_width">Button Width</string>
-    <string name="button_height">Button Height</string>-->
     <string name="edit_text_text_color">Edit Text Text Color</string>
     <string name="edit_text_background_color">Edit Text Back Color</string>
     <string name="edit_text_size">Edit Text Size</string> 
     <string name="button_text_color">Button Text Color</string>
     <string name="button_back_color">Background Color</string>
-
     <!-- InputActivity -->
     <string name="basic_input_message">If you prefer an audio based interaction, please say YES or
         hold your finger over the screen. Otherwise, please say NO or push the button.</string>

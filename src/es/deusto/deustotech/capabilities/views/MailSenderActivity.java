@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserInteraction;
 
 /**

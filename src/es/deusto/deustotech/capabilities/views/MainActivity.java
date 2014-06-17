@@ -1,23 +1,20 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
-import es.deusto.deustotech.capabilities.utils.OntologyLoadException;
-import es.deusto.deustotech.capabilities.utils.OntologyManager;
+import es.deusto.deustotech.R;
+import es.deusto.deustotech.pellet4android.OntologyManager;
 
 /**
  * This activity checks user basic input capabilities
@@ -34,28 +31,16 @@ public class MainActivity extends AbstractActivity {
 	private Intent interactionIntent;
 	
 	private OntologyManager ontManager;
-	private static String ontFilename;
 	private static String adaptui;
 	
 	private static List<String> displays;
 	private static List<String> users;
 	private static List<String> audios;
 
-	private ProgressDialog dialog;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.input_activity);
-
-		dialog = ProgressDialog.show(MainActivity.this, "", 
-				"Loading. Please wait...", true);        
-		dialog.show();
-		
-		ontManager = super.getOntologyManager();
-		adaptui = super.getOntologyNamespace();
-		ontFilename = super.getOntologyFilename();
-		
-		new OntologyImports().execute("pepe");
 
 		initializeServices(TAG);
 		addListeners();
@@ -64,66 +49,7 @@ public class MainActivity extends AbstractActivity {
 		voiceRecognition = checkVoiceRecognition();
 	}
 
-	class OntologyImports extends AsyncTask<String, Void, String> {
-
-		protected String doInBackground(String... urls) {
-			try {
-				ontManager.loadOntologyFromFile(new File(Environment.getExternalStorageDirectory() + "/data/" + ontFilename));
-				insertDefaultUser();
-			} catch (OntologyLoadException e) {
-				e.printStackTrace();
-			}
-
-			return null;
-		}
-
-		protected void onPostExecute(String string) {
-//			System.out.println("userDisplayApplicableIsStatic: " + ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayApplicableIsStatic"));
-//			System.out.println("userDisplayHasApplicable: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasApplicable"));
-//			System.out.println("userAudioHasApplicable: " 		+ ontManager.getPropertyValue(audios.get(0), adaptui + "userAudioHasApplicable"));
-//			System.out.println("userDisplayHasBrightness: " 	+ ontManager.getPropertyValue(displays.get(0), adaptui + "userDisplayHasBrightness"));
-
-			dialog.dismiss();
-		}
-	}
-
-	private void insertDefaultUser(){
-		System.out.println("\n Input users");
-		System.out.println("-----------");
-
-//		ontManager.addIndividualMembership(adaptui + "defaultUser", adaptui + "User");
-//		ontManager.addIndividualMembership(adaptui + "display", 	 adaptui + "Display");
-//		ontManager.addIndividualMembership(adaptui + "audio", 		 adaptui + "Audio");
-		
-		ontManager.getDataTypePropertyValue(adaptui + "audio", "userAudioHasVolume");
-
-		users 	 = ontManager.getIndividualOfClass(adaptui + "User");
-		displays = ontManager.getIndividualOfClass(adaptui + "Display");
-		audios 	 = ontManager.getIndividualOfClass(adaptui + "Audio");
-
-		ontManager.addObjectPropertyValue(users.get(0), adaptui + "userIsDefinedBy", 	displays.get(0));
-		ontManager.addObjectPropertyValue(users.get(0), adaptui + "userIsDefinedBy", 	audios.get(0));
-
-		for (String user : users) {
-			System.out.println("users: " + user);
-		}
-
-		for (String display : displays) {
-			System.out.println("displays: " + display);
-		}
-
-		for (String audio : audios) {
-			System.out.println("audios: " + audio);
-		}
-
-		System.out.println("userIsDefinedBy: " 	+ ontManager.getPropertyValue(users.get(0), adaptui + "userIsDefinedBy"));
-
-		//TODO: Aún no lo sabemos... Si el usuario responde YES (o mantiene pulsado) puede que sea ciego 
-//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayApplicableIsStatic", false);
-//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasApplicable", 		true);
-//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasBrightness", 		50);
-	}
-
+	@SuppressLint("NewApi")
 	@Override
 	public void addListeners() {
 		//OnLongClick -> audio-based interaction

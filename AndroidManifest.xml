@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="es.deusto.deustotech.capabilities.views"
+    package="es.deusto.deustotech"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="17" />
-
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
     
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:largeHeap="true">
         <activity
-            android:name=".MainActivity"
+            android:name="es.deusto.deustotech.pellet4android.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +28,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ButtonConfigActivity" >
+        
+        <activity android:name=".capabilities.views.MainActivity" >
         </activity>
-        <activity android:name=".EditTextConfigActivity" >
+        <activity android:name=".capabilities.views.ButtonConfigActivity" >
         </activity>
-        <activity android:name=".BrightnessConfigActivity" >
+        <activity android:name=".capabilities.views.EditTextConfigActivity" >
         </activity>
-        <activity android:name=".VolumeConfigActivity" >
+        <activity android:name=".capabilities.views.BrightnessConfigActivity" >
         </activity>
-        <activity android:name=".MailSenderActivity" >
+        <activity android:name=".capabilities.views.VolumeConfigActivity" >
+        </activity>
+        <activity android:name=".capabilities.views.MailSenderActivity" >
         </activity>
     </application>
 

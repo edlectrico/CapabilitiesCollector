@@ -13,7 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
-import es.deusto.deustotech.capabilities.utils.OntologyManager;
+import es.deusto.deustotech.R;
+import es.deusto.deustotech.pellet4android.OntologyManager;
 
 /**
  * This activity shows a Button and a TextEdit as configured in previous activities

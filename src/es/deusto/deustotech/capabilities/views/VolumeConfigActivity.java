@@ -3,6 +3,7 @@ package es.deusto.deustotech.capabilities.views;
 import java.util.List;
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,9 +19,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
-import es.deusto.deustotech.capabilities.utils.OntologyManager;
-import es.deusto.deustotech.capabilities.utils.OntologySavingException;
+import es.deusto.deustotech.pellet4android.OntologyManager;
+import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
 
 /**
  * This activity allows the user to configure the minimum volume
@@ -43,6 +45,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 	private int volumeLevel = 0;
 	int callerActivity = -1;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +88,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public void addListeners() {
 		findViewById(R.id.end_button).setOnClickListener(this);
@@ -94,6 +98,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 		grid.getChildAt(1).setOnClickListener(this);
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	public void redrawViews() {
 		if (callerActivity == 1){ //BrightnessActivity
