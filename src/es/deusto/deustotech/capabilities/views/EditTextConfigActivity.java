@@ -126,10 +126,10 @@ public class EditTextConfigActivity extends AbstractActivity {
 			intent.putExtra("viewParams", userPrefs);
 			
 			edits = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "EditText");
-			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasHeight", testTextEdit.getHeight());
-			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasTextSize", testTextEdit.getTextSize());
-			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasColor", backgroundColor);
-			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "userViewHasTextColor", (int) textColor);
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight", testTextEdit.getHeight());
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize", testTextEdit.getTextSize());
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", backgroundColor);
+			ontManager.addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");

@@ -131,7 +131,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			userPrefs.setVolume(volumeLevel);
 			
 			audios = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-			ontManager.addDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "userAudioHasVolume", volumeLevel);
+			ontManager.addDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume", volumeLevel);
 			
 			try {
 				ontManager.saveOntologyAs(Environment.getExternalStorageDirectory() + "/data/" + super.getOntologyFilename());

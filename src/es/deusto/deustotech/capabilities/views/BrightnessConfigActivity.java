@@ -3,6 +3,7 @@ package es.deusto.deustotech.capabilities.views;
 import java.util.List;
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ import es.deusto.deustotech.pellet4android.OntologyManager;
  * @author edlectrico
  *
  */
+@SuppressLint("NewApi")
 public class BrightnessConfigActivity extends AbstractActivity {
 
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
@@ -145,7 +147,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra("caller", 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
 			displays = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Display");
-			ontManager.addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasBrightness", (int) brightnessValue);
+			ontManager.addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", (int) brightnessValue);
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
