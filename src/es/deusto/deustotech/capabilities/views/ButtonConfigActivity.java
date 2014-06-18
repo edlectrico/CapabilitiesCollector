@@ -195,9 +195,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight", testButton.getHeight());
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
 			
-			if (buttonTextColor > 0){
-				super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", buttonTextColor);
-			}
+//			if (buttonTextColor > 0){
+			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", buttonTextColor);
+//			}
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize", testButton.getTextSize());
 			super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
 
@@ -239,14 +239,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 		final List<String> buttons = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
 		
 		final Collection<OWLLiteral> width 		= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		final Collection<OWLLiteral> heigth 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeigth");
+		final Collection<OWLLiteral> height 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight");
 		final Collection<OWLLiteral> backColor 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
 		final Collection<OWLLiteral> textColor 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
 		final Collection<OWLLiteral> textSize 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 		
 		System.out.println("checkOntology(): " 	+ TAG);
 		System.out.println("width: " 		+ width);
-		System.out.println("heigth: " 		+ heigth);
+		System.out.println("heigth: " 		+ height);
 		System.out.println("backColor: " 	+ backColor);
 		System.out.println("textColor: " 	+ textColor);
 		System.out.println("textSize: " 	+ textSize);

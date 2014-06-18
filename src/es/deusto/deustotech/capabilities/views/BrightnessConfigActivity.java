@@ -149,7 +149,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra("caller", 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
 			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-			super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", (int) brightnessValue);
+			super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
