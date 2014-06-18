@@ -3,12 +3,9 @@ package es.deusto.deustotech.pellet4android;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -29,9 +26,7 @@ public class MainActivity extends Activity {
 	
 	private ProgressDialog dialog;
 	
-	private static List<String> displays;
-	private static List<String> users;
-	private static List<String> audios;
+	private static List<String> displays, users, audios, buttons;
 	
 	private Intent intent;
 	
@@ -96,9 +91,9 @@ public class MainActivity extends Activity {
 					
 					ontManager.loadOntologyFromFile(getAssets().open(ADAPTUI));
 					
-					final List<String> classes = (List<String>) ontManager.getClassList();
-					int instances = 0;
-					Set<OWLNamedIndividual> nodeSet = new HashSet<OWLNamedIndividual>();
+//					final List<String> classes = (List<String>) ontManager.getClassList();
+//					int instances = 0;
+//					Set<OWLNamedIndividual> nodeSet = new HashSet<OWLNamedIndividual>();
 					
 //					double end = System.nanoTime();
 //					double elapsed = end - start;
@@ -154,64 +149,58 @@ public class MainActivity extends Activity {
 //			 System.out.println(individual);
 //		 }
 		 
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "user", 	ONTOLOGY_NAMESPACE + "User");
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "display", 	 	ONTOLOGY_NAMESPACE + "Display");
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "audio", 		ONTOLOGY_NAMESPACE + "Audio");
+		System.out.println("Inserting individuals");
 		
-		ontManager.getDataTypePropertyValue(ONTOLOGY_NAMESPACE + "audio", "userAudioHasVolume");
+		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "user", 	ONTOLOGY_NAMESPACE + "User");
+		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "display", 	ONTOLOGY_NAMESPACE + "Display");
+		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "audio", 	ONTOLOGY_NAMESPACE + "Audio");
+		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "button", 	ONTOLOGY_NAMESPACE + "Button");
 		
 		users 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "User");
 		displays = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Display");
 		audios 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Audio");
+		buttons	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Button");
 		
 		ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	displays.get(0));
 		ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	audios.get(0));
 		
-		for (String user : users) {
-			System.out.println("users: " + user);
-		}
-		
-		for (String display : displays) {
-			System.out.println("displays: " + display);
-		}
-		
-		for (String audio : audios) {
-			System.out.println("audios: " + audio);
-		}
-		
-		System.out.println("userIsDefinedBy: " 	+ ontManager.getPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy"));
-
 		//TODO: Aún no lo sabemos... Si el usuario responde YES (o mantiene pulsado) puede que sea ciego 
 //			ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayApplicableIsStatic", false);
 //			ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasApplicable", 		true);
 //			ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasBrightness", 		50);
 		 
-		 
-//		 static List<String> classBIndividuals;
-//		 classBIndividuals =
-//		 ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "ClassBName");
-
-		// Adding ObjectProperties
-//		 ontManager.addObjectPropertyValue(classAIndividuals.get(0),
-//		 ONTOLOGY_NAMESPACE + "ObjectPropertyName", classBIndividuals.get(0));
-
-		// Showing class members
-//		 for (String classAIndividual : classAIndividuals) {
-//		 System.out.println("classAIndividuals: " + classAIndividual);
-//		 }
-
-		// Adding DataTypeProperties
-//		 ontManager.addDataTypePropertyValue(classAIndividuals.get(0),
-//		 ONTOLOGY_NAMESPACE + "DataTypeProperyName", value);
+		checkInsertions();
 
 	}
 	
-	private void insertDefaultUser(){
-		System.out.println("\n Input users");
-		System.out.println("-----------");
-
+	private static void checkInsertions() {
+		List<String> userInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "User");
+		List<String> displayInd = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Display");
+		List<String> audioInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Audio");
+		List<String> buttonInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "ViewButton");
 		
+		for (String user : userInd) {
+			System.out.println(user);
+		}
+		
+		for (String display : displayInd) {
+			System.out.println(display);
+		}
+		
+		for (String audio : audioInd) {
+			System.out.println(audio);
+		}
+		
+		for (String button : buttonInd) {
+			System.out.println(button);
+		}
+		
+		Collection<OWLLiteral> volumes = ontManager.getDataTypePropertyValue(ONTOLOGY_NAMESPACE + "audio", "userAudioHasVolume");
+		System.out.println("volumes.size() = " + volumes.size());
+		
+		System.out.println("userIsDefinedBy: " 	+ ontManager.getPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy"));
 	}
+
 
 	private static void checkProtegeRules() {
 		Log.d(TAG, "RULES:");

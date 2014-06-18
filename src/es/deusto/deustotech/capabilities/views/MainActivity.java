@@ -1,7 +1,10 @@
 package es.deusto.deustotech.capabilities.views;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.pellet4android.OntologyManager;
 
 /**
  * This activity checks user basic input capabilities
@@ -29,11 +31,10 @@ public class MainActivity extends AbstractActivity {
 	private boolean voiceRecognition 	= false;
 	private Intent interactionIntent;
 	
-	private OntologyManager ontManager;
-	private static String adaptui;
+//	private OntologyManager ontManager;
 	
 	private static List<String> displays;
-	private static List<String> users;
+//	private static List<String> users;
 	private static List<String> audios;
 
 	
@@ -45,7 +46,7 @@ public class MainActivity extends AbstractActivity {
 		addListeners();
 
 		interactionIntent = new Intent(this, ButtonConfigActivity.class);
-		voiceRecognition = checkVoiceRecognition();
+		setVoiceRecognition(checkVoiceRecognition());
 	}
 
 	@SuppressLint("NewApi")
@@ -78,13 +79,13 @@ public class MainActivity extends AbstractActivity {
 		return true;
 	}
 
-	private void onLongClickView() {
-		longPush = true;
-
-		if (voiceRecognition){
-			listenToSpeech();
-		}
-	}
+//	private void onLongClickView() {
+//		longPush = true;
+//
+//		if (voiceRecognition){
+//			listenToSpeech();
+//		}
+//	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -97,7 +98,7 @@ public class MainActivity extends AbstractActivity {
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
 			} else if (suggestedWords.contains("no")){
 				//TODO: Communication by visual interaction, but probably with a visual difficulty
-				ontManager.addDataTypePropertyValue(displays.get(0), 	adaptui + "userDisplayHasApplicabe", true);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), "displayHasApplicabe", true);
 				
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 				interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
@@ -115,7 +116,7 @@ public class MainActivity extends AbstractActivity {
 //			onLongClickView();
 //		}
 
-		ontManager.addDataTypePropertyValue(audios.get(0), 	adaptui + "userAudioHasApplicabe", true);
+		super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	super.getOntologyNamespace() + "audioHasApplicabe", true);
 		longPush = false;
 
 		Intent intent = new Intent(this, VolumeConfigActivity.class);
@@ -133,7 +134,7 @@ public class MainActivity extends AbstractActivity {
 				speakOut("Visual based interaction selected");
 				startActivity(getDefaultIntent());
 			} else if (longPush){
-//				ontManager.addDataTypePropertyValue(audios.get(0), 	ADAPT_UI + "userAudioHasApplicabe", true);
+//				MainActivity.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	ADAPT_UI + "userAudioHasApplicabe", true);
 				longPush = false;
 
 //				Intent intent = new Intent(this, VolumeConfigActivity.class);
@@ -142,5 +143,38 @@ public class MainActivity extends AbstractActivity {
 			}
 		}
 	}
+
+	public boolean isVoiceRecognition() {
+		return voiceRecognition;
+	}
+
+	public void setVoiceRecognition(boolean voiceRecognition) {
+		this.voiceRecognition = voiceRecognition;
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		//Avoiding the configuration, as it is stored in the ontology
+		
+		Intent intent = new Intent(this,  MailSenderActivity.class);
+		
+		List<String> audios 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+		List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+		List<String> users 		= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "User");
+		List<String> buttons	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ViewButton");
+		
+		
+		Collection<OWLLiteral> volume = super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
+		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
+		Collection<OWLLiteral> width = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
+		
+//		intent.putExtra("volume", volumes)
+		
+		startActivity(intent);
+	}
+	
+	
+	
 
 }

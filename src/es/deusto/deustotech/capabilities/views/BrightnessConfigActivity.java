@@ -1,7 +1,10 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,7 +18,6 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
-import es.deusto.deustotech.pellet4android.OntologyManager;
 
 /**
  * This activity shows a Button and a TextEdit as configured in previous activities
@@ -30,7 +32,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
 	
-	private OntologyManager ontManager;
+//	private OntologyManager ontManager;
 	private static List<String> displays;
 	
 	private GridLayout grid;
@@ -44,7 +46,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brightness_config);
 		
-		ontManager = super.getOntologyManager();
+//		ontManager = super.getOntologyManager();
 		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
@@ -146,16 +148,26 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra("viewParams", userPrefs);
 			intent.putExtra("caller", 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
-			displays = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Display");
-			ontManager.addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", (int) brightnessValue);
+			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+			super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", (int) brightnessValue);
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
 			}
 			
+			checkOntology();
 			startActivity(intent);
 			
 		}
+	}
+	
+	private void checkOntology() {
+		final List<String> displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+		
+		final Collection<OWLLiteral> brightness	= super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
+		
+		System.out.println("checkOntology(): " 	+ TAG);
+		System.out.println("brightness: " 		+ brightness);
 	}
 
 }

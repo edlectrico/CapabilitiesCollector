@@ -1,7 +1,10 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,7 +24,6 @@ import com.google.gson.Gson;
 
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
-import es.deusto.deustotech.pellet4android.OntologyManager;
 import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
 
 /**
@@ -37,12 +39,12 @@ public class VolumeConfigActivity extends AbstractActivity {
 
 	private static final String TAG = VolumeConfigActivity.class.getSimpleName();
 	
-	private OntologyManager ontManager;
+//	private OntologyManager ontManager;
 	private static List<String> audios;
 	
 	private GridLayout grid;
 	private AudioManager audioManager = null;
-	private int volumeLevel = 0;
+	private int volumeLevel = 10;
 	int callerActivity = -1;
 	
 	@SuppressLint("NewApi")
@@ -50,8 +52,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.volume_config);
-		
-		ontManager = super.getOntologyManager();
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -130,11 +130,11 @@ public class VolumeConfigActivity extends AbstractActivity {
 			
 			userPrefs.setVolume(volumeLevel);
 			
-			audios = ontManager.getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-			ontManager.addDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume", volumeLevel);
+			audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+			super.getOntologyManager().addDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume", volumeLevel);
 			
 			try {
-				ontManager.saveOntologyAs(Environment.getExternalStorageDirectory() + "/data/" + super.getOntologyFilename());
+				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/data/" + super.getOntologyFilename());
 			} catch (OntologySavingException e) {
 				e.printStackTrace();
 			}
@@ -146,6 +146,8 @@ public class VolumeConfigActivity extends AbstractActivity {
 			String json = gson.toJson(userPrefs);
 			prefsEditor.putString("viewParams", json);
 			prefsEditor.commit();
+			
+			checkOntology();
 			
 			if (callerActivity == 1){ //BrightnessActivity
 				Intent intent = new Intent(this, MailSenderActivity.class);
@@ -171,6 +173,15 @@ public class VolumeConfigActivity extends AbstractActivity {
 			speakOut("Testing volume");
 //			tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
 		}
+	}
+	
+	private void checkOntology() {
+		final List<String> audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+		
+		final Collection<OWLLiteral> volumes	= super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
+		
+		System.out.println("checkOntology(): " 	+ TAG);
+		System.out.println("volume: " 		+ volumes);
 	}
 
 }
