@@ -65,11 +65,12 @@ public class MailSenderActivity extends AbstractActivity implements
 		layout = (LinearLayout) findViewById(R.id.linearLayout0);
 
 		Bundle bundle = getIntent().getExtras();
+		
 		userPrefs = bundle.getParcelable("viewParams");
-
 		redrawViews();
 		initializeServices(TAG);
 		addListeners();
+		
 	}
 
 	@Override

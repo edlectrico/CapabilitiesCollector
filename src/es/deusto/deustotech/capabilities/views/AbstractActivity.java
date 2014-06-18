@@ -34,7 +34,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public void initializeServices(final String TAG){
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		tts 	 = new TextToSpeech(this, this);
-		
+		userPrefs = new UserMinimumPreferences();
 		//TODO: why is not working the onDone call? This part of code was after
 		//the speakOut() call within the onInit method
 		tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {

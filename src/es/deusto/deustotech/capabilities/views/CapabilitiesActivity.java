@@ -161,7 +161,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		
 		List<String> audios 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
 		List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-		List<String> users 		= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "User");
+//		List<String> users 		= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "User");
 		List<String> buttons	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
 		List<String> editTexts	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 		
@@ -180,8 +180,34 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 		
 		
-		intent.putExtra("caller", "MainActivity");
-//		intent.putExtra("volume", volumes)
+		final String vol = ((OWLLiteral) volume.toArray()[0]).getLiteral();
+		final String bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
+		final String bwi = ((OWLLiteral) buttonWidth.toArray()[0]).getLiteral();
+		final String bhe = ((OWLLiteral) buttonHeiht.toArray()[0]).getLiteral();
+		final String bco = ((OWLLiteral) buttonColor.toArray()[0]).getLiteral();
+		final String btc = ((OWLLiteral) buttonTextColor.toArray()[0]).getLiteral();
+		final String bts = ((OWLLiteral) buttonTextSize.toArray()[0]).getLiteral();
+		final String ehe = ((OWLLiteral) editHeight.toArray()[0]).getLiteral();
+		final String eco = ((OWLLiteral) editColor.toArray()[0]).getLiteral();
+		final String etc = ((OWLLiteral) editTextColor.toArray()[0]).getLiteral();
+		final String ets = ((OWLLiteral) editTextSize.toArray()[0]).getLiteral();
+		
+		intent.putExtra("caller", "CapabilitiesActivity");
+		
+		userPrefs.setVolume(Float.parseFloat(vol));
+		userPrefs.setBrightness(Float.parseFloat(bri));
+		userPrefs.setButtonWidth(Float.parseFloat(bwi));
+		userPrefs.setButtonHeight(Float.parseFloat(bhe));
+		userPrefs.setButtonBackgroundColor(Integer.parseInt(bco));
+		userPrefs.setButtonTextColor(Integer.parseInt(btc));
+		userPrefs.setTextEditSize(Float.parseFloat(ets));
+		userPrefs.setTextEditBackgroundColor(Integer.parseInt(eco));
+		userPrefs.setTextEditTextColor(Integer.parseInt(etc));
+		
+//		intent.putExtra("buttonTextSize", bts);
+//		intent.putExtra("editHeight", ehe);
+		
+		intent.putExtra("viewParams", userPrefs);
 		
 		startActivity(intent);
 	}
