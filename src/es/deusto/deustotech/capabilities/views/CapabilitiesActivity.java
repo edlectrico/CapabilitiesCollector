@@ -23,9 +23,9 @@ import es.deusto.deustotech.R;
  * @author edlectrico
  * 
  */
-public class MainActivity extends AbstractActivity {
+public class CapabilitiesActivity extends AbstractActivity {
 
-	private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = CapabilitiesActivity.class.getSimpleName();
 
 	private boolean longPush 			= false;
 	private boolean voiceRecognition 	= false;
@@ -73,7 +73,7 @@ public class MainActivity extends AbstractActivity {
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		if (activities.size() == 0) {
-			Log.d(MainActivity.class.getSimpleName(), "Voice recognizer not present");
+			Log.d(CapabilitiesActivity.class.getSimpleName(), "Voice recognizer not present");
 			return false;
 		} 
 		return true;
@@ -162,13 +162,25 @@ public class MainActivity extends AbstractActivity {
 		List<String> audios 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
 		List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 		List<String> users 		= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "User");
-		List<String> buttons	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ViewButton");
+		List<String> buttons	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
+		List<String> editTexts	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+		
+
+		final Collection<OWLLiteral> volume = super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
+		final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
+		final Collection<OWLLiteral> buttonWidth = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
+		final Collection<OWLLiteral> buttonHeiht = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight");
+		final Collection<OWLLiteral> buttonColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> buttonTextColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		final Collection<OWLLiteral> buttonTextSize = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+
+		final Collection<OWLLiteral> editHeight = super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasHeight");
+		final Collection<OWLLiteral> editColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 		
 		
-		Collection<OWLLiteral> volume = super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
-		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
-		Collection<OWLLiteral> width = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		
+		intent.putExtra("caller", "MainActivity");
 //		intent.putExtra("volume", volumes)
 		
 		startActivity(intent);

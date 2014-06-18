@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".capabilities.views.MainActivity" >
+        <activity android:name=".capabilities.views.CapabilitiesActivity" >
         </activity>
         <activity android:name=".capabilities.views.ButtonConfigActivity" >
         </activity>

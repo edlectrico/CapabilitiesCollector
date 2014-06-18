@@ -1,5 +1,7 @@
 package es.deusto.deustotech.pellet4android;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
@@ -40,7 +42,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		intent = new Intent(this, es.deusto.deustotech.capabilities.views.MainActivity.class);
+		intent = new Intent(this, es.deusto.deustotech.capabilities.views.CapabilitiesActivity.class);
 		
 //		text = (TextView) findViewById(R.id.text);
 		
@@ -89,9 +91,15 @@ public class MainActivity extends Activity {
 //					
 //					start = System.nanoTime();
 					
-					ontManager.loadOntologyFromFile(getAssets().open(ADAPTUI));
+//					ontManager.loadOntologyFromFile(getAssets().open("adaptui.owl"));
 					
-//					final List<String> classes = (List<String>) ontManager.getClassList();
+					
+					File file = new File("/sdcard/data/adaptui.owl");
+					FileInputStream fileInputStream = new FileInputStream(file);
+					
+					ontManager.loadOntologyFromFile(fileInputStream);				
+
+					//final List<String> classes = (List<String>) ontManager.getClassList();
 //					int instances = 0;
 //					Set<OWLNamedIndividual> nodeSet = new HashSet<OWLNamedIndividual>();
 					
@@ -151,18 +159,23 @@ public class MainActivity extends Activity {
 		 
 		System.out.println("Inserting individuals");
 		
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "user", 	ONTOLOGY_NAMESPACE + "User");
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "display", 	ONTOLOGY_NAMESPACE + "Display");
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "audio", 	ONTOLOGY_NAMESPACE + "Audio");
-		ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "button", 	ONTOLOGY_NAMESPACE + "Button");
-		
 		users 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "User");
-		displays = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Display");
-		audios 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Audio");
-		buttons	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Button");
 		
-		ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	displays.get(0));
-		ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	audios.get(0));
+		if (users.size() == 0){ //No previous insertion
+			ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "user", 	ONTOLOGY_NAMESPACE + "User");
+			ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "display", 	ONTOLOGY_NAMESPACE + "Display");
+			ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "audio", 	ONTOLOGY_NAMESPACE + "Audio");
+			ontManager.addIndividualMembership(ONTOLOGY_NAMESPACE + "button", 	ONTOLOGY_NAMESPACE + "Button");
+			
+			users 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "User");
+			displays = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Display");
+			audios 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Audio");
+			buttons	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Button");
+			
+			ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	displays.get(0));
+			ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	audios.get(0));
+		}
+		
 		
 		//TODO: Aún no lo sabemos... Si el usuario responde YES (o mantiene pulsado) puede que sea ciego 
 //			ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayApplicableIsStatic", false);
