@@ -1,5 +1,10 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +34,7 @@ public class MailSenderActivity extends AbstractActivity implements
 	private final String TAG = MailSenderActivity.class.getSimpleName();
 
 	private Button buttonSend;
+	private Button buttonContextChange;
 	private EditText textTo;
 	private EditText textSubject;
 	private EditText textMessage;
@@ -59,6 +65,7 @@ public class MailSenderActivity extends AbstractActivity implements
 		setContentView(R.layout.email_activity);
 
 		buttonSend = (Button) findViewById(R.id.buttonSend);
+		buttonContextChange = (Button) findViewById(R.id.buttonTriggerContextChange);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
@@ -128,6 +135,7 @@ public class MailSenderActivity extends AbstractActivity implements
 	@Override
 	public void addListeners() {
 		buttonSend.setOnClickListener(this);
+		buttonContextChange.setOnClickListener(this);
 		textMessage.setOnClickListener(this);
 		textSubject.setOnClickListener(this);
 		textTo.setOnClickListener(this);
@@ -186,6 +194,16 @@ public class MailSenderActivity extends AbstractActivity implements
 			Log.d(TAG, "editTextMessage clicked!");
 			editTextClicks++;
 		}
+		
+		if (view.getId() == R.id.buttonTriggerContextChange) {
+			//http://u2m.org/2003/02/UserModelOntology.rdf#Light
+			List<String> lights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#" + "Light");
+			super.getOntologyManager().addDataTypePropertyValue(lights.get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
+			
+			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(lights.get(0), super.getOntologyNamespace() + "contextHasLight");
+			System.out.println(l);
+		}
+		
 	}
 
 	@Override
