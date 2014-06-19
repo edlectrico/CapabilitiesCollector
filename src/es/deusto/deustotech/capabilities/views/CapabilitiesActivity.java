@@ -31,10 +31,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 	private boolean voiceRecognition 	= false;
 	private Intent interactionIntent;
 	
-//	private OntologyManager ontManager;
-	
 	private static List<String> displays;
-//	private static List<String> users;
 	private static List<String> audios;
 
 	
@@ -58,6 +55,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 		findViewById(R.id.input_button).setOnLongClickListener(this);
 		findViewById(R.id.input_button).setOnClickListener(this);
+		findViewById(R.id.mail_activity_button).setOnClickListener(this);
 	}
 
 	private Intent getDefaultIntent() {
@@ -141,6 +139,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 //				intent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
 //				startActivity(intent);
 			}
+		} else if (view.getId() == R.id.mail_activity_button){
+			onBackPressed();
 		}
 	}
 
@@ -154,14 +154,10 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
+//		super.onBackPressed();
 		//Avoiding the configuration, as it is stored in the ontology
-		
-		Intent intent = new Intent(this,  MailSenderActivity.class);
-		
 		List<String> audios 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
 		List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-//		List<String> users 		= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "User");
 		List<String> buttons	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
 		List<String> editTexts	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 		
@@ -172,9 +168,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final Collection<OWLLiteral> buttonHeiht = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight");
 		final Collection<OWLLiteral> buttonColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
 		final Collection<OWLLiteral> buttonTextColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		final Collection<OWLLiteral> buttonTextSize = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+//		final Collection<OWLLiteral> buttonTextSize = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 
-		final Collection<OWLLiteral> editHeight = super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasHeight");
+//		final Collection<OWLLiteral> editHeight = super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasHeight");
 		final Collection<OWLLiteral> editColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
 		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
 		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
@@ -186,13 +182,17 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final String bhe = ((OWLLiteral) buttonHeiht.toArray()[0]).getLiteral();
 		final String bco = ((OWLLiteral) buttonColor.toArray()[0]).getLiteral();
 		final String btc = ((OWLLiteral) buttonTextColor.toArray()[0]).getLiteral();
-		final String bts = ((OWLLiteral) buttonTextSize.toArray()[0]).getLiteral();
-		final String ehe = ((OWLLiteral) editHeight.toArray()[0]).getLiteral();
+//		final String bts = ((OWLLiteral) buttonTextSize.toArray()[0]).getLiteral();
+//		final String ehe = ((OWLLiteral) editHeight.toArray()[0]).getLiteral();
 		final String eco = ((OWLLiteral) editColor.toArray()[0]).getLiteral();
 		final String etc = ((OWLLiteral) editTextColor.toArray()[0]).getLiteral();
 		final String ets = ((OWLLiteral) editTextSize.toArray()[0]).getLiteral();
 		
-		intent.putExtra("caller", "CapabilitiesActivity");
+		
+//		Intent intent = new Intent(this,  MailSenderActivity.class);
+		
+		getDefaultIntent().setClass(this,  MailSenderActivity.class);
+		getDefaultIntent().putExtra("caller", "CapabilitiesActivity");
 		
 		userPrefs.setVolume(Float.parseFloat(vol));
 		userPrefs.setBrightness(Float.parseFloat(bri));
@@ -207,9 +207,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 //		intent.putExtra("buttonTextSize", bts);
 //		intent.putExtra("editHeight", ehe);
 		
-		intent.putExtra("viewParams", userPrefs);
+		getDefaultIntent().putExtra("viewParams", userPrefs);
 		
-		startActivity(intent);
+		startActivity(getDefaultIntent());
 	}
 	
 	

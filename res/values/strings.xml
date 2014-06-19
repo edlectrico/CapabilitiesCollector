@@ -16,6 +16,7 @@
     <string name="basic_input_message">If you prefer an audio based interaction, please say YES or
         hold your finger over the screen. Otherwise, please say NO or push the button.</string>
     <string name="input_button_message">PUSH ME!</string>
+    <string name="avoid_configuration_button_message">Avoid configuration</string>
  
  	<!-- Edit_Text_Config_Activity -->
     <!-- <string name="text_view_info_message">Hold your finger on the screen so this message will be resized.</string> -->

@@ -37,7 +37,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
-//	private OntologyManager ontManager;
 	private static List<String> buttons;
 	private static List<String> backgrounds;
 	
@@ -68,8 +67,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.button_config);
 		
-//		ontManager = super.getOntologyManager();
-
 		testButton = (Button) findViewById(R.id.test_button);
 		buttonTextColor = testButton.getTextColors().getDefaultColor();
 		backgroundColorButton = (Button) findViewById(R.id.background_color_button);
@@ -81,10 +78,12 @@ public class ButtonConfigActivity extends AbstractActivity {
 		backColorButton.setVisibility(View.INVISIBLE);
 
 		Bundle bundle = getIntent().getExtras();
+		userPrefs = bundle.getParcelable("viewParams");
 		
 		callerActivity = bundle.getInt("caller");
 
 		if (callerActivity != 2){ //2: VolumeActivity
+			userPrefs = new UserMinimumPreferences();
 			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
 			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
 			

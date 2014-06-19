@@ -2,13 +2,13 @@ package es.deusto.deustotech.pellet4android;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,16 +19,18 @@ import android.util.Log;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.pellet4android.exceptions.OntologyLoadException;
 
+@SuppressLint("SdCardPath")
 public class MainActivity extends Activity {
 
 	private final static String TAG = MainActivity.class.getName();
 	private static final String ONTOLOGY_NAMESPACE = "http://www.morelab.deusto.es/ontologies/adaptui#";
+	private static final String ONTOLOGY_PATH = "/sdcard/data/adaptui.owl";
 	private static OntologyManager ontManager = new OntologyManager();
-	private static String ADAPTUI = "adaptui.owl";
+//	private static String ADAPTUI = "adaptui.owl";
 	
 	private ProgressDialog dialog;
 	
-	private static List<String> displays, users, audios, buttons;
+	private static List<String> displays, users, audios;
 	
 	private Intent intent;
 	
@@ -94,7 +96,7 @@ public class MainActivity extends Activity {
 //					ontManager.loadOntologyFromFile(getAssets().open("adaptui.owl"));
 					
 					
-					File file = new File("/sdcard/data/adaptui.owl");
+					File file = new File(ONTOLOGY_PATH);
 					FileInputStream fileInputStream = new FileInputStream(file);
 					
 					ontManager.loadOntologyFromFile(fileInputStream);				
@@ -170,7 +172,7 @@ public class MainActivity extends Activity {
 			users 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "User");
 			displays = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Display");
 			audios 	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Audio");
-			buttons	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Button");
+//			buttons	 = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Button");
 			
 			ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	displays.get(0));
 			ontManager.addObjectPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy", 	audios.get(0));
@@ -214,7 +216,7 @@ public class MainActivity extends Activity {
 		System.out.println("userIsDefinedBy: " 	+ ontManager.getPropertyValue(users.get(0), ONTOLOGY_NAMESPACE + "userIsDefinedBy"));
 	}
 
-
+/*
 	private static void checkProtegeRules() {
 		Log.d(TAG, "RULES:");
 
@@ -256,5 +258,5 @@ public class MainActivity extends Activity {
 			} 
 		}
 	}
-
+*/
 }
