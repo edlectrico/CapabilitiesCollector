@@ -7,6 +7,7 @@ import java.util.List;
 import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -35,6 +36,8 @@ public class MailSenderActivity extends AbstractActivity implements
 		OnFocusChangeListener {
 
 	private final String TAG = MailSenderActivity.class.getSimpleName();
+	
+	private final int ALPHA = 255;
 
 	private Button buttonSend;
 	private Button buttonContextChange;
@@ -101,42 +104,66 @@ public class MailSenderActivity extends AbstractActivity implements
 
 	@Override
 	public void redrawViews() {
-		layout.setBackgroundColor(userPrefs.getBackgroundColor());
+		final int backgroundColor = userPrefs.getBackgroundColor();
+		final int redBackgroundColor = Color.red(backgroundColor);
+		final int greenBackgroundColor = Color.green(backgroundColor);
+		final int blueBackgroundColor = Color.blue(backgroundColor);
+		
+		layout.setBackgroundColor(Color.argb(ALPHA, redBackgroundColor, greenBackgroundColor, blueBackgroundColor));
 		((TextView) findViewById(R.id.textViewPhoneNo)).setTextSize(userPrefs
-				.getTextEditSize());
+				.getTextEditSize() / 2);
 		((TextView) findViewById(R.id.textViewSubject)).setTextSize(userPrefs
-				.getTextEditSize());
+				.getTextEditSize() / 2);
 		((TextView) findViewById(R.id.textViewMessage)).setTextSize(userPrefs
-				.getTextEditSize());
+				.getTextEditSize() / 2);
 
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 
 		if (userPrefs.getBackgroundColor() != 0) {
-			buttonSend.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();
+			final int redButtonBackgroundColor = Color.red(buttonBackgroundColor);
+			final int greenButtonBackgroundColor = Color.green(buttonBackgroundColor);
+			final int blueButtonBackgroundColor = Color.blue(buttonBackgroundColor);
+			
+			buttonSend.setBackgroundColor(Color.argb(ALPHA, redButtonBackgroundColor, greenButtonBackgroundColor, blueButtonBackgroundColor));
 		}
-		buttonSend.setTextColor(userPrefs.getButtonTextColor());
+		
+		final int buttonTextColor = userPrefs.getButtonTextColor();
+		final int redTextColor = Color.red(buttonTextColor);
+		final int greenTextColor = Color.green(buttonTextColor);
+		final int blueTextColor = Color.blue(buttonTextColor);
+		
+		buttonSend.setTextColor(Color.argb(ALPHA, redTextColor, greenTextColor, blueTextColor));
 
 		textTo.setTextSize(userPrefs.getTextEditSize());
 		textSubject.setTextSize(userPrefs.getTextEditSize());
 		textMessage.setTextSize(userPrefs.getTextEditSize());
 
 		if (userPrefs.getTextEditTextColor() != 0) {
-			textTo.setTextColor(userPrefs.getTextEditTextColor());
-			textTo.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-			textSubject.setTextColor(userPrefs.getTextEditTextColor());
-			textSubject.setBackgroundColor(userPrefs
-					.getTextEditBackgroundColor());
-			textMessage.setTextColor(userPrefs.getTextEditTextColor());
-			textMessage.setBackgroundColor(userPrefs
-					.getTextEditBackgroundColor());
+			final int textEditTextColor = userPrefs.getTextEditTextColor();
+			final int redTextEditTextColor = Color.red(textEditTextColor);
+			final int greenTextEditTextColor = Color.green(textEditTextColor);
+			final int blueTextEditTextColor = Color.blue(textEditTextColor);
+			textTo.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+			
+			final int textEditBackgroundColor = userPrefs.getTextEditBackgroundColor();
+			final int redTextEditBackgroundColor = Color.red(textEditBackgroundColor);
+			final int greenTextEditBackgroundColor = Color.green(textEditBackgroundColor);
+			final int blueTextEditBackgroundColor = Color.blue(textEditBackgroundColor);
+			textTo.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
+			
+			textSubject.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+			textSubject.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
+			textMessage.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+			textMessage.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
 
 			((TextView) findViewById(R.id.textViewPhoneNo))
-					.setTextColor(userPrefs.getTextEditTextColor());
+					.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
 			((TextView) findViewById(R.id.textViewSubject))
-					.setTextColor(userPrefs.getTextEditTextColor());
+					.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
 			((TextView) findViewById(R.id.textViewMessage))
-					.setTextColor(userPrefs.getTextEditTextColor());
+					.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
 		}
 	}
 

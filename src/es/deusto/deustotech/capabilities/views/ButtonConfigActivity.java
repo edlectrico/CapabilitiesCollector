@@ -192,21 +192,17 @@ public class ButtonConfigActivity extends AbstractActivity {
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth", testButton.getWidth());
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight", testButton.getHeight());
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
-			
-//			if (buttonTextColor > 0){
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", buttonTextColor);
-//			}
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize", testButton.getTextSize());
-			super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
+			super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", backgroundColor);
 
 			checkOntology();
-			
 			startActivity(intent);
 		}				
 		else if (view.getId() == R.id.background_color_button){
 			buttonBackgroundColorChanged = true;
 			Random randomBackColor = new Random(); 
-			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));   
+			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 			testButton.setBackgroundColor(buttonBackgroundColor);
 			findViewById(R.id.next_button).setBackgroundColor(getBackgroundColor(this.testButton));
 			findViewById(R.id.background_color_button).setBackgroundColor(buttonBackgroundColor);
@@ -235,19 +231,22 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private void checkOntology() {
 		final List<String> buttons = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
+		final List<String> backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
 		
 		final Collection<OWLLiteral> width 		= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
 		final Collection<OWLLiteral> height 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		final Collection<OWLLiteral> backColor 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> btnBackColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
 		final Collection<OWLLiteral> textColor 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
 		final Collection<OWLLiteral> textSize 	= super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		final Collection<OWLLiteral> backColor 	= super.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
 		
 		System.out.println("checkOntology(): " 	+ TAG);
-		System.out.println("width: " 		+ width);
-		System.out.println("heigth: " 		+ height);
-		System.out.println("backColor: " 	+ backColor);
-		System.out.println("textColor: " 	+ textColor);
-		System.out.println("textSize: " 	+ textSize);
+		System.out.println("width: " 			+ width);
+		System.out.println("heigth: " 			+ height);
+		System.out.println("buttonBackColor: " 	+ btnBackColor);
+		System.out.println("textColor: " 		+ textColor);
+		System.out.println("textSize: " 		+ textSize);
+		System.out.println("backColor: " 		+ backColor);
 	}
 
 	private int getBackgroundColor(View view) {

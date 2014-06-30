@@ -82,15 +82,18 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	@Override
 	public void redrawViews() {
 		//EditText config
-		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize());
+		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize() / 2);
 		
 		if (userPrefs.getTextEditTextColor() != 0){
 			((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
 			((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		}
 		
-		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize());
+		System.out.println("TextEditTextSize: " + userPrefs.getTextEditSize());
+		
+		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize() / 2);
 		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
+		((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
 		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());

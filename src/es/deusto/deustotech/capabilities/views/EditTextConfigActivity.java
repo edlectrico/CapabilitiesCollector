@@ -133,6 +133,8 @@ public class EditTextConfigActivity extends AbstractActivity {
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
 			
+			System.out.println("TextEditTextSize: " + testTextEdit.getTextSize());
+			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
 			}

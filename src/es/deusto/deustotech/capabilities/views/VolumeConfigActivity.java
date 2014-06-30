@@ -108,7 +108,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 			
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
-			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize());
+			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
 	
 			if (userPrefs.getBackgroundColor() != 0){
 				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
