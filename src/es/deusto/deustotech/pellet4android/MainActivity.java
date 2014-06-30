@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 
 	private final static String TAG = MainActivity.class.getName();
 	private static final String ONTOLOGY_NAMESPACE = "http://www.morelab.deusto.es/ontologies/adaptui#";
-	private static final String ONTOLOGY_PATH = "/sdcard/";
+	private static final String ONTOLOGY_PATH = "/sdcard/data/";
 	private static OntologyManager ontManager = new OntologyManager();
 	private static String ADAPTUI = "adaptui.owl";
 	
@@ -68,12 +68,12 @@ public class MainActivity extends Activity {
 					ontManager.setMapping("http://swrl.stanford.edu/ontologies/3.3/swrla.owl", 	getExternalDirectory("swrla.rdf"));
 					ontManager.setMapping("http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl", getExternalDirectory("sqwrl.rdf"));
 
-					ontManager.loadOntologyFromFile(getAssets().open(ADAPTUI));
+//					ontManager.loadOntologyFromFile(getAssets().open(ADAPTUI));
 					
-//					File file = new File(ONTOLOGY_PATH + ADAPTUI);
-//					FileInputStream fileInputStream = new FileInputStream(file);
-//					
-//					ontManager.loadOntologyFromFile(fileInputStream);				
+					File file = new File(ONTOLOGY_PATH + ADAPTUI);
+					FileInputStream fileInputStream = new FileInputStream(file);
+					
+					ontManager.loadOntologyFromFile(fileInputStream);				
 
 				} catch (IOException e) {
 					e.printStackTrace();
