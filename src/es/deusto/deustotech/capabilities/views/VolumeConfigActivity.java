@@ -102,7 +102,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 	@Override
 	public void redrawViews() {
 		if (callerActivity == 1){ //BrightnessActivity
-			grid.setBackgroundColor(userPrefs.getBackgroundColor());
+			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 			
 			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
@@ -110,7 +110,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
 	
-			if (userPrefs.getBackgroundColor() != 0){
+			if (userPrefs.getLayoutBackgroundColor() != 0){
 				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			}
 			

@@ -131,7 +131,10 @@ public class MainActivity extends Activity {
 		List<String> userInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "User");
 		List<String> displayInd = ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Display");
 		List<String> audioInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Audio");
-		List<String> buttonInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "ViewButton");
+		List<String> buttonInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Button");
+		List<String> editInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "EditText");
+		List<String> textViewInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "TextView");
+		List<String> backgroundInd 	= ontManager.getIndividualOfClass(ONTOLOGY_NAMESPACE + "Background");
 		
 		for (String user : userInd) {
 			System.out.println(user);
@@ -147,6 +150,18 @@ public class MainActivity extends Activity {
 		
 		for (String button : buttonInd) {
 			System.out.println(button);
+		}
+		
+		for (String edit : editInd) {
+			System.out.println(edit);
+		}
+		
+		for (String textView : textViewInd) {
+			System.out.println(textView);
+		}
+		
+		for (String background : backgroundInd) {
+			System.out.println(background);
 		}
 		
 		Collection<OWLLiteral> volumes = ontManager.getDataTypePropertyValue(ONTOLOGY_NAMESPACE + "audio", "userAudioHasVolume");

@@ -23,7 +23,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
 	
 //	private OntologyManager ontManager;
-	private static List<String> edits;
+	private static List<String> edits, textViews;
 
 	private Button testTextEdit;
 	private GridLayout grid;
@@ -89,13 +89,13 @@ public class EditTextConfigActivity extends AbstractActivity {
 		findViewById(R.id.text_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.text_color_button)).setTextColor(userPrefs.getButtonTextColor());
 
-		grid.setBackgroundColor(userPrefs.getBackgroundColor());
+		grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
-		if (userPrefs.getButtonBackgroundColor() != 0){
-			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		}
+//		if (userPrefs.getButtonBackgroundColor() != 0){
+		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//		}
 	}
 
 	private OnTouchListener createOnTouchListener(){
@@ -124,14 +124,22 @@ public class EditTextConfigActivity extends AbstractActivity {
 //			}
 			//				userPrefs.setTextEditTextColor(testTextEdit.getTextColors().getDefaultColor());
 			userPrefs.setTextEditSize(testTextEdit.getTextSize());
+			userPrefs.setTextViewTextSize(testTextEdit.getTextSize());
 
 			intent.putExtra("viewParams", userPrefs);
-			
 			edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+			textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
+			
+			removePreviousValuesFromOntology();
+			
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight", 	testTextEdit.getHeight());
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize", testTextEdit.getTextSize());
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+			
+			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
+			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize", testTextEdit.getTextSize());
 			
 			System.out.println("TextEditTextSize: " + testTextEdit.getTextSize());
 			
@@ -148,6 +156,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 			//				testTextEdit.setBackgroundColor(backgroundColor);
 			((Button)findViewById(R.id.test_text_edit)).setBackgroundColor(backgroundColor);
 			userPrefs.setTextEditBackgroundColor(backgroundColor);
+			userPrefs.setTextViewBackgroundColor(backgroundColor);
 
 		} else if (view.getId() == R.id.text_color_button){
 			setEditTextTextColorChanged(true);
@@ -156,23 +165,47 @@ public class EditTextConfigActivity extends AbstractActivity {
 			//				testTextEdit.setTextColor(textColor);
 			((Button)findViewById(R.id.test_text_edit)).setTextColor(textColor);
 			userPrefs.setTextEditTextColor(textColor);
+			userPrefs.setTextViewTextColor(textColor);
 		}
 	}
 	
+	private void removePreviousValuesFromOntology() {
+		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasHeight");
+		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasWidth");
+		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasColor");
+		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		
+		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasHeight");
+		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasWidth");
+		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
+		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		
+	}
+
 	private void checkOntology() {
 		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
 		
-		final Collection<OWLLiteral> height 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		final Collection<OWLLiteral> backColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> textColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		final Collection<OWLLiteral> textSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		final Collection<OWLLiteral> editHeight 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasHeight");
+		final Collection<OWLLiteral> editBackColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 		
 		System.out.println("checkOntology(): " 	+ TAG);
-//		System.out.println("width: " 		+ width);
-		System.out.println("heigth: " 		+ height);
-		System.out.println("backColor: " 	+ backColor);
-		System.out.println("textColor: " 	+ textColor);
-		System.out.println("textSize: " 	+ textSize);
+		System.out.println("editHeight: " 		+ editHeight);
+		System.out.println("editBackColor: " 	+ editBackColor);
+		System.out.println("editTextColor: " 	+ editTextColor);
+		System.out.println("editTextSize: " 	+ editTextSize);
+		
+		final Collection<OWLLiteral> textViewBackColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> textViewTextColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		final Collection<OWLLiteral> textViewTextSize 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		
+		System.out.println("textViewBackColor: " 	+ textViewBackColor);
+		System.out.println("textViewTextColor: " 	+ textViewTextColor);
+		System.out.println("textViewTextSize: " 	+ textViewTextSize);
 	}
 
 	public boolean isEditTextTextColorChanged() {

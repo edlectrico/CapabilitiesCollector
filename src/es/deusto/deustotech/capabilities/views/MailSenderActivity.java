@@ -33,17 +33,16 @@ import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
  */
 
 public class MailSenderActivity extends AbstractActivity implements
-		OnFocusChangeListener {
+OnFocusChangeListener {
 
 	private final String TAG = MailSenderActivity.class.getSimpleName();
-	
+
 	private final int ALPHA = 255;
 
-	private Button buttonSend;
-	private Button buttonContextChange;
-	private EditText textTo;
-	private EditText textSubject;
-	private EditText textMessage;
+	private Button buttonSend, buttonContextChange;
+	private EditText textTo, textSubject, textMessage;
+	private TextView textViewPhoneNo, textViewSubject, textViewMessage;
+	
 	private LinearLayout layout;
 
 	private long elapsedTime;
@@ -56,7 +55,7 @@ public class MailSenderActivity extends AbstractActivity implements
 	private long timeToStartTask = 0;
 	private long timeToFinishTask = 0;
 	private int lostClicks = 0; // Amount of clicks that do not matter for the
-								// interaction
+	// interaction
 	private int editTextClicks = 0;
 	private int buttonClicks = 0; // Amount of clicks trying to push a button
 
@@ -64,9 +63,9 @@ public class MailSenderActivity extends AbstractActivity implements
 	private long focusElapsedTime = 0;
 	private int focusCounter = 0;
 	private int editTextCounter = 0;
-	
+
 	private WindowManager.LayoutParams layoutParams;
-	
+
 	private long start;
 	private List<Double> times;
 
@@ -80,10 +79,13 @@ public class MailSenderActivity extends AbstractActivity implements
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
+		textViewMessage = (TextView) findViewById(R.id.textViewMessage);
+		textViewSubject = (TextView) findViewById(R.id.textViewSubject);
+		textViewPhoneNo = (TextView) findViewById(R.id.textViewPhoneNo);
 		layout = (LinearLayout) findViewById(R.id.linearLayout0);
 
 		Bundle bundle = getIntent().getExtras();
-		
+
 		userPrefs = bundle.getParcelable("viewParams");
 		redrawViews();
 		initializeServices(TAG);
@@ -97,74 +99,78 @@ public class MailSenderActivity extends AbstractActivity implements
 		if (userPrefs.getBrightness() != 0) {
 			layoutParams = getWindow().getAttributes();
 			layoutParams.screenBrightness = userPrefs.getBrightness();
-			
+
 			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
 		}
 	}
 
 	@Override
 	public void redrawViews() {
-		final int backgroundColor = userPrefs.getBackgroundColor();
-		final int redBackgroundColor = Color.red(backgroundColor);
-		final int greenBackgroundColor = Color.green(backgroundColor);
-		final int blueBackgroundColor = Color.blue(backgroundColor);
-		
+		final int layoutBackgroundColor = userPrefs.getLayoutBackgroundColor();
+		final int redBackgroundColor = Color.red(layoutBackgroundColor);
+		final int greenBackgroundColor = Color.green(layoutBackgroundColor);
+		final int blueBackgroundColor = Color.blue(layoutBackgroundColor);
 		layout.setBackgroundColor(Color.argb(ALPHA, redBackgroundColor, greenBackgroundColor, blueBackgroundColor));
-		((TextView) findViewById(R.id.textViewPhoneNo)).setTextSize(userPrefs
-				.getTextEditSize() / 2);
-		((TextView) findViewById(R.id.textViewSubject)).setTextSize(userPrefs
-				.getTextEditSize() / 2);
-		((TextView) findViewById(R.id.textViewMessage)).setTextSize(userPrefs
-				.getTextEditSize() / 2);
-
+//		layout.setBackgroundColor(Color.WHITE);
+		/*ButtonSend*/
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 
-		if (userPrefs.getBackgroundColor() != 0) {
-			final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();
-			final int redButtonBackgroundColor = Color.red(buttonBackgroundColor);
-			final int greenButtonBackgroundColor = Color.green(buttonBackgroundColor);
-			final int blueButtonBackgroundColor = Color.blue(buttonBackgroundColor);
-			
-			buttonSend.setBackgroundColor(Color.argb(ALPHA, redButtonBackgroundColor, greenButtonBackgroundColor, blueButtonBackgroundColor));
-		}
-		
+		final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();
+		final int redButtonBackgroundColor = Color.red(buttonBackgroundColor);
+		final int greenButtonBackgroundColor = Color.green(buttonBackgroundColor);
+		final int blueButtonBackgroundColor = Color.blue(buttonBackgroundColor);
+		buttonSend.setBackgroundColor(Color.argb(ALPHA, redButtonBackgroundColor, greenButtonBackgroundColor, blueButtonBackgroundColor));
+
 		final int buttonTextColor = userPrefs.getButtonTextColor();
 		final int redTextColor = Color.red(buttonTextColor);
 		final int greenTextColor = Color.green(buttonTextColor);
 		final int blueTextColor = Color.blue(buttonTextColor);
-		
 		buttonSend.setTextColor(Color.argb(ALPHA, redTextColor, greenTextColor, blueTextColor));
-
+		////////////////////////////////////////////////////////////////////////////////////////
+		
+		/*TextViews*/
+		final int textViewBackgroundColor = userPrefs.getTextViewBackgroundColor();
+		final int redTextViewBackgroundColor = Color.red(textViewBackgroundColor);
+		final int greenTextViewBackgroundColor = Color.green(textViewBackgroundColor);
+		final int blueTextViewBackgroundColor = Color.blue(textViewBackgroundColor);
+		textViewMessage.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
+		textViewSubject.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
+		textViewPhoneNo.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
+		
+		final int textViewTextColor = userPrefs.getTextViewTextColor();
+		final int redTextViewTextColor = Color.red(textViewTextColor);
+		final int greenTextViewTextColor = Color.green(textViewTextColor);
+		final int blueTextViewTextColor = Color.blue(textViewTextColor);
+		textViewMessage.setBackgroundColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+		textViewSubject.setBackgroundColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+		textViewPhoneNo.setBackgroundColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+		
+		textViewMessage.setTextSize(userPrefs.getTextEditSize() / 2);
+		textViewSubject.setTextSize(userPrefs.getTextEditSize() / 2);
+		textViewPhoneNo.setTextSize(userPrefs.getTextEditSize() / 2);
+		////////////////////////////////////////////////////////////////////////////////////////
+		
+		/*EditText*/
 		textTo.setTextSize(userPrefs.getTextEditSize());
 		textSubject.setTextSize(userPrefs.getTextEditSize());
 		textMessage.setTextSize(userPrefs.getTextEditSize());
 
-		if (userPrefs.getTextEditTextColor() != 0) {
-			final int textEditTextColor = userPrefs.getTextEditTextColor();
-			final int redTextEditTextColor = Color.red(textEditTextColor);
-			final int greenTextEditTextColor = Color.green(textEditTextColor);
-			final int blueTextEditTextColor = Color.blue(textEditTextColor);
-			textTo.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-			
-			final int textEditBackgroundColor = userPrefs.getTextEditBackgroundColor();
-			final int redTextEditBackgroundColor = Color.red(textEditBackgroundColor);
-			final int greenTextEditBackgroundColor = Color.green(textEditBackgroundColor);
-			final int blueTextEditBackgroundColor = Color.blue(textEditBackgroundColor);
-			textTo.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
-			
-			textSubject.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-			textSubject.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
-			textMessage.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-			textMessage.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
+		final int textEditTextColor = userPrefs.getTextEditTextColor();
+		final int redTextEditTextColor = Color.red(textEditTextColor);
+		final int greenTextEditTextColor = Color.green(textEditTextColor);
+		final int blueTextEditTextColor = Color.blue(textEditTextColor);
+		textTo.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+		textSubject.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+		textMessage.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
 
-			((TextView) findViewById(R.id.textViewPhoneNo))
-					.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-			((TextView) findViewById(R.id.textViewSubject))
-					.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-			((TextView) findViewById(R.id.textViewMessage))
-					.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-		}
+		final int textEditBackgroundColor = userPrefs.getTextEditBackgroundColor();
+		final int redTextEditBackgroundColor = Color.red(textEditBackgroundColor);
+		final int greenTextEditBackgroundColor = Color.green(textEditBackgroundColor);
+		final int blueTextEditBackgroundColor = Color.blue(textEditBackgroundColor);
+		textTo.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
+		textSubject.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
+		textMessage.setBackgroundColor(Color.argb(ALPHA, redTextEditBackgroundColor, greenTextEditBackgroundColor, blueTextEditBackgroundColor));
 	}
 
 	@Override
@@ -229,50 +235,50 @@ public class MailSenderActivity extends AbstractActivity implements
 			Log.d(TAG, "editTextMessage clicked!");
 			editTextClicks++;
 		}
-		
+
 		if (view.getId() == R.id.buttonTriggerContextChange) {
 			times = new ArrayList<Double>();
 			start = System.nanoTime();
-			
+
 			//http://u2m.org/2003/02/UserModelOntology.rdf#Light
 			List<String> lights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#" + "Light");
 			super.getOntologyManager().addDataTypePropertyValue(lights.get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
-			
+
 			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(lights.get(0), super.getOntologyNamespace() + "contextHasLight");
 			System.out.println(l);
-			
+
 			try {
 				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/data/" + super.getOntologyFilename());
 			} catch (OntologySavingException e) {
 				e.printStackTrace();
 			}
-			
+
 			List<String> contexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
 			final Collection<OWLLiteral> c = super.getOntologyManager().getDataTypePropertyValue(contexts.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
-			
+
 			System.out.println(c);
-			
+
 			List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 			final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
 			System.out.println(brightness);
-			
+
 			final String bri = ((OWLLiteral) brightness.toArray()[1]).getLiteral();
-			
+
 			System.out.println(bri);
 
 			layoutParams.screenBrightness = Float.parseFloat(bri);
-			
+
 			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
-			
+
 			double end = System.nanoTime();
 			double elapsed = end - start;
 			double seconds = (elapsed / Math.pow(10, 9));
-			
+
 			times.add(seconds);
-			
+
 			System.out.println("Elapsed: " + seconds);
 		}
-		
+
 	}
 
 	@Override

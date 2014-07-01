@@ -156,10 +156,12 @@ public class CapabilitiesActivity extends AbstractActivity {
 	public void onBackPressed() {
 //		super.onBackPressed();
 		//Avoiding the configuration, as it is stored in the ontology
-		List<String> audios 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-		List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-		List<String> buttons	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
-		List<String> editTexts	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+		final List<String> audios 	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+		final List<String> displays  = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+		final List<String> buttons	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
+		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
+		final List<String> backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
 		
 
 		final Collection<OWLLiteral> volume = super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
@@ -175,6 +177,11 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
 		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 		
+		final Collection<OWLLiteral> textViewColor		= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> textViewTextColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		final Collection<OWLLiteral> textViewTextSize 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		
+		final Collection<OWLLiteral> backgroundColor 	= super.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
 		
 		final String vol = ((OWLLiteral) volume.toArray()[0]).getLiteral();
 		final String bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
@@ -187,6 +194,10 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final String eco = ((OWLLiteral) editColor.toArray()[0]).getLiteral();
 		final String etc = ((OWLLiteral) editTextColor.toArray()[0]).getLiteral();
 		final String ets = ((OWLLiteral) editTextSize.toArray()[0]).getLiteral();
+		final String tvco = ((OWLLiteral) textViewColor.toArray()[0]).getLiteral();
+		final String tvtc = ((OWLLiteral) textViewTextColor.toArray()[0]).getLiteral();
+		final String tvts = ((OWLLiteral) textViewTextSize.toArray()[0]).getLiteral();
+		final String bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
 		
 		
 //		Intent intent = new Intent(this,  MailSenderActivity.class);
@@ -203,6 +214,10 @@ public class CapabilitiesActivity extends AbstractActivity {
 		userPrefs.setTextEditSize(Float.parseFloat(ets));
 		userPrefs.setTextEditBackgroundColor(Integer.parseInt(eco));
 		userPrefs.setTextEditTextColor(Integer.parseInt(etc));
+		userPrefs.setTextViewBackgroundColor(Integer.parseInt(tvco));
+		userPrefs.setTextViewTextColor(Integer.parseInt(tvtc));
+		userPrefs.setTextViewTextSize(Float.parseFloat(tvts));
+		userPrefs.setLayoutBackgroundColor(Integer.parseInt(bck));
 		
 //		intent.putExtra("buttonTextSize", bts);
 //		intent.putExtra("editHeight", ehe);
