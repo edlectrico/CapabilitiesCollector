@@ -116,13 +116,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 	public void onClick(View view) {
 		if (view.getId() == R.id.next_button){
 			Intent intent = new Intent(this, BrightnessConfigActivity.class);
-
-//			if (editTextTextColorChanged){
-//				editTextTextColorChanged = false;
-//			} else {
-//				userPrefs.setTextEditTextColor(0);
-//			}
-			//				userPrefs.setTextEditTextColor(testTextEdit.getTextColors().getDefaultColor());
+			
 			userPrefs.setTextEditSize(testTextEdit.getTextSize());
 			userPrefs.setTextViewTextSize(testTextEdit.getTextSize());
 
@@ -153,7 +147,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 			setEditTextTextColorChanged(true);
 			Random randomBackColor = new Random(); 
 			backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-			//				testTextEdit.setBackgroundColor(backgroundColor);
 			((Button)findViewById(R.id.test_text_edit)).setBackgroundColor(backgroundColor);
 			userPrefs.setTextEditBackgroundColor(backgroundColor);
 			userPrefs.setTextViewBackgroundColor(backgroundColor);
@@ -162,7 +155,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 			setEditTextTextColorChanged(true);
 			Random randomTextColor = new Random(); 
 			textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
-			//				testTextEdit.setTextColor(textColor);
 			((Button)findViewById(R.id.test_text_edit)).setTextColor(textColor);
 			userPrefs.setTextEditTextColor(textColor);
 			userPrefs.setTextViewTextColor(textColor);

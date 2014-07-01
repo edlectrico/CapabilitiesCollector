@@ -111,7 +111,6 @@ OnFocusChangeListener {
 		final int greenBackgroundColor = Color.green(layoutBackgroundColor);
 		final int blueBackgroundColor = Color.blue(layoutBackgroundColor);
 		layout.setBackgroundColor(Color.argb(ALPHA, redBackgroundColor, greenBackgroundColor, blueBackgroundColor));
-//		layout.setBackgroundColor(Color.WHITE);
 		/*ButtonSend*/
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
@@ -142,9 +141,9 @@ OnFocusChangeListener {
 		final int redTextViewTextColor = Color.red(textViewTextColor);
 		final int greenTextViewTextColor = Color.green(textViewTextColor);
 		final int blueTextViewTextColor = Color.blue(textViewTextColor);
-		textViewMessage.setBackgroundColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
-		textViewSubject.setBackgroundColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
-		textViewPhoneNo.setBackgroundColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+		textViewMessage.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+		textViewSubject.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+		textViewPhoneNo.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
 		
 		textViewMessage.setTextSize(userPrefs.getTextEditSize() / 2);
 		textViewSubject.setTextSize(userPrefs.getTextEditSize() / 2);
@@ -152,9 +151,9 @@ OnFocusChangeListener {
 		////////////////////////////////////////////////////////////////////////////////////////
 		
 		/*EditText*/
-		textTo.setTextSize(userPrefs.getTextEditSize());
-		textSubject.setTextSize(userPrefs.getTextEditSize());
-		textMessage.setTextSize(userPrefs.getTextEditSize());
+		textTo.setTextSize(userPrefs.getTextEditSize() / 2);
+		textSubject.setTextSize(userPrefs.getTextEditSize() / 2);
+		textMessage.setTextSize(userPrefs.getTextEditSize() / 2);
 
 		final int textEditTextColor = userPrefs.getTextEditTextColor();
 		final int redTextEditTextColor = Color.red(textEditTextColor);
