@@ -74,7 +74,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			if (userPrefs.getSightProblem() == 1){
 				super.initializeServices(TAG);
 				
-				speakOut(getResources().getString(R.string.edit_text_info_message));
+				speakOut(getResources().getString(R.string.edit_text_info_message_es));
 			}
 			if (userPrefs.getBrightness() != 0){
 				WindowManager.LayoutParams layoutParams = getWindow()

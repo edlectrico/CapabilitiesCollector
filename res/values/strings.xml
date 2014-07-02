@@ -17,14 +17,25 @@
     <string name="ontology_filename">adaptui.owl</string>
     
 	<!-- ButtonConfigActivity -->
+	<string name="button_info_message_en">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
+	<string name="button_info_message_es">¿Puede ver y pulsar el botón? Si no le es posible, pulse la pantalla hasta que consiga verlo. Pulse a continuación el botón para configurarlo.</string>
+    <string name="button_resize_message_en">Push me!</string>
+    <string name="button_resize_message_es">¡Púlsame!</string>
+    <string name="next_message_en">Next</string>
+    <string name="next_message_es">Siguiente</string>
+    <string name="button_text_color_en">Button Text Color</string>
+    <string name="button_text_color_es">Color del texto</string>
+    <string name="button_color_en">Background Color</string>
+    <string name="button_color_es">Color del botón</string>
+    
+    
+    <string name="volume_message">Configure the desired Volume</string>
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
     <string name="button_background_color">Button Back Color</string>
     <string name="edit_text_text_color">EditText Text Color</string>
     <string name="edit_text_background_color">EditText Back Color</string>
     <string name="edit_text_size">EditText Size</string> 
-    <string name="button_text_color">Button Text Color</string>
-    <string name="button_color">Background Color</string>
     <string name="recognizer_error">"Voice recognizer not present"</string>
     
     <!-- CapabilitiesActivity -->
@@ -35,34 +46,31 @@
         diga "Sí" en voz alta para activar esta característica o mantenga presionada la pantalla con un dedo.
 		Si por el contrario no desea una interacción por audio, por favor diga "No" o pulse el botón mostrado.
 	</string>
-	
     <string name="input_button_message_en">PUSH ME!</string>
     <string name="input_button_message_es">¡Púlseme!</string>
-    
     <string name="avoid_configuration_message_en">Avoid configuration</string>
  	<string name="avoid_configuration_message_es">Saltar configurador</string>
     
  	<!-- Edit_Text_Config_Activity -->
-    <!-- <string name="text_view_info_message">Hold your finger on the screen so this message will be resized.</string> -->
-    <string name="text_view_info_message">TEST</string>
-    
-    <!-- Button_Config_Activity -->
-    <string name="button_info_message">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
-    <string name="button_resize_message">Push me!</string>
-    <string name="next_message">Next</string>
-    <string name="brightness_message">Configure the desired Brightness</string>
-    <string name="volume_message">Configure the desired Volume</string>
-
-    <!-- Edit_Text_Config_Activity -->
-    <string name="edit_text_info_message">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
-    <string name="edit_text_message">Read me!</string>
+    <string name="text_view_info_message_en">TEST</string>
+    <string name="text_view_info_message_es">PRUEBA</string>
+    <string name="edit_text_info_message_en">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
+    <string name="edit_text_info_message_es">¿Puede leer el mensaje? Si no le es posible, pulse la pantalla hasta que consiga verlo.</string>
+   
     
     <!-- Brightness_Config_Activity -->
-	<string name="brightness_info_message">Tap the screen to configure the screen brightness</string>
+	<string name="brightness_info_message_en">Tap the screen to configure the screen brightness</string>
+	<string name="brightness_info_message_es">Pulse la pantalla para cambiar el brillo</string>
+	<string name="brightness_message_en">Configure the desired Brightness</string>
+	<string name="brightness_message_es">Configure el brillo deseado</string>
+	 <string name="edit_text_message_en">Read me!</string>
+	  <string name="edit_text_message_es">¡Léame!</string>
 	
 	<!-- Volume_Config_Activity -->
-	<string name="volume_info_message">Tap the screen to change volume levels.</string>
-	<string name="end_message">End</string>
+	<string name="volume_info_message_en">Tap the screen to change volume levels.</string>
+	<string name="volume_info_message_es">Pulse la pantalla para cambiar el volumen</string>
+	<string name="end_message_en">End</string>
+	<string name="end_message_es">Fin</string>
 	
 	<!-- Mail_Sender_Activity -->
 	<string name="to">To: </string>

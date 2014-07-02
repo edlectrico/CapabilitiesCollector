@@ -16,7 +16,7 @@
             android:id="@+id/brightness_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/brightness_message" />
+            android:text="@string/brightness_message_es" />
     </LinearLayout>
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:id="@+id/test_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_resize_message" />
+            android:text="@string/button_resize_message_es" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:text="@string/edit_text_message" />
+            android:text="@string/edit_text_message_es" />
     </LinearLayout>
 
     <RelativeLayout
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="@string/next_message" />
+            android:text="@string/next_message_es" />
     </RelativeLayout>
 
 </GridLayout>

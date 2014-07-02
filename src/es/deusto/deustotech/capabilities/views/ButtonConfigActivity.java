@@ -82,7 +82,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 			userPrefs.setButtonTextColor(btnResize.getTextColors().getDefaultColor());
 		} else {
 			//TODO: Read instructions
-			speakOut(getResources().getString(R.string.button_info_message));
+			speakOut(getResources().getString(R.string.button_info_message_es));
 		}
 
 		grid = (GridLayout) findViewById(R.id.default_layout);
@@ -110,7 +110,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		if (userPrefs.getSightProblem() == 1){
 			super.initializeServices(TAG);
 
-			speakOut(getResources().getString(R.string.button_info_message));
+			speakOut(getResources().getString(R.string.button_info_message_es));
 		}
 	}
 

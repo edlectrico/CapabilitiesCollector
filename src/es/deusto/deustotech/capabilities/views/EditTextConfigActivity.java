@@ -58,7 +58,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		if (userPrefs.getSightProblem() == 1){
 			super.initializeServices(TAG);
 
-			speakOut(getResources().getString(R.string.edit_text_info_message));
+			speakOut(getResources().getString(R.string.edit_text_info_message_es));
 		}
 	}
 
