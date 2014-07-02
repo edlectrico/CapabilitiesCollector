@@ -40,16 +40,16 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private static List<String> buttons;
 	private static List<String> backgrounds;
 	
-	private Button testButton;
-	private Button backgroundColorButton;
-	private Button backColorButton;
-	private Button textColorButton;
+	private Button btnResize;
+	private Button btnBackgroundColor;
+	private Button btnColorButton;
+	private Button btnTextColor;
 	private GridLayout grid;
 	
 	private int maxWidth = 0;
 	private int maxHeight = 0;
 	private int buttonBackgroundColor = 0;
-	private int buttonTextColor = 0;
+	private int textColor = 0;
 	private int layoutBackgroundColor = 0;
 
 	private OnTouchListener onTouchListener;
@@ -65,15 +65,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.button_config);
 		
-		testButton = (Button) findViewById(R.id.test_button);
-		buttonTextColor = testButton.getTextColors().getDefaultColor();
-		backgroundColorButton = (Button) findViewById(R.id.background_color_button);
-		textColorButton = (Button) findViewById(R.id.text_color_button);
-		backColorButton = (Button) findViewById(R.id.back_color_button);
-		
-		backgroundColorButton.setVisibility(View.INVISIBLE);
-		textColorButton.setVisibility(View.INVISIBLE);
-		backColorButton.setVisibility(View.INVISIBLE);
+		drawButtons();
 
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
@@ -86,8 +78,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
 			
 			//TODO: by default (not working)
-			userPrefs.setButtonBackgroundColor(getBackgroundColor(testButton));
-			userPrefs.setButtonTextColor(testButton.getTextColors().getDefaultColor());
+			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
+			userPrefs.setButtonTextColor(btnResize.getTextColors().getDefaultColor());
 		} else {
 			//TODO: Read instructions
 			speakOut(getResources().getString(R.string.button_info_message));
@@ -98,6 +90,18 @@ public class ButtonConfigActivity extends AbstractActivity {
 		
 		initializeServices(TAG);
 		addListeners();
+	}
+
+	private void drawButtons() {
+		btnResize = (Button) findViewById(R.id.button_resize);
+		textColor = btnResize.getTextColors().getDefaultColor();
+		btnBackgroundColor = (Button) findViewById(R.id.button_background_color);
+		btnTextColor = (Button) findViewById(R.id.button_text_color);
+		btnColorButton = (Button) findViewById(R.id.button_color);
+		
+		btnBackgroundColor.setVisibility(View.INVISIBLE);
+		btnTextColor.setVisibility(View.INVISIBLE);
+		btnColorButton.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -118,26 +122,26 @@ public class ButtonConfigActivity extends AbstractActivity {
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 
-		findViewById(R.id.next_button).setOnClickListener(this);
-		findViewById(R.id.background_color_button).setOnClickListener(this);
-		findViewById(R.id.text_color_button).setOnClickListener(this);
-		findViewById(R.id.back_color_button).setOnClickListener(this);
-		testButton.setOnClickListener(this);
+		findViewById(R.id.button_next).setOnClickListener(this);
+		findViewById(R.id.button_background_color).setOnClickListener(this);
+		findViewById(R.id.button_text_color).setOnClickListener(this);
+		findViewById(R.id.button_color).setOnClickListener(this);
+		btnResize.setOnClickListener(this);
 	}
 
 	@Override
 	public void redrawViews() {
-		findViewById(R.id.next_button).setMinimumWidth(testButton.getWidth());
-		findViewById(R.id.next_button).setMinimumHeight(testButton.getHeight());
+		findViewById(R.id.button_next).setMinimumWidth(btnResize.getWidth());
+		findViewById(R.id.button_next).setMinimumHeight(btnResize.getHeight());
 
-		findViewById(R.id.background_color_button).setMinimumWidth(testButton.getWidth());
-		findViewById(R.id.background_color_button).setMinimumHeight(testButton.getHeight());
+		findViewById(R.id.button_background_color).setMinimumWidth(btnResize.getWidth());
+		findViewById(R.id.button_background_color).setMinimumHeight(btnResize.getHeight());
 
-		findViewById(R.id.text_color_button).setMinimumWidth(testButton.getWidth());
-		findViewById(R.id.text_color_button).setMinimumHeight(testButton.getHeight());
+		findViewById(R.id.button_text_color).setMinimumWidth(btnResize.getWidth());
+		findViewById(R.id.button_text_color).setMinimumHeight(btnResize.getHeight());
 
-		findViewById(R.id.back_color_button).setMinimumWidth(testButton.getWidth());
-		findViewById(R.id.back_color_button).setMinimumHeight(testButton.getHeight());
+		findViewById(R.id.button_color).setMinimumWidth(btnResize.getWidth());
+		findViewById(R.id.button_color).setMinimumHeight(btnResize.getHeight());
 	}
 
 
@@ -145,13 +149,13 @@ public class ButtonConfigActivity extends AbstractActivity {
 		return new OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				final int width  = testButton.getWidth();
-				final int height = testButton.getHeight();
+				final int width  = btnResize.getWidth();
+				final int height = btnResize.getHeight();
 				//TODO: And the Text size?
 				if ((view.getWidth() > maxWidth) && (view.getHeight() > maxHeight)){
-					if (testButton.getWidth() < VIEW_MAX_SIZE) {
-						testButton.setWidth(width + 10);
-						testButton.setHeight(height + 10);
+					if (btnResize.getWidth() < VIEW_MAX_SIZE) {
+						btnResize.setWidth(width + 10);
+						btnResize.setHeight(height + 10);
 					}
 				}
 				redrawViews();
@@ -162,17 +166,17 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.next_button) {
+		if (view.getId() == R.id.button_next) {
 			//TODO: next activity for configuring TextEdit size and color
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
 
-			userPrefs.setButtonBackgroundColor(getBackgroundColor(testButton));
-			userPrefs.setButtonWidth(testButton.getWidth());
-			userPrefs.setButtonHeight(testButton.getHeight());
-			userPrefs.setButtonTextColor(buttonTextColor);
+			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
+			userPrefs.setButtonWidth(btnResize.getWidth());
+			userPrefs.setButtonHeight(btnResize.getHeight());
+			userPrefs.setButtonTextColor(textColor);
 			userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
 
 			intent.putExtra("viewParams", userPrefs);
@@ -183,42 +187,42 @@ public class ButtonConfigActivity extends AbstractActivity {
 			
 			removePreviousValuesFromOntology();
 			
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth", testButton.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight", testButton.getHeight());
+			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
+			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", buttonTextColor);
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize", testButton.getTextSize());
+			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
+			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
 			super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
 
 			checkOntology();
 			startActivity(intent);
 		}				
-		else if (view.getId() == R.id.background_color_button){
+		else if (view.getId() == R.id.button_background_color){
 			Random randomBackColor = new Random(); 
 			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-			testButton.setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.next_button).setBackgroundColor(getBackgroundColor(this.testButton));
-			findViewById(R.id.background_color_button).setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.text_color_button).setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.back_color_button).setBackgroundColor(buttonBackgroundColor);
-		} else if (view.getId() == R.id.text_color_button){
+			btnResize.setBackgroundColor(buttonBackgroundColor);
+			findViewById(R.id.button_next).setBackgroundColor(getBackgroundColor(this.btnResize));
+			findViewById(R.id.button_background_color).setBackgroundColor(buttonBackgroundColor);
+			findViewById(R.id.button_text_color).setBackgroundColor(buttonBackgroundColor);
+			findViewById(R.id.button_color).setBackgroundColor(buttonBackgroundColor);
+		} else if (view.getId() == R.id.button_text_color){
 			Random randomTextColor = new Random(); 
 			int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));   
-			testButton.setTextColor(textColor);
-			this.buttonTextColor = textColor;
-			((Button)findViewById(R.id.next_button)).setTextColor(textColor);
-			((Button)findViewById(R.id.background_color_button)).setTextColor(textColor);
-			((Button)findViewById(R.id.text_color_button)).setTextColor(textColor);
-			((Button)findViewById(R.id.back_color_button)).setTextColor(textColor);
-		} else if (view.getId() == R.id.back_color_button){
+			btnResize.setTextColor(textColor);
+			this.textColor = textColor;
+			((Button)findViewById(R.id.button_next)).setTextColor(textColor);
+			((Button)findViewById(R.id.button_background_color)).setTextColor(textColor);
+			((Button)findViewById(R.id.button_text_color)).setTextColor(textColor);
+			((Button)findViewById(R.id.button_color)).setTextColor(textColor);
+		} else if (view.getId() == R.id.button_color){
 			Random randomColor = new Random(); 
 			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(layoutBackgroundColor);
 			Log.d(ButtonConfigActivity.class.getSimpleName(), "BackgroundColor: " + layoutBackgroundColor);
-		} else if (view.getId() == R.id.test_button){
-			textColorButton.setVisibility(View.VISIBLE);
-			backgroundColorButton.setVisibility(View.VISIBLE);
-			backColorButton.setVisibility(View.VISIBLE);
+		} else if (view.getId() == R.id.button_resize){
+			btnTextColor.setVisibility(View.VISIBLE);
+			btnBackgroundColor.setVisibility(View.VISIBLE);
+			btnColorButton.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -287,5 +291,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 			mCanvas = new Canvas(mBitmap);
 			mBounds = new Rect();
 		}
+	}
+	
+	public void resizeButtons(){
+//		onClick(view)
 	}
 }

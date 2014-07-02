@@ -75,7 +75,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 		
-		findViewById(R.id.next_button).setOnClickListener(this);
+		findViewById(R.id.button_next).setOnClickListener(this);
 		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
 	}
 	
@@ -95,9 +95,9 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
 		((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
-		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
+		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.button_next)).setTextColor(userPrefs.getButtonTextColor());
 		
 		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
@@ -106,7 +106,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
 		if (userPrefs.getLayoutBackgroundColor() != 0){
-			((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}
 	}
@@ -138,7 +138,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.next_button){
+		if (view.getId() == R.id.button_next){
 			Intent intent = new Intent(this, VolumeConfigActivity.class);
 			
 			if (brightnessChanged){

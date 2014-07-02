@@ -16,15 +16,16 @@
     <string name="ontology_namespace">http://www.morelab.deusto.es/ontologies/adaptui#</string>
     <string name="ontology_filename">adaptui.owl</string>
     
-	<!-- Interaction Intent -->
+	<!-- Capabilities Intent -->
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
     <string name="button_background_color">Button Back Color</string>
-    <string name="edit_text_text_color">Edit Text Text Color</string>
-    <string name="edit_text_background_color">Edit Text Back Color</string>
-    <string name="edit_text_size">Edit Text Size</string> 
+    <string name="edit_text_text_color">EditText Text Color</string>
+    <string name="edit_text_background_color">EditText Back Color</string>
+    <string name="edit_text_size">EditText Size</string> 
     <string name="button_text_color">Button Text Color</string>
-    <string name="button_back_color">Background Color</string>
+    <string name="button_color">Background Color</string>
+    <string name="recognizer_error">"Voice recognizer not present"</string>
     
     <!-- InputActivity -->
     <string name="basic_input_message">If you prefer an audio based interaction, please say YES or
@@ -38,23 +39,14 @@
     
     <!-- Button_Config_Activity -->
     <string name="button_info_message">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
-    <string name="button_message">Push me!</string>
+    <string name="button_resize_message">Push me!</string>
     <string name="next_message">Next</string>
-    <!-- <string name="textview_message">Change TextView Color</string> -->
     <string name="brightness_message">Configure the desired Brightness</string>
-    <!-- <string name="night_mode_message">Night Mode</string> -->
     <string name="volume_message">Configure the desired Volume</string>
-   <!--  <string name="store_message">Store preferences</string>
-    <string name="preferences_name_minui">MinUIPreferences</string>
-    <string name="adapted_configuration_ui">TestConfiguration</string> -->
 
     <!-- Edit_Text_Config_Activity -->
-    <!-- <string name="title_activity_edit_text_config">EditTextConfigActivity</string> -->
     <string name="edit_text_info_message">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
     <string name="edit_text_message">Read me!</string>
-    <!-- <string name="title_activity_brightness_config">BrightnessConfigActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_volume_config">VolumeConfigActivity</string> -->
     
     <!-- Brightness_Config_Activity -->
 	<string name="brightness_info_message">Tap the screen to configure the screen brightness</string>

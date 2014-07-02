@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -46,7 +45,6 @@ public class CapabilitiesActivity extends AbstractActivity {
 		setVoiceRecognition(checkVoiceRecognition());
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void addListeners() {
 		//OnLongClick -> audio-based interaction
@@ -71,7 +69,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		if (activities.size() == 0) {
-			Log.d(CapabilitiesActivity.class.getSimpleName(), "Voice recognizer not present");
+			Log.d(CapabilitiesActivity.class.getSimpleName(), getResources().getString(R.string.recognizer_error));
 			return false;
 		} 
 		return true;
@@ -200,7 +198,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final String bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
 
 		getDefaultIntent().setClass(this,  MailSenderActivity.class);
-		getDefaultIntent().putExtra("caller", "CapabilitiesActivity");
+		getDefaultIntent().putExtra("caller", this.getClass().getName());
 
 		userPrefs.setVolume(Float.parseFloat(vol));
 		userPrefs.setBrightness(Float.parseFloat(bri));

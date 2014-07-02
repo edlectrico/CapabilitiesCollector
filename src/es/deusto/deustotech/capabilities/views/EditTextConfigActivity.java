@@ -69,7 +69,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 
-		findViewById(R.id.next_button).setOnClickListener(this);
+		findViewById(R.id.button_next).setOnClickListener(this);
 		findViewById(R.id.background_color_button).setOnClickListener(this);
 		findViewById(R.id.text_color_button).setOnClickListener(this);
 		testTextEdit.setOnClickListener(this);
@@ -77,9 +77,9 @@ public class EditTextConfigActivity extends AbstractActivity {
 
 	@Override
 	public void redrawViews() {
-		findViewById(R.id.next_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.next_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.next_button)).setTextColor(userPrefs.getButtonTextColor());
+		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.button_next)).setTextColor(userPrefs.getButtonTextColor());
 
 		findViewById(R.id.background_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.background_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
@@ -92,7 +92,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
 //		if (userPrefs.getButtonBackgroundColor() != 0){
-		((Button)findViewById(R.id.next_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 //		}
@@ -114,7 +114,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.next_button){
+		if (view.getId() == R.id.button_next){
 			Intent intent = new Intent(this, BrightnessConfigActivity.class);
 			
 			userPrefs.setTextEditSize(testTextEdit.getTextSize());
