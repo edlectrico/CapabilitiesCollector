@@ -127,6 +127,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 	@Override
 	public void onClick(View view) {
 		if (view.getId() == R.id.input_button){
+			getDefaultIntent().setClass(this,  ButtonConfigActivity.class);
 			if (!longPush){
 				vibrator.vibrate(500);
 				speakOut("Visual based interaction selected");
