@@ -103,6 +103,10 @@ public class VolumeConfigActivity extends AbstractActivity {
 		if (callerActivity == 1){ //BrightnessActivity
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 			
+			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
+			((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+			((TextView)findViewById(R.id.volume_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			
 			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 			

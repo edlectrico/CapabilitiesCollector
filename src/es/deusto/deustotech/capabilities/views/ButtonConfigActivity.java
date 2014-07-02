@@ -114,9 +114,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 		}
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public void addListeners() {
+		grid.setOnTouchListener(onTouchListener);
 		grid.getChildAt(0).setOnTouchListener(onTouchListener);
 		grid.getChildAt(1).setOnTouchListener(onTouchListener);
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
