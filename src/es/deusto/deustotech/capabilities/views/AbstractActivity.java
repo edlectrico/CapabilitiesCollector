@@ -6,12 +6,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 import es.deusto.deustotech.pellet4android.MainActivity;
@@ -21,15 +24,21 @@ import es.deusto.deustotech.pellet4android.OntologyManager;
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {
 
 	//variable for checking Voice Recognition support on user device
-	public static final int VR_REQUEST = 999;
-	
+	public static final int VR_REQUEST 				= 999;
 	public TextToSpeech tts;
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
 	
-//	private static OntologyManager ontManager 		= new OntologyManager();
-	private static final String ADAPTUI_NAMESPACE	= "http://www.morelab.deusto.es/ontologies/adaptui#";
-	private static final String ADAPTUI				= "adaptui.owl";
+//	getResources().getString(R.string.ontology_path);
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	}
 	
 	public void initializeServices(final String TAG){
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -58,12 +67,12 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		return MainActivity.getOntologyManager();
 	}
 	
-	public static String getOntologyNamespace() {
-		return ADAPTUI_NAMESPACE;
+	public String getOntologyNamespace() {
+		return getResources().getString(R.string.ontology_namespace);
 	}
 	
-	public static String getOntologyFilename() {
-		return ADAPTUI;
+	public String getOntologyFilename() {
+		return getResources().getString(R.string.ontology_filename);
 	}
 	
 	public void addListeners(){ }
@@ -123,5 +132,9 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
   }
 	
 	public void redrawViews(){ }
+
+	public String getOntologyPath() {
+		return getResources().getString(R.string.ontology_path);
+	}
 	
 }

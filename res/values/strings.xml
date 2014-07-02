@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">Settings</string>
-    <string name="app_name">Pellet4Android</string>
+    <string name="app_name">AdaptUI demonstrator</string>
+    
+    <!-- MainActivity -->
+    <string name="loading_message_dialog">Loading. Please wait&#8230;</string>
+    <string name="foaf_uri">http://xmlns.com/foaf/0.1/</string>
+    <string name="cobra_device_uri">http://daml.umbc.edu/ontologies/cobra/0.4/device</string>
+    <string name="user_model_ont_uri">http://u2m.org/2003/02/UserModelOntology.rdf</string>
+    <string name="swrla_uri">http://swrl.stanford.edu/ontologies/3.3/swrla.owl</string>
+    <string name="sqwrl_uri">http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl</string>
+    
+    <!-- AbstractActivity -->
+    <string name="ontology_path">/sdcard/data/</string>
+    <string name="ontology_namespace">http://www.morelab.deusto.es/ontologies/adaptui#</string>
+    <string name="ontology_filename">adaptui.owl</string>
     
 	<!-- Interaction Intent -->
     <string name="visual_impairment">Visual Impairment</string>
@@ -12,6 +25,7 @@
     <string name="edit_text_size">Edit Text Size</string> 
     <string name="button_text_color">Button Text Color</string>
     <string name="button_back_color">Background Color</string>
+    
     <!-- InputActivity -->
     <string name="basic_input_message">If you prefer an audio based interaction, please say YES or
         hold your finger over the screen. Otherwise, please say NO or push the button.</string>

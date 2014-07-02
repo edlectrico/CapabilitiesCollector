@@ -126,6 +126,11 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
+		//TODO: Aún no lo sabemos... Si el usuario responde YES (o mantiene pulsado) puede que sea ciego 
+//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayApplicableIsStatic", false);
+//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasApplicable", 		true);
+//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasBrightness", 		50);
+		
 		if (view.getId() == R.id.input_button){
 			getDefaultIntent().setClass(this,  ButtonConfigActivity.class);
 			if (!longPush){
