@@ -25,15 +25,12 @@ import es.deusto.deustotech.R;
 public class CapabilitiesActivity extends AbstractActivity {
 
 	private static final String TAG = CapabilitiesActivity.class.getSimpleName();
-
 	private boolean longPush 			= false;
 	private boolean voiceRecognition 	= false;
-	private Intent interactionIntent;
-	
 	private static List<String> displays;
 	private static List<String> audios;
+	private Intent interactionIntent;
 
-	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.capabilities_activity);
@@ -42,6 +39,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 		addListeners();
 
 		interactionIntent = new Intent(this, ButtonConfigActivity.class);
+		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
+		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
+		
 		setVoiceRecognition(checkVoiceRecognition());
 	}
 
@@ -56,13 +56,6 @@ public class CapabilitiesActivity extends AbstractActivity {
 		findViewById(R.id.mail_activity_button).setOnClickListener(this);
 	}
 
-	private Intent getDefaultIntent() {
-		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
-		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
-
-		return interactionIntent;
-	}
-
 	//Check if voice recognition is present
 	public boolean checkVoiceRecognition() {
 		PackageManager pm = getPackageManager();
@@ -75,13 +68,13 @@ public class CapabilitiesActivity extends AbstractActivity {
 		return true;
 	}
 
-//	private void onLongClickView() {
-//		longPush = true;
-//
-//		if (voiceRecognition){
-//			listenToSpeech();
-//		}
-//	}
+	private void onLongClickView() {
+		longPush = true;
+
+		if (voiceRecognition){
+			listenToSpeech();
+		}
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -106,11 +99,12 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	@Override
 	public boolean onLongClick(View view) {
-//		if (view.getId() == R.id.grid_layout) {
-//			onLongClickView();
-//		} else if (view.getId() == R.id.input_button){
-//			onLongClickView();
-//		}
+		audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+		if (view.getId() == R.id.grid_layout) {
+			onLongClickView();
+		} else if (view.getId() == R.id.button_input){
+			onLongClickView();
+		}
 
 		super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	super.getOntologyNamespace() + "audioHasApplicabe", true);
 		longPush = false;
@@ -124,24 +118,21 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		//TODO: Aún no lo sabemos... Si el usuario responde YES (o mantiene pulsado) puede que sea ciego 
-//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayApplicableIsStatic", false);
-//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasApplicable", 		true);
-//		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasBrightness", 		50);
-		
 		if (view.getId() == R.id.button_input){
-			getDefaultIntent().setClass(this,  ButtonConfigActivity.class);
+//			getDefaultIntent().setClass(this,  ButtonConfigActivity.class);
 			if (!longPush){
 				vibrator.vibrate(500);
 				speakOut("Visual based interaction selected");
-				startActivity(getDefaultIntent());
+				startActivity(interactionIntent);
 			} else if (longPush){
-//				MainActivity.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	ADAPT_UI + "userAudioHasApplicabe", true);
+				//If longPush means that the user cannot see the screen properly
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable", false);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic", true);
+				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
 				longPush = false;
-
-//				Intent intent = new Intent(this, VolumeConfigActivity.class);
-//				intent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
-//				startActivity(intent);
+				interactionIntent.setClass(this,  VolumeConfigActivity.class);
+				interactionIntent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
+				startActivity(interactionIntent);
 			}
 		} else if (view.getId() == R.id.mail_activity_button){
 			onBackPressed();
@@ -197,8 +188,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final String tvts = ((OWLLiteral) textViewTextSize.toArray()[0]).getLiteral();
 		final String bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
 
-		getDefaultIntent().setClass(this,  MailSenderActivity.class);
-		getDefaultIntent().putExtra("caller", this.getClass().getName());
+		interactionIntent.setClass(this,  MailSenderActivity.class);
+		interactionIntent.putExtra("caller", this.getClass().getName());
 
 		userPrefs.setVolume(Float.parseFloat(vol));
 		userPrefs.setBrightness(Float.parseFloat(bri));
@@ -214,9 +205,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 		userPrefs.setTextViewTextSize(Float.parseFloat(tvts));
 		userPrefs.setLayoutBackgroundColor(Integer.parseInt(bck));
 
-		getDefaultIntent().putExtra("viewParams", userPrefs);
+		interactionIntent.putExtra("viewParams", userPrefs);
 
-		startActivity(getDefaultIntent());
+		startActivity(interactionIntent);
 	}
 
 }
