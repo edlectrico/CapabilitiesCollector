@@ -102,11 +102,6 @@ class DurationImpl
 	implements Serializable {
     
     /**
-     * <p>Number of Fields.</p>
-     */
-    private static final int FIELD_NUM = 6;
-    
-    /**
      * <p>Internal array of value Fields.</p>
      */
 	private static final DatatypeConstants.Field[] FIELDS = new DatatypeConstants.Field[]{
@@ -117,18 +112,6 @@ class DurationImpl
 			DatatypeConstants.MINUTES,
 			DatatypeConstants.SECONDS
 		};
-
-		/**
-		 * <p>Internal array of value Field ids.</p>
-		 */
-		private static final int[] FIELD_IDS = {
-				DatatypeConstants.YEARS.getId(),
-				DatatypeConstants.MONTHS.getId(),
-				DatatypeConstants.DAYS.getId(),
-				DatatypeConstants.HOURS.getId(),
-				DatatypeConstants.MINUTES.getId(),
-				DatatypeConstants.SECONDS.getId()
-			};
 
 	/**
 	 * <p>BigDecimal value of 0.</p>
@@ -702,7 +685,6 @@ class DurationImpl
     public int compare(Duration rhs) {
     	
     	BigInteger maxintAsBigInteger = BigInteger.valueOf((long) Integer.MAX_VALUE);
-    	BigInteger minintAsBigInteger = BigInteger.valueOf((long) Integer.MIN_VALUE);
 
     	// check for fields that are too large in this Duration
     	if (years != null && years.compareTo(maxintAsBigInteger) == 1) {    		

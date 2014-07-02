@@ -73,8 +73,14 @@
 	<string name="end_message_es">Fin</string>
 	
 	<!-- Mail_Sender_Activity -->
-	<string name="to">To: </string>
-	<string name="subject">Subject: </string>	
-	<string name="message">Message: </string>
-	<string name="send">Send</string>
+	<string name="to_en">To: </string>
+	<string name="to_es">Para: </string>
+	<string name="subject_en">Subject: </string>	
+	<string name="subject_es">Sujeto: </string>	
+	<string name="message_en">Message: </string>
+	<string name="message_es">Mensaje: </string>
+	<string name="send_en">Enviar</string>
+	<string name="send_es">Send</string>
+	<string name="trigger_en">Trigger change</string>
+	<string name="trigger_es">Cambiar contexto</string>
 </resources>

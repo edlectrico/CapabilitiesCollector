@@ -17,6 +17,7 @@
 
 package org.apache.xerces.jaxp.datatype;
 
+import android.annotation.SuppressLint;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -177,6 +178,7 @@ import org.apache.xerces.util.DatatypeMessageFormatter;
  * @see javax.xml.datatype.Duration
  */
 
+@SuppressLint("UseValueOf")
 class XMLGregorianCalendarImpl
 	extends XMLGregorianCalendar
 	implements Serializable, Cloneable {
@@ -521,7 +523,8 @@ class XMLGregorianCalendarImpl
      * @param timezone of <code>XMLGregorianCalendar</code> to be created.
      * 
      */
-    protected XMLGregorianCalendarImpl(
+    @SuppressLint("UseValueOf")
+	protected XMLGregorianCalendarImpl(
         BigInteger year,
         int month,
         int day,
@@ -594,7 +597,8 @@ class XMLGregorianCalendarImpl
      * @param millisecond of <code>XMLGregorianCalendar</code> to be created.
      * @param timezone of <code>XMLGregorianCalendar</code> to be created.
      */
-    private XMLGregorianCalendarImpl(
+    @SuppressLint("UseValueOf")
+	private XMLGregorianCalendarImpl(
         int year,
         int month,
         int day,
@@ -2340,7 +2344,8 @@ class XMLGregorianCalendarImpl
 	}
     }
 
-    private static int maximumDayInMonthFor(int year, int month) {
+    @SuppressWarnings("unused")
+	private static int maximumDayInMonthFor(int year, int month) {
 	if (month != DatatypeConstants.FEBRUARY) {
 	    return daysInMonth[month];
 	} else {

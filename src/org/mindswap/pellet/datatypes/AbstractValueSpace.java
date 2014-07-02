@@ -3,7 +3,6 @@ package org.mindswap.pellet.datatypes;
 
 
 public abstract class AbstractValueSpace implements ValueSpace {
-    private static final long serialVersionUID = -8584918754835331819L;
 	public static final Integer EQ = Integer.valueOf( 0 );
     public static final Integer GT = Integer.valueOf( 1 );
     public static final Integer LT = Integer.valueOf( -1 );

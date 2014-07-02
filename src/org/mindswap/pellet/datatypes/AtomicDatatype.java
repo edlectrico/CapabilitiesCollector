@@ -6,6 +6,7 @@ import java.util.Set;
 /**
  * @author Evren Sirin
  */
+@SuppressWarnings("deprecation")
 public interface AtomicDatatype extends Datatype {	
 	public AtomicDatatype not();
 	

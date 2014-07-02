@@ -105,6 +105,7 @@ public abstract class BaseAtomicDatatype extends BaseDatatype implements AtomicD
 		return derive(values, false);
 	}
 
+	@SuppressWarnings("deprecation")
 	public Datatype singleton(Object value) {
 		return enumeration(Collections.singleton(value));
 	}
@@ -113,7 +114,8 @@ public abstract class BaseAtomicDatatype extends BaseDatatype implements AtomicD
 		return derived;
 	}
     
-    public ATermAppl getValue( int n ) {
+    @SuppressWarnings("deprecation")
+	public ATermAppl getValue( int n ) {
         String uri = getPrimitiveType().getURI();
         if( values == null ) {
             if( uri == null )
@@ -138,7 +140,8 @@ public abstract class BaseAtomicDatatype extends BaseDatatype implements AtomicD
   }
     
     
-    public String toString() {
+    @SuppressWarnings("deprecation")
+	public String toString() {
         QNameProvider qnames = new QNameProvider();
         String str;
         if( isDerived() ) 

@@ -82,6 +82,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number> {
 		this.enumerable = this.finite || (decimals == null && rationals == null);
 	}
 
+	@SuppressWarnings("unchecked")
 	private RestrictedRealDatatype(RestrictedRealDatatype other,
 			List<IntegerInterval> intIntervals, List<ContinuousRealInterval> decimalIntervals,
 			List<ContinuousRealInterval> rationalIntervals) {

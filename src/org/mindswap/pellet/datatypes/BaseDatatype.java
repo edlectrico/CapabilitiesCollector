@@ -9,6 +9,7 @@ import aterm.ATermAppl;
 /**
  * @author Evren Sirin
  */
+@SuppressWarnings("deprecation")
 public abstract class BaseDatatype implements Datatype {
 	protected ATermAppl name;
 	

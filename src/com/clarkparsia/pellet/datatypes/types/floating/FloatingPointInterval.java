@@ -64,7 +64,6 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends
 			throw new IllegalArgumentException();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected FloatingPointInterval<T> cast(DiscreteInterval<T, FloatingPointInterval<T>> i) {
 		if( i instanceof FloatingPointInterval )

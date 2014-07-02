@@ -260,7 +260,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if( other instanceof RestrictedFloatingPointDatatype<?> ) {
 			if( !type.equals( ((RestrictedFloatingPointDatatype<?>) other).type ) )
 				throw new IllegalArgumentException();
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			final RestrictedFloatingPointDatatype<T> otherRRD = (RestrictedFloatingPointDatatype) other;
 
 			boolean changes = false;
@@ -367,7 +367,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if( other instanceof RestrictedFloatingPointDatatype<?> ) {
 			if( !type.equals( ((RestrictedFloatingPointDatatype<?>) other).type ) )
 				throw new IllegalArgumentException();
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			final RestrictedFloatingPointDatatype<T> otherRRD = (RestrictedFloatingPointDatatype) other;
 
 			List<FloatingPointInterval<T>> revisedIntervals = new ArrayList<FloatingPointInterval<T>>(
