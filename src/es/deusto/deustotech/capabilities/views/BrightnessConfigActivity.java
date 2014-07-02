@@ -76,17 +76,17 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 		
 		findViewById(R.id.button_next).setOnClickListener(this);
-		findViewById(R.id.test_text_edit).setOnTouchListener(onTouchListener);
+		findViewById(R.id.button_text_edit).setOnTouchListener(onTouchListener);
 	}
 	
 	@Override
 	public void redrawViews() {
 		//EditText config
-		((EditText)findViewById(R.id.test_text_edit)).setTextSize(userPrefs.getTextEditSize() / 2);
+		((EditText)findViewById(R.id.button_text_edit)).setTextSize(userPrefs.getTextEditSize() / 2);
 		
 		if (userPrefs.getTextEditTextColor() != 0){
-			((EditText) findViewById(R.id.test_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
-			((EditText) findViewById(R.id.test_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
+			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		}
 		
 		System.out.println("TextEditTextSize: " + userPrefs.getTextEditSize());

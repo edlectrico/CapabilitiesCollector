@@ -68,12 +68,12 @@ public class ButtonConfigActivity extends AbstractActivity {
 		drawButtons();
 
 		Bundle bundle = getIntent().getExtras();
-		userPrefs = bundle.getParcelable("viewParams");
+		userPrefs = new UserMinimumPreferences();
+//		userPrefs = bundle.getParcelable("viewParams");
 		
 		callerActivity = bundle.getInt("caller");
 
 		if (callerActivity != 2){ //2: VolumeActivity
-			userPrefs = new UserMinimumPreferences();
 			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
 			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
 			
@@ -178,6 +178,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 			userPrefs.setButtonHeight(btnResize.getHeight());
 			userPrefs.setButtonTextColor(textColor);
 			userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
+			intent.putExtra("caller", 1);
 
 			intent.putExtra("viewParams", userPrefs);
 			
@@ -293,7 +294,4 @@ public class ButtonConfigActivity extends AbstractActivity {
 		}
 	}
 	
-	public void resizeButtons(){
-//		onClick(view)
-	}
 }

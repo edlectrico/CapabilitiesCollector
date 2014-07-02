@@ -25,7 +25,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 //	private OntologyManager ontManager;
 	private static List<String> edits, textViews;
 
-	private Button testTextEdit;
+	private Button btnTextEdit;
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
 	
@@ -44,7 +44,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
 		
-		testTextEdit = (Button) findViewById(R.id.test_text_edit);
+		btnTextEdit = (Button) findViewById(R.id.button_text_edit);
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		onTouchListener = createOnTouchListener();
 
@@ -70,9 +70,9 @@ public class EditTextConfigActivity extends AbstractActivity {
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 
 		findViewById(R.id.button_next).setOnClickListener(this);
-		findViewById(R.id.background_color_button).setOnClickListener(this);
-		findViewById(R.id.text_color_button).setOnClickListener(this);
-		testTextEdit.setOnClickListener(this);
+		findViewById(R.id.button_background_color).setOnClickListener(this);
+		findViewById(R.id.button_text_color).setOnClickListener(this);
+		btnTextEdit.setOnClickListener(this);
 	}
 
 	@Override
@@ -81,20 +81,20 @@ public class EditTextConfigActivity extends AbstractActivity {
 		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.button_next)).setTextColor(userPrefs.getButtonTextColor());
 
-		findViewById(R.id.background_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.background_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.background_color_button)).setTextColor(userPrefs.getButtonTextColor());
+		findViewById(R.id.button_background_color).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.button_background_color).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.button_background_color)).setTextColor(userPrefs.getButtonTextColor());
 
-		findViewById(R.id.text_color_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.text_color_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.text_color_button)).setTextColor(userPrefs.getButtonTextColor());
+		findViewById(R.id.button_text_color).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.button_text_color).setMinimumHeight((int) userPrefs.getButtonHeight());
+		((Button)findViewById(R.id.button_text_color)).setTextColor(userPrefs.getButtonTextColor());
 
 		grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
 //		if (userPrefs.getButtonBackgroundColor() != 0){
 		((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		((Button)findViewById(R.id.background_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		((Button)findViewById(R.id.text_color_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.button_background_color)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		((Button)findViewById(R.id.button_text_color)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 //		}
 	}
 
@@ -104,8 +104,8 @@ public class EditTextConfigActivity extends AbstractActivity {
 			public boolean onTouch(View v, MotionEvent event) {
 				float x = event.getRawX();
 
-				testTextEdit.setTextSize((float) (x / 10.0));
-				testTextEdit.invalidate();
+				btnTextEdit.setTextSize((float) (x / 10.0));
+				btnTextEdit.invalidate();
 
 				return true;
 			}
@@ -117,25 +117,26 @@ public class EditTextConfigActivity extends AbstractActivity {
 		if (view.getId() == R.id.button_next){
 			Intent intent = new Intent(this, BrightnessConfigActivity.class);
 			
-			userPrefs.setTextEditSize(testTextEdit.getTextSize());
-			userPrefs.setTextViewTextSize(testTextEdit.getTextSize());
+			userPrefs.setTextEditSize(btnTextEdit.getTextSize());
+			userPrefs.setTextViewTextSize(btnTextEdit.getTextSize());
 
 			intent.putExtra("viewParams", userPrefs);
+			intent.putExtra("caller", 1);
 			edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 			textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
 			
 			removePreviousValuesFromOntology();
 			
-			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight", 	testTextEdit.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize", testTextEdit.getTextSize());
+			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
+			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
 			
 			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
-			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize", testTextEdit.getTextSize());
+			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
 			
-			System.out.println("TextEditTextSize: " + testTextEdit.getTextSize());
+			System.out.println("TextEditTextSize: " + btnTextEdit.getTextSize());
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
@@ -143,19 +144,19 @@ public class EditTextConfigActivity extends AbstractActivity {
 			
 			checkOntology();
 			startActivity(intent);
-		} else if (view.getId() == R.id.background_color_button){
+		} else if (view.getId() == R.id.button_background_color){
 			setEditTextTextColorChanged(true);
 			Random randomBackColor = new Random(); 
 			backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-			((Button)findViewById(R.id.test_text_edit)).setBackgroundColor(backgroundColor);
+			((Button)findViewById(R.id.button_text_edit)).setBackgroundColor(backgroundColor);
 			userPrefs.setTextEditBackgroundColor(backgroundColor);
 			userPrefs.setTextViewBackgroundColor(backgroundColor);
 
-		} else if (view.getId() == R.id.text_color_button){
+		} else if (view.getId() == R.id.button_text_color){
 			setEditTextTextColorChanged(true);
 			Random randomTextColor = new Random(); 
 			textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
-			((Button)findViewById(R.id.test_text_edit)).setTextColor(textColor);
+			((Button)findViewById(R.id.button_text_edit)).setTextColor(textColor);
 			userPrefs.setTextEditTextColor(textColor);
 			userPrefs.setTextViewTextColor(textColor);
 		}

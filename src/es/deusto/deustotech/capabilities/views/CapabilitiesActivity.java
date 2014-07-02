@@ -123,6 +123,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 			if (!longPush){
 				vibrator.vibrate(500);
 				speakOut("Visual based interaction selected");
+				interactionIntent.setClass(this,  ButtonConfigActivity.class);
+				interactionIntent.putExtra("caller", 1);
 				startActivity(interactionIntent);
 			} else if (longPush){
 				//If longPush means that the user cannot see the screen properly
@@ -189,7 +191,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final String bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
 
 		interactionIntent.setClass(this,  MailSenderActivity.class);
-		interactionIntent.putExtra("caller", this.getClass().getName());
+		interactionIntent.putExtra("caller", 1);
 
 		userPrefs.setVolume(Float.parseFloat(vol));
 		userPrefs.setBrightness(Float.parseFloat(bri));

@@ -87,9 +87,13 @@ OnFocusChangeListener {
 		Bundle bundle = getIntent().getExtras();
 
 		userPrefs = bundle.getParcelable("viewParams");
-		redrawViews();
-		initializeServices(TAG);
-		addListeners();
+		if (bundle.getInt("caller") != 0){
+			redrawViews();
+			initializeServices(TAG);
+			addListeners();
+		} else {
+			System.out.println("Voice interaction");
+		}
 	}
 
 	@Override

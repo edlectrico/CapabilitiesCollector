@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 
 		protected void onPostExecute(String string) {
 			dialog.dismiss();
-			intent.putExtra("caller", 0); //0 - MainActivity; 1 - MainActivity
+//			intent.putExtra("caller", 0); //0 - MainActivity; 1 - MainActivity
 			startActivity(intent);
 		}
 	}

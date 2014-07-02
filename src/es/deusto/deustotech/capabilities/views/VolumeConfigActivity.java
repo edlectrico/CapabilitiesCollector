@@ -47,7 +47,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 	private int volumeLevel = 10;
 	int callerActivity = -1;
 	
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -156,7 +155,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 				if (userPrefs.getSightProblem() == 1){
 					speakOut("Now try to send an email!");
 				}
-				
+				intent.putExtra("caller", 2);
 				startActivity(intent);
 			} else { //MainActivity
 				Intent intent = new Intent(this, ButtonConfigActivity.class);
