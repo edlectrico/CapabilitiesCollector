@@ -36,7 +36,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.input_activity);
+		setContentView(R.layout.capabilities_activity);
 
 		initializeServices(TAG);
 		addListeners();
@@ -51,8 +51,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		GridLayout grid = (GridLayout) findViewById(R.id.grid_layout);
 		grid.setOnLongClickListener(this);
 
-		findViewById(R.id.input_button).setOnLongClickListener(this);
-		findViewById(R.id.input_button).setOnClickListener(this);
+		findViewById(R.id.button_input).setOnLongClickListener(this);
+		findViewById(R.id.button_input).setOnClickListener(this);
 		findViewById(R.id.mail_activity_button).setOnClickListener(this);
 	}
 
@@ -129,7 +129,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 //		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasApplicable", 		true);
 //		ontManager.addDataTypePropertyValue(displays.get(0), 	ADAPT_UI + "userDisplayHasBrightness", 		50);
 		
-		if (view.getId() == R.id.input_button){
+		if (view.getId() == R.id.button_input){
 			getDefaultIntent().setClass(this,  ButtonConfigActivity.class);
 			if (!longPush){
 				vibrator.vibrate(500);

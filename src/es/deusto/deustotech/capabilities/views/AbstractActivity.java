@@ -86,7 +86,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
             } else {
-            	speakOut(getResources().getString(R.string.basic_input_message));
+            	speakOut(getResources().getString(R.string.basic_input_message_es));
             	//TODO: This method should be called once the tts finished reading the basic_input_message
             	listenToSpeech();
             }
