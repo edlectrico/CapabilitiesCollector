@@ -46,10 +46,10 @@
         >
 
         <Button
-            android:id="@+id/button_background_color"
+            android:id="@+id/button_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_background_color" 
+            android:text="@string/button_color_es" 
             android:layout_gravity="left"/>
         
         <Button
@@ -70,10 +70,10 @@
        >
 
         <Button
-            android:id="@+id/button_color"
+            android:id="@+id/button_background_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_color_es" 
+            android:text="@string/button_background_color_es" 
             android:layout_gravity="right"/>
     </LinearLayout>
     

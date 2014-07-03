@@ -27,6 +27,7 @@
     <string name="button_text_color_es">Color del texto</string>
     <string name="button_color_en">Background Color</string>
     <string name="button_color_es">Color del botón</string>
+    <string name="button_background_color_es">Color del fondo</string>
     
     
     <string name="volume_message">Configure the desired Volume</string>
