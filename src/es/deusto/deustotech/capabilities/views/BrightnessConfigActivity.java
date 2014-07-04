@@ -42,7 +42,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.brightness_config);
+		setContentView(R.layout.brightness_config_activity);
 		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");

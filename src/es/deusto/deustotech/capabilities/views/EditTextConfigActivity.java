@@ -36,7 +36,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.edit_text_config);
+		setContentView(R.layout.edittext_config_activity);
 
 //		ontManager = super.getOntologyManager();
 		

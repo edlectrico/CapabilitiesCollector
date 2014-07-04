@@ -61,7 +61,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.button_config);
+		setContentView(R.layout.button_config_activity);
 		
 		drawButtons();
 

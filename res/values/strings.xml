@@ -29,7 +29,6 @@
     <string name="button_color_es">Color del botón</string>
     <string name="button_background_color_es">Color del fondo</string>
     
-    
     <string name="volume_message">Configure the desired Volume</string>
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
@@ -52,13 +51,14 @@
     <string name="avoid_configuration_message_en">Avoid configuration</string>
  	<string name="avoid_configuration_message_es">Saltar configurador</string>
  	<string name="message_visual_interaction_es">Seleccionada interacción visual</string>
+ 	<string name="si">Si</string>
+ 	<string name="no">No</string>
     
  	<!-- Edit_Text_Config_Activity -->
     <string name="text_view_info_message_en">TEST</string>
     <string name="text_view_info_message_es">PRUEBA</string>
     <string name="edit_text_info_message_en">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
     <string name="edit_text_info_message_es">¿Puede leer el mensaje? Si no le es posible, pulse la pantalla hasta que consiga verlo.</string>
-   
     
     <!-- Brightness_Config_Activity -->
 	<string name="brightness_info_message_en">Tap the screen to configure the screen brightness</string>
@@ -76,7 +76,7 @@
 	
 	<!-- Mail_Sender_Activity -->
 	<string name="to_en">To: </string>
-	<string name="to_es">Para: </string>
+	<string name="to_es">Destinatario: </string>
 	<string name="subject_en">Subject: </string>	
 	<string name="subject_es">Sujeto: </string>	
 	<string name="message_en">Message: </string>
@@ -85,4 +85,6 @@
 	<string name="send_es">Send</string>
 	<string name="trigger_en">Trigger change</string>
 	<string name="trigger_es">Cambiar contexto</string>
+	<string name="mail_sender_es">Pantalla de test para enviar email. Pulse sobre la pantalla para
+	    elegir entre Destinatario, Sujeto, Mensaje y Enviar</string>
 </resources>

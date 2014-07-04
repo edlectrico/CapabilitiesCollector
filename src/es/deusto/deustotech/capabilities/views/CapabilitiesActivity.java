@@ -47,6 +47,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
 		
 		setVoiceRecognition(checkVoiceRecognition());
+		
+		audios 	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+		displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 	}
 
 	@Override
@@ -86,11 +89,15 @@ public class CapabilitiesActivity extends AbstractActivity {
 		if (requestCode == VR_REQUEST && resultCode == RESULT_OK) {
 			//store the returned word list as an ArrayList
 			ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-			if (suggestedWords.contains("yes")){
+			if (suggestedWords.contains(getResources().getString(R.string.si))){
+				tts.stop();
 				//TODO: Communication by audio (blind user)
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
-			} else if (suggestedWords.contains("no")){
+				interactionIntent.setClass(this,  MailSenderActivity.class);
+				interactionIntent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
+			} else if (suggestedWords.contains(getResources().getString(R.string.no))){
 				//TODO: Communication by visual interaction, but probably with a visual difficulty
+				tts.stop();
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), "displayHasApplicabe", true);
 				
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
@@ -123,8 +130,6 @@ public class CapabilitiesActivity extends AbstractActivity {
 	@Override
 	public void onClick(View view) {
 		if (!loaded){
-			audios 	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");			
 			loaded 	 = true;
 		}
 		
@@ -138,6 +143,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
 				interactionIntent.setClass(this,  ButtonConfigActivity.class);
 				interactionIntent.putExtra("caller", 1);
+				tts.stop();
 				startActivity(interactionIntent);
 			} else if (longPush){
 				//If longPush means that the user cannot see the screen properly

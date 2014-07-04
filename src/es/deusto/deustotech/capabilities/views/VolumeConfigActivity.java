@@ -50,7 +50,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.volume_config);
+		setContentView(R.layout.volume_config_activity);
 		
 		Bundle bundle = getIntent().getExtras();
 		

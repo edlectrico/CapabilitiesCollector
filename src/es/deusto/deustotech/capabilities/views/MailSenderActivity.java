@@ -32,8 +32,7 @@ import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
  * 
  */
 
-public class MailSenderActivity extends AbstractActivity implements
-OnFocusChangeListener {
+public class MailSenderActivity extends AbstractActivity implements OnFocusChangeListener {
 
 	private final String TAG = MailSenderActivity.class.getSimpleName();
 
@@ -68,11 +67,17 @@ OnFocusChangeListener {
 
 	private long start;
 	private List<Double> times;
+	
+	private Bundle bundle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.email_activity);
+		setContentView(R.layout.mail_sender_activity);
+		
+		if (super.tts != null){
+			super.tts.stop();
+		}
 
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		buttonContextChange = (Button) findViewById(R.id.buttonTriggerContextChange);
@@ -84,16 +89,17 @@ OnFocusChangeListener {
 		textViewPhoneNo = (TextView) findViewById(R.id.textViewPhoneNo);
 		layout = (LinearLayout) findViewById(R.id.linearLayout0);
 
-		Bundle bundle = getIntent().getExtras();
+		bundle = getIntent().getExtras();
 
 		userPrefs = bundle.getParcelable("viewParams");
 		if (bundle.getInt("caller") != 0){
 			redrawViews();
 			initializeServices(TAG);
-			addListeners();
 		} else {
 			System.out.println("Voice interaction");
+			speakOut(getResources().getString(R.string.mail_sender_es));
 		}
+		addListeners();
 	}
 
 	@Override
@@ -107,7 +113,7 @@ OnFocusChangeListener {
 			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
 		}
 	}
-
+	
 	@Override
 	public void redrawViews() {
 		final int layoutBackgroundColor = userPrefs.getLayoutBackgroundColor();
@@ -201,6 +207,7 @@ OnFocusChangeListener {
 
 			timeToStartTask = System.currentTimeMillis() - launchedAt;
 		}
+		
 		if (view.getId() == R.id.buttonSend) {
 			String to = textTo.getText().toString();
 			String subject = textSubject.getText().toString();
@@ -237,6 +244,22 @@ OnFocusChangeListener {
 		} else if (view.getId() == R.id.editTextMessage) {
 			Log.d(TAG, "editTextMessage clicked!");
 			editTextClicks++;
+		}
+		
+		if (view.getId() == R.id.editTextTo){
+			if (bundle.getInt("caller") == 1){
+				speakOut(getResources().getString(R.string.to_es));
+			}
+		}
+		if (view.getId() == R.id.editTextSubject){
+			if (bundle.getInt("caller") == 1){
+				speakOut(getResources().getString(R.string.subject_es));
+			}
+		}
+		if (view.getId() == R.id.editTextMessage){
+			if (bundle.getInt("caller") == 1){
+				speakOut(getResources().getString(R.string.message_es));
+			}
 		}
 
 		if (view.getId() == R.id.buttonTriggerContextChange) {
