@@ -51,6 +51,7 @@
     <string name="input_button_message_es">¡Púlseme!</string>
     <string name="avoid_configuration_message_en">Avoid configuration</string>
  	<string name="avoid_configuration_message_es">Saltar configurador</string>
+ 	<string name="message_visual_interaction_es">Seleccionada interacción visual</string>
     
  	<!-- Edit_Text_Config_Activity -->
     <string name="text_view_info_message_en">TEST</string>

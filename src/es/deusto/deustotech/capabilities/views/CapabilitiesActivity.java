@@ -45,8 +45,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		interactionIntent = new Intent(this, ButtonConfigActivity.class);
 		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
-//		
-//		setVoiceRecognition(checkVoiceRecognition());
+		
+		setVoiceRecognition(checkVoiceRecognition());
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 			deletePreviousValues();
 			if (!longPush){
 				vibrator.vibrate(500);
-//				speakOut("Visual based interaction selected");
+				speakOut(getResources().getString(R.string.message_visual_interaction_es));
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable", true);
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic", false);
 				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);

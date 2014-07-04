@@ -2,6 +2,7 @@ package es.deusto.deustotech.capabilities.views;
 
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +20,7 @@ import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 import es.deusto.deustotech.pellet4android.MainActivity;
 import es.deusto.deustotech.pellet4android.OntologyManager;
 
+@SuppressLint("NewApi")
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {
 
 	//variable for checking Voice Recognition support on user device
@@ -41,21 +44,21 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		userPrefs = new UserMinimumPreferences();
 		//TODO: why is not working the onDone call? This part of code was after
 		//the speakOut() call within the onInit method
-//		tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-//			@Override
-//			public void onStart(String message) {
-//				Log.d(TAG, "onStart " + message);
-//			}
-//
-//			@Override
-//			public void onError(String message) { }
-//
-//			@Override
-//			public void onDone(String message) {
-//				Log.d(TAG, "onDone " + message);
-//				listenToSpeech();
-//			}
-//		});
+		tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+			@Override
+			public void onStart(String message) {
+				Log.d(TAG, "onStart " + message);
+			}
+
+			@Override
+			public void onError(String message) { }
+
+			@Override
+			public void onDone(String message) {
+				Log.d(TAG, "onDone " + message);
+				listenToSpeech();
+			}
+		});
 	}
 	
 	public static OntologyManager getOntologyManager() {
@@ -75,7 +78,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	@Override
 	public void onInit(int status) {
 		if (status == TextToSpeech.SUCCESS) {
-            int result = tts.setLanguage(Locale.US);
+            int result = tts.setLanguage(new Locale("spa", "ES"));
  
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -103,13 +106,13 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		startActivityForResult(listenIntent, VR_REQUEST);
 	}
 	
-//	public void speak(View view) {
-//		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//
-//		// Specify the calling package to identify your application
-//		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass()
-//				.getPackage().getName());
-//	}
+	public void speak(View view) {
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+		// Specify the calling package to identify your application
+		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass()
+				.getPackage().getName());
+	}
 
 	@Override
 	public void onClick(View view) { }
@@ -123,7 +126,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		if (tts == null){
 			tts = new TextToSpeech(this, this);
 		}
-//      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+      tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
   }
 	
 	public void redrawViews(){ }
