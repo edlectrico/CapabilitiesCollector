@@ -2,7 +2,6 @@ package es.deusto.deustotech.capabilities.views;
 
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,16 +18,13 @@ import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 import es.deusto.deustotech.pellet4android.MainActivity;
 import es.deusto.deustotech.pellet4android.OntologyManager;
 
-@SuppressLint("NewApi")
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {
 
 	//variable for checking Voice Recognition support on user device
-	public static final int VR_REQUEST 				= 999;
+	public static final int VR_REQUEST = 999;
 	public TextToSpeech tts;
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
-	
-//	getResources().getString(R.string.ontology_path);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +41,21 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		userPrefs = new UserMinimumPreferences();
 		//TODO: why is not working the onDone call? This part of code was after
 		//the speakOut() call within the onInit method
-		tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-			@Override
-			public void onStart(String message) {
-				Log.d(TAG, "onStart " + message);
-			}
-
-			@Override
-			public void onError(String message) { }
-
-			@Override
-			public void onDone(String message) {
-				Log.d(TAG, "onDone " + message);
-				listenToSpeech();
-			}
-		});
+//		tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+//			@Override
+//			public void onStart(String message) {
+//				Log.d(TAG, "onStart " + message);
+//			}
+//
+//			@Override
+//			public void onError(String message) { }
+//
+//			@Override
+//			public void onDone(String message) {
+//				Log.d(TAG, "onDone " + message);
+//				listenToSpeech();
+//			}
+//		});
 	}
 	
 	public static OntologyManager getOntologyManager() {

@@ -27,8 +27,12 @@ public class CapabilitiesActivity extends AbstractActivity {
 	private static final String TAG = CapabilitiesActivity.class.getSimpleName();
 	private boolean longPush 			= false;
 	private boolean voiceRecognition 	= false;
-	private static List<String> displays;
-	private static List<String> audios;
+	/** 
+	 * This variable checks if the corresponding individuals
+	 * have been loaded before, so there is no need of doing the same operation again
+	 */
+	private boolean loaded				= false;
+	private static List<String> audios, displays;
 	private Intent interactionIntent;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		interactionIntent = new Intent(this, ButtonConfigActivity.class);
 		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
-		
-		setVoiceRecognition(checkVoiceRecognition());
+//		
+//		setVoiceRecognition(checkVoiceRecognition());
 	}
 
 	@Override
@@ -118,11 +122,20 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
+		if (!loaded){
+			audios 	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");			
+			loaded 	 = true;
+		}
+		
 		if (view.getId() == R.id.button_input){
-//			getDefaultIntent().setClass(this,  ButtonConfigActivity.class);
+			deletePreviousValues();
 			if (!longPush){
 				vibrator.vibrate(500);
-				speakOut("Visual based interaction selected");
+//				speakOut("Visual based interaction selected");
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable", true);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic", false);
+				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
 				interactionIntent.setClass(this,  ButtonConfigActivity.class);
 				interactionIntent.putExtra("caller", 1);
 				startActivity(interactionIntent);
@@ -141,6 +154,17 @@ public class CapabilitiesActivity extends AbstractActivity {
 		}
 	}
 
+	/**
+	 * To maintain the consistency of the ontology we are storing just one value per property.
+	 * To do so, it is necessary to delete the corresponding property value before inserting
+	 * a new one.
+	 */
+	private void deletePreviousValues() {
+		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable");
+		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic");
+		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "userAudioHasApplicabe");
+	}
+
 	public boolean isVoiceRecognition() {
 		return voiceRecognition;
 	}
@@ -152,8 +176,6 @@ public class CapabilitiesActivity extends AbstractActivity {
 	@Override
 	public void onBackPressed() {
 		//Avoiding the configuration, as it is stored in the ontology
-		final List<String> audios 	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-		final List<String> displays  = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 		final List<String> buttons	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
 		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");

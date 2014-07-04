@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -30,7 +29,6 @@ import es.deusto.deustotech.capabilities.UserMinimumPreferences;
  * @author edlectrico
  * 
  */
-@SuppressLint("NewApi")
 public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final int VIEW_MAX_SIZE = 500;
@@ -198,7 +196,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 			checkOntology();
 			startActivity(intent);
 		}				
-		else if (view.getId() == R.id.button_background_color){
+		else if (view.getId() == R.id.button_color){
 			Random randomBackColor = new Random(); 
 			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 			btnResize.setBackgroundColor(buttonBackgroundColor);
@@ -215,7 +213,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 			((Button)findViewById(R.id.button_background_color)).setTextColor(textColor);
 			((Button)findViewById(R.id.button_text_color)).setTextColor(textColor);
 			((Button)findViewById(R.id.button_color)).setTextColor(textColor);
-		} else if (view.getId() == R.id.button_color){
+		} else if (view.getId() == R.id.button_background_color){
 			Random randomColor = new Random(); 
 			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(layoutBackgroundColor);

@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -27,7 +26,6 @@ import es.deusto.deustotech.R;
  * @author edlectrico
  *
  */
-@SuppressLint("NewApi")
 public class BrightnessConfigActivity extends AbstractActivity {
 
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
@@ -45,8 +43,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.brightness_config);
-		
-//		ontManager = super.getOntologyManager();
 		
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = bundle.getParcelable("viewParams");
@@ -165,7 +161,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	}
 	
 	private void checkOntology() {
-		final List<String> displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+		//final List<String> displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 		
 		final Collection<OWLLiteral> brightness	= super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
 		

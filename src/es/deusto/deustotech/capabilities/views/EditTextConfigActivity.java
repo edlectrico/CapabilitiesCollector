@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 
-@SuppressLint("NewApi")
 public class EditTextConfigActivity extends AbstractActivity {
 
 	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
