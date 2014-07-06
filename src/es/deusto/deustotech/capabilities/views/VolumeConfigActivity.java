@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +38,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 
 	private static final String TAG = VolumeConfigActivity.class.getSimpleName();
 	
-//	private OntologyManager ontManager;
 	private static List<String> audios;
 	
 	private GridLayout grid;
@@ -87,7 +85,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 	
-	@SuppressLint("NewApi")
 	@Override
 	public void addListeners() {
 		findViewById(R.id.end_button).setOnClickListener(this);
@@ -97,7 +94,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 		grid.getChildAt(1).setOnClickListener(this);
 	}
 	
-	@SuppressLint("NewApi")
 	@Override
 	public void redrawViews() {
 		if (callerActivity == 1){ //BrightnessActivity
@@ -168,12 +164,14 @@ public class VolumeConfigActivity extends AbstractActivity {
 			}
 		} else {
 			Random randomGenerator = new Random();
-			volumeLevel = randomGenerator.nextInt(100);
+			volumeLevel = randomGenerator.nextInt(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+			
+			System.out.println("Max volume: " + audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 			
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 					volumeLevel, 0);
 			
-			speakOut("Testing volume");
+			speakOut("Volumen a " + volumeLevel);
 //			tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
