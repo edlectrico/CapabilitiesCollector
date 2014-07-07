@@ -49,6 +49,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private int buttonBackgroundColor = 0;
 	private int textColor = 0;
 	private int layoutBackgroundColor = 0;
+	private int defaultButtonColor;
+	private static final int DEFAULT_BACK_COLOR = Color.WHITE;
 
 	private OnTouchListener onTouchListener;
 
@@ -57,6 +59,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private Rect mBounds;
 	
 	int callerActivity = -1;
+
+	public static boolean layout_backgroundcolor_changed = false;
+	public static boolean button_backgroundcolor_changed = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +72,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = new UserMinimumPreferences();
-//		userPrefs = bundle.getParcelable("viewParams");
-		
 		callerActivity = bundle.getInt("caller");
 
 		if (callerActivity != 2){ //2: VolumeActivity
@@ -88,6 +91,17 @@ public class ButtonConfigActivity extends AbstractActivity {
 		
 		initializeServices(TAG);
 		addListeners();
+		
+		//Assigning default back colors to avoid null/black configuration if no color is selected
+		buttons = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
+		backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
+//		
+		super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", defaultButtonColor);
+		super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+//		
+//		userPrefs.setButtonBackgroundColor(defaultButtonColor);
+//		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
+//		layoutBackgroundColor = DEFAULT_BACK_COLOR;
 	}
 
 	private void drawButtons() {
@@ -100,6 +114,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 		btnBackgroundColor.setVisibility(View.INVISIBLE);
 		btnTextColor.setVisibility(View.INVISIBLE);
 		btnColorButton.setVisibility(View.INVISIBLE);
+		
+		defaultButtonColor = getBackgroundColor(btnResize);
 	}
 
 	@Override
@@ -131,13 +147,10 @@ public class ButtonConfigActivity extends AbstractActivity {
 	public void redrawViews() {
 		findViewById(R.id.button_next).setMinimumWidth(btnResize.getWidth());
 		findViewById(R.id.button_next).setMinimumHeight(btnResize.getHeight());
-
 		findViewById(R.id.button_background_color).setMinimumWidth(btnResize.getWidth());
 		findViewById(R.id.button_background_color).setMinimumHeight(btnResize.getHeight());
-
 		findViewById(R.id.button_text_color).setMinimumWidth(btnResize.getWidth());
 		findViewById(R.id.button_text_color).setMinimumHeight(btnResize.getHeight());
-
 		findViewById(R.id.button_color).setMinimumWidth(btnResize.getWidth());
 		findViewById(R.id.button_color).setMinimumHeight(btnResize.getHeight());
 	}
@@ -171,32 +184,37 @@ public class ButtonConfigActivity extends AbstractActivity {
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
 
-			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			userPrefs.setButtonWidth(btnResize.getWidth());
 			userPrefs.setButtonHeight(btnResize.getHeight());
 			userPrefs.setButtonTextColor(textColor);
-			userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
 			intent.putExtra("caller", 1);
 
 			intent.putExtra("viewParams", userPrefs);
 			
 			//Store in the ontology
-			buttons = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
-			backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
-			
 			removePreviousValuesFromOntology();
+			
+			if (button_backgroundcolor_changed){
+				super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
+				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
+			}
+			
+			if (layout_backgroundcolor_changed ){
+				super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
+				userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
+			}
 			
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
 			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
-			super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
 
 			checkOntology();
 			startActivity(intent);
 		}				
 		else if (view.getId() == R.id.button_color){
+			button_backgroundcolor_changed = true;
+			
 			Random randomBackColor = new Random(); 
 			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 			btnResize.setBackgroundColor(buttonBackgroundColor);
@@ -214,6 +232,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 			((Button)findViewById(R.id.button_text_color)).setTextColor(textColor);
 			((Button)findViewById(R.id.button_color)).setTextColor(textColor);
 		} else if (view.getId() == R.id.button_background_color){
+			layout_backgroundcolor_changed = true;
+			
 			Random randomColor = new Random(); 
 			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(layoutBackgroundColor);

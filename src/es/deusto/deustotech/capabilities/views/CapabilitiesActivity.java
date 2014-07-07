@@ -208,15 +208,30 @@ public class CapabilitiesActivity extends AbstractActivity {
 		final String bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
 		final String bwi = ((OWLLiteral) buttonWidth.toArray()[0]).getLiteral();
 		final String bhe = ((OWLLiteral) buttonHeiht.toArray()[0]).getLiteral();
-		final String bco = ((OWLLiteral) buttonColor.toArray()[0]).getLiteral();
 		final String btc = ((OWLLiteral) buttonTextColor.toArray()[0]).getLiteral();
-		final String eco = ((OWLLiteral) editColor.toArray()[0]).getLiteral();
 		final String etc = ((OWLLiteral) editTextColor.toArray()[0]).getLiteral();
 		final String ets = ((OWLLiteral) editTextSize.toArray()[0]).getLiteral();
-		final String tvco = ((OWLLiteral) textViewColor.toArray()[0]).getLiteral();
 		final String tvtc = ((OWLLiteral) textViewTextColor.toArray()[0]).getLiteral();
 		final String tvts = ((OWLLiteral) textViewTextSize.toArray()[0]).getLiteral();
-		final String bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
+
+		String bco, bck, tvco, eco;
+		
+		if (buttonColor.size() > 0){
+			bco = ((OWLLiteral) buttonColor.toArray()[0]).getLiteral();
+			userPrefs.setButtonBackgroundColor(Integer.parseInt(bco));
+		}
+		
+		if (editColor.size() > 0){
+			eco = ((OWLLiteral) editColor.toArray()[0]).getLiteral();
+			tvco = ((OWLLiteral) textViewColor.toArray()[0]).getLiteral();
+			userPrefs.setTextEditBackgroundColor(Integer.parseInt(eco));
+			userPrefs.setTextViewBackgroundColor(Integer.parseInt(tvco));
+		}
+
+		if (backgroundColor.size() > 0){
+			bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
+			userPrefs.setLayoutBackgroundColor(Integer.parseInt(bck));
+		}
 
 		interactionIntent.setClass(this,  MailSenderActivity.class);
 		interactionIntent.putExtra("caller", 1);
@@ -225,15 +240,11 @@ public class CapabilitiesActivity extends AbstractActivity {
 		userPrefs.setBrightness(Float.parseFloat(bri));
 		userPrefs.setButtonWidth(Float.parseFloat(bwi));
 		userPrefs.setButtonHeight(Float.parseFloat(bhe));
-		userPrefs.setButtonBackgroundColor(Integer.parseInt(bco));
 		userPrefs.setButtonTextColor(Integer.parseInt(btc));
 		userPrefs.setTextEditSize(Float.parseFloat(ets));
-		userPrefs.setTextEditBackgroundColor(Integer.parseInt(eco));
 		userPrefs.setTextEditTextColor(Integer.parseInt(etc));
-		userPrefs.setTextViewBackgroundColor(Integer.parseInt(tvco));
 		userPrefs.setTextViewTextColor(Integer.parseInt(tvtc));
 		userPrefs.setTextViewTextSize(Float.parseFloat(tvts));
-		userPrefs.setLayoutBackgroundColor(Integer.parseInt(bck));
 
 		interactionIntent.putExtra("viewParams", userPrefs);
 
