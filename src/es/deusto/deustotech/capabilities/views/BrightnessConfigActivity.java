@@ -30,7 +30,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
 	
-//	private OntologyManager ontManager;
 	private static List<String> displays;
 	
 	private GridLayout grid;
@@ -82,14 +81,17 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		
 		if (userPrefs.getTextEditTextColor() != 0){
 			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
+			((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
+		}
+		
+		if (userPrefs.getTextEditBackgroundColor() != 0){
 			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		}
 		
 		System.out.println("TextEditTextSize: " + userPrefs.getTextEditSize());
 		
 		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize() / 2);
-		((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
-		((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
 		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
@@ -99,11 +101,14 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
 		
-		grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
-		if (userPrefs.getLayoutBackgroundColor() != 0){
-			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		if (userPrefs.getButtonBackgroundColor() != -16777216){
 			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		}
+		
+		if (userPrefs.getLayoutBackgroundColor() != 0){
+			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 		}
 	}
 	

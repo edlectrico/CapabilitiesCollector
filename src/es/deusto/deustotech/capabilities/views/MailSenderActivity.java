@@ -116,7 +116,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	
 	@Override
 	public void redrawViews() {
-		if (ButtonConfigActivity.layout_backgroundcolor_changed){
+		if ((ButtonConfigActivity.layout_backgroundcolor_changed) || (userPrefs.getLayoutBackgroundColor() != 0)){
 			final int layoutBackgroundColor = userPrefs.getLayoutBackgroundColor();
 			final int redBackgroundColor = Color.red(layoutBackgroundColor);
 			final int greenBackgroundColor = Color.green(layoutBackgroundColor);
@@ -127,7 +127,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 
-		if (ButtonConfigActivity.button_backgroundcolor_changed) {
+		if ((ButtonConfigActivity.button_backgroundcolor_changed) || (userPrefs.getButtonBackgroundColor() != -16777216)) { 
 			final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();
 			final int redButtonBackgroundColor = Color.red(buttonBackgroundColor);
 			final int greenButtonBackgroundColor = Color.green(buttonBackgroundColor);
@@ -135,15 +135,17 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			buttonSend.setBackgroundColor(Color.argb(ALPHA, redButtonBackgroundColor, greenButtonBackgroundColor, blueButtonBackgroundColor));
 		}
 
-		final int buttonTextColor = userPrefs.getButtonTextColor();
-		final int redTextColor = Color.red(buttonTextColor);
-		final int greenTextColor = Color.green(buttonTextColor);
-		final int blueTextColor = Color.blue(buttonTextColor);
-		buttonSend.setTextColor(Color.argb(ALPHA, redTextColor, greenTextColor, blueTextColor));
+		if (userPrefs.getButtonTextColor() != -16777216){
+			final int buttonTextColor = userPrefs.getButtonTextColor();
+			final int redTextColor = Color.red(buttonTextColor);
+			final int greenTextColor = Color.green(buttonTextColor);
+			final int blueTextColor = Color.blue(buttonTextColor);
+			buttonSend.setTextColor(Color.argb(ALPHA, redTextColor, greenTextColor, blueTextColor));
+		}
 		////////////////////////////////////////////////////////////////////////////////////////
 		
 		/*TextViews*/
-		if (EditTextConfigActivity.edit_backgroundcolor_changed){
+		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getTextViewBackgroundColor() != 0)){
 			final int textViewBackgroundColor = userPrefs.getTextViewBackgroundColor();
 			final int redTextViewBackgroundColor = Color.red(textViewBackgroundColor);
 			final int greenTextViewBackgroundColor = Color.green(textViewBackgroundColor);
@@ -171,15 +173,17 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		textSubject.setTextSize(userPrefs.getTextEditSize() / 2);
 		textMessage.setTextSize(userPrefs.getTextEditSize() / 2);
 
-		final int textEditTextColor = userPrefs.getTextEditTextColor();
-		final int redTextEditTextColor = Color.red(textEditTextColor);
-		final int greenTextEditTextColor = Color.green(textEditTextColor);
-		final int blueTextEditTextColor = Color.blue(textEditTextColor);
-		textTo.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-		textSubject.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
-		textMessage.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+		if (userPrefs.getTextEditTextColor() != 0){
+			final int textEditTextColor = userPrefs.getTextEditTextColor();
+			final int redTextEditTextColor = Color.red(textEditTextColor);
+			final int greenTextEditTextColor = Color.green(textEditTextColor);
+			final int blueTextEditTextColor = Color.blue(textEditTextColor);
+			textTo.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+			textSubject.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+			textMessage.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
+		}
 
-		if (EditTextConfigActivity.edit_backgroundcolor_changed){
+		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getTextEditBackgroundColor() != 0)){
 			final int textEditBackgroundColor = userPrefs.getTextEditBackgroundColor();
 			final int redTextEditBackgroundColor = Color.red(textEditBackgroundColor);
 			final int greenTextEditBackgroundColor = Color.green(textEditBackgroundColor);

@@ -100,8 +100,14 @@ public class VolumeConfigActivity extends AbstractActivity {
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 			
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
-			((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
-			((TextView)findViewById(R.id.volume_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			
+			if (userPrefs.getTextEditTextColor() != 0){
+				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+			}
+			
+			if (userPrefs.getTextEditBackgroundColor() != 0){
+				((TextView)findViewById(R.id.volume_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			}
 			
 			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
@@ -109,7 +115,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
 	
-			if (userPrefs.getLayoutBackgroundColor() != 0){
+			if (userPrefs.getButtonBackgroundColor() != -16777216){
 				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			}
 			

@@ -53,6 +53,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 		textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
 		
+		removePreviousValuesFromOntology();
 		super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 		super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 	}
@@ -185,13 +186,13 @@ public class EditTextConfigActivity extends AbstractActivity {
 	}
 
 	private void checkOntology() {
-		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
-		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
+		edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+		textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
 		
-		final Collection<OWLLiteral> editHeight 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		final Collection<OWLLiteral> editBackColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+		final Collection<OWLLiteral> editHeight 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight");
+		final Collection<OWLLiteral> editBackColor 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor");
+		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize");
 		
 		System.out.println("checkOntology(): " 	+ TAG);
 		System.out.println("editHeight: " 		+ editHeight);
