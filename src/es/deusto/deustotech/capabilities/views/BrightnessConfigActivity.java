@@ -38,6 +38,8 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	private float brightnessValue = 0.5f; // dummy default value
 	private boolean brightnessChanged = false;
 	
+	private static final int DEFAULT_BUTTON_COLOR = -16777216;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,7 +104,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
 		
 
-		if (userPrefs.getButtonBackgroundColor() != -16777216){
+		if (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR){
 			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}

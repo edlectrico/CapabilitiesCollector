@@ -43,7 +43,9 @@ public class VolumeConfigActivity extends AbstractActivity {
 	private GridLayout grid;
 	private AudioManager audioManager = null;
 	private int volumeLevel = 10;
-	int callerActivity = -1;
+	private int callerActivity = -1;
+	
+	private static final int DEFAULT_BUTTON_COLOR = -16777216;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +117,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
 	
-			if (userPrefs.getButtonBackgroundColor() != -16777216){
+			if (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR){
 				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			}
 			

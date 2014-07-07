@@ -34,9 +34,9 @@ import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
 
 public class MailSenderActivity extends AbstractActivity implements OnFocusChangeListener {
 
-	private final String TAG = MailSenderActivity.class.getSimpleName();
-
-	private final int ALPHA = 255;
+	private static final String TAG = MailSenderActivity.class.getSimpleName();
+	private static final int ALPHA = 255;
+	private static final int DEFAULT_BUTTON_COLOR = -16777216;
 
 	private Button buttonSend, buttonContextChange;
 	private EditText textTo, textSubject, textMessage;
@@ -127,7 +127,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 
-		if ((ButtonConfigActivity.button_backgroundcolor_changed) || (userPrefs.getButtonBackgroundColor() != -16777216)) { 
+		if ((ButtonConfigActivity.button_backgroundcolor_changed) || (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR)) { 
 			final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();
 			final int redButtonBackgroundColor = Color.red(buttonBackgroundColor);
 			final int greenButtonBackgroundColor = Color.green(buttonBackgroundColor);
@@ -135,7 +135,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			buttonSend.setBackgroundColor(Color.argb(ALPHA, redButtonBackgroundColor, greenButtonBackgroundColor, blueButtonBackgroundColor));
 		}
 
-		if (userPrefs.getButtonTextColor() != -16777216){
+		if (userPrefs.getButtonTextColor() != DEFAULT_BUTTON_COLOR){
 			final int buttonTextColor = userPrefs.getButtonTextColor();
 			final int redTextColor = Color.red(buttonTextColor);
 			final int greenTextColor = Color.green(buttonTextColor);
