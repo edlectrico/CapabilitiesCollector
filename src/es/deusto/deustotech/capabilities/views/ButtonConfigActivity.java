@@ -136,7 +136,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 
-		findViewById(R.id.button_next).setOnClickListener(this);
+		findViewById(R.id.buttonact_next).setOnClickListener(this);
 		findViewById(R.id.button_background_color).setOnClickListener(this);
 		findViewById(R.id.button_text_color).setOnClickListener(this);
 		findViewById(R.id.button_color).setOnClickListener(this);
@@ -145,8 +145,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	@Override
 	public void redrawViews() {
-		findViewById(R.id.button_next).setMinimumWidth(btnResize.getWidth());
-		findViewById(R.id.button_next).setMinimumHeight(btnResize.getHeight());
+		findViewById(R.id.buttonact_next).setMinimumWidth(btnResize.getWidth());
+		findViewById(R.id.buttonact_next).setMinimumHeight(btnResize.getHeight());
 		findViewById(R.id.button_background_color).setMinimumWidth(btnResize.getWidth());
 		findViewById(R.id.button_background_color).setMinimumHeight(btnResize.getHeight());
 		findViewById(R.id.button_text_color).setMinimumWidth(btnResize.getWidth());
@@ -177,7 +177,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.button_next) {
+		if (view.getId() == R.id.buttonact_next) {
 			//TODO: next activity for configuring TextEdit size and color
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
@@ -224,7 +224,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 			Random randomBackColor = new Random(); 
 			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 			btnResize.setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.button_next).setBackgroundColor(getBackgroundColor(this.btnResize));
+			findViewById(R.id.buttonact_next).setBackgroundColor(getBackgroundColor(this.btnResize));
 			findViewById(R.id.button_background_color).setBackgroundColor(buttonBackgroundColor);
 			findViewById(R.id.button_text_color).setBackgroundColor(buttonBackgroundColor);
 			findViewById(R.id.button_color).setBackgroundColor(buttonBackgroundColor);
@@ -233,7 +233,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 			int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));   
 			btnResize.setTextColor(textColor);
 			this.textColor = textColor;
-			((Button)findViewById(R.id.button_next)).setTextColor(textColor);
+			((Button)findViewById(R.id.buttonact_next)).setTextColor(textColor);
 			((Button)findViewById(R.id.button_background_color)).setTextColor(textColor);
 			((Button)findViewById(R.id.button_text_color)).setTextColor(textColor);
 			((Button)findViewById(R.id.button_color)).setTextColor(textColor);

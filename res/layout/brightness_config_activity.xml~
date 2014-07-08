@@ -1,0 +1,65 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/default_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:orientation="horizontal"
+    android:rowCount="6" >
+
+    <TextView
+        android:id="@+id/brightness_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:text="@string/brightness_message_es" />
+
+    <NumberPicker
+        android:id="@+id/brightness_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="1" />d:layout_column="0"
+        android:layout_row="3"
+        android:text="@string/button_sample_es" />
+
+    <EditText
+        android:id="@+id/button_text_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="4"
+        android:inputType="text"
+        android:text="@string/edit_text_sample_es" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="160dp"
+        android:layout_column="0"
+        android:layout_gravity="left|bottom"
+        android:layout_row="5" >
+
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/next_message_es" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/light_sensor_value_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="right|top"
+        android:layout_row="0"
+        android:text="@string/current_luxes_es" />
+
+    <TextView
+        android:id="@+id/light_sensor_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+             <TextView android
