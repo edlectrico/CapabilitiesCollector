@@ -71,6 +71,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 		volumePicker = (NumberPicker) findViewById(R.id.volume_picker);
 		volumePicker.setMinValue(0);
 		volumePicker.setMaxValue(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+		volumePicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
 		redrawViews();
 		addListeners();

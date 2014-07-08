@@ -53,6 +53,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		brightnessPicker = (NumberPicker) findViewById(R.id.brightness_picker);
 		brightnessPicker.setMinValue(0);
 		brightnessPicker.setMaxValue(10);
+		brightnessPicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
 		
 		redrawViews();
 		initializeServices(TAG);
