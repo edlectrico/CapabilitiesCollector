@@ -18,6 +18,22 @@
     <string name="ontology_namespace">http://www.morelab.deusto.es/ontologies/adaptui#</string>
     <string name="ontology_filename">adaptui.owl</string>
     
+    <!-- CapabilitiesActivity -->
+    <string name="instructions_es">Configurador de AdaptUI</string>
+    <string name="basic_input_message_en">If you prefer an audio based interaction, please say YES or
+        hold your finger over the screen. Otherwise, please say NO or push the button.</string>
+    <string name="basic_input_message_es">¿Prefiere una interacción por medio de audio y voz? Por favor,
+        diga "Sí" en voz alta para activar esta característica o mantenga presionada la pantalla con un dedo.
+		Si por el contrario no desea una interacción por audio, por favor diga "No" o pulse el botón mostrado.
+	</string>
+    <string name="input_button_message_en">PUSH ME!</string>
+    <string name="input_button_message_es">¡Púlseme!</string>
+    <string name="avoid_configuration_message_en">Avoid configuration</string>
+ 	<string name="avoid_configuration_message_es">Saltar configurador</string>
+ 	<string name="message_visual_interaction_es">Seleccionada interacción visual</string>
+ 	<string name="si">Si</string>
+ 	<string name="no">No</string>
+    
 	<!-- ButtonConfigActivity -->
 	<string name="button_info_message_en">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
 	<string name="button_info_message_es">¿Puede ver y pulsar el botón? Si no le es posible, pulse la pantalla hasta que consiga verlo. Pulse a continuación el botón para configurarlo.</string>
@@ -40,22 +56,6 @@
     <string name="edit_text_size">EditText Size</string> 
     <string name="recognizer_error">"Voice recognizer not present"</string>
     
-    <!-- CapabilitiesActivity -->
-    <string name="instructions_es">Configurador de AdaptUI</string>
-    <string name="basic_input_message_en">If you prefer an audio based interaction, please say YES or
-        hold your finger over the screen. Otherwise, please say NO or push the button.</string>
-    <string name="basic_input_message_es">¿Prefiere una interacción por medio de audio y voz? Por favor,
-        diga "Sí" en voz alta para activar esta característica o mantenga presionada la pantalla con un dedo.
-		Si por el contrario no desea una interacción por audio, por favor diga "No" o pulse el botón mostrado.
-	</string>
-    <string name="input_button_message_en">PUSH ME!</string>
-    <string name="input_button_message_es">¡Púlseme!</string>
-    <string name="avoid_configuration_message_en">Avoid configuration</string>
- 	<string name="avoid_configuration_message_es">Saltar configurador</string>
- 	<string name="message_visual_interaction_es">Seleccionada interacción visual</string>
- 	<string name="si">Si</string>
- 	<string name="no">No</string>
-    
  	<!-- Edit_Text_Config_Activity -->
     <string name="text_view_info_message_en">TEST</string>
     <string name="text_view_info_message_es">PRUEBA</string>
@@ -67,8 +67,10 @@
 	<string name="brightness_info_message_es">Pulse la pantalla para cambiar el brillo</string>
 	<string name="brightness_message_en">Configure the desired Brightness</string>
 	<string name="brightness_message_es">Configure el brillo deseado</string>
-	 <string name="edit_text_message_en">Read me!</string>
-	  <string name="edit_text_message_es">¡Léame!</string>
+	<string name="edit_text_message_en">Read me!</string>
+	<string name="edit_text_message_es">¡Léame!</string>
+	<string name="button_sample_es">Botón de ejemplo</string>
+	<string name="edit_text_sample_es">Entrada de texto de ejemplo</string>
 	
 	<!-- Volume_Config_Activity -->
 	<string name="volume_info_message_en">Tap the screen to change volume levels.</string>

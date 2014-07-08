@@ -2,19 +2,19 @@ package es.deusto.deustotech.capabilities.views;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
 
@@ -33,7 +33,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	private static List<String> displays;
 	
 	private GridLayout grid;
-	private OnTouchListener onTouchListener;
+	private NumberPicker brightnessPicker;
 	
 	private float brightnessValue = 0.5f; // dummy default value
 	private boolean brightnessChanged = false;
@@ -49,7 +49,10 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
 		
 		grid = (GridLayout) findViewById(R.id.default_layout);
-		onTouchListener = createOnTouchListener();
+		
+		brightnessPicker = (NumberPicker) findViewById(R.id.brightness_picker);
+		brightnessPicker.setMinValue(0);
+		brightnessPicker.setMaxValue(10);
 		
 		redrawViews();
 		initializeServices(TAG);
@@ -67,13 +70,20 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	
 	@Override
 	public void addListeners() {
-		grid.getChildAt(0).setOnTouchListener(onTouchListener);
-		grid.getChildAt(1).setOnTouchListener(onTouchListener);
-		grid.getChildAt(2).setOnTouchListener(onTouchListener);
-		grid.getChildAt(3).setOnTouchListener(onTouchListener);
-		
 		findViewById(R.id.button_next).setOnClickListener(this);
-		findViewById(R.id.button_text_edit).setOnTouchListener(onTouchListener);
+		
+		brightnessPicker.setOnValueChangedListener(new OnValueChangeListener() {
+			@Override
+			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+				brightnessChanged = true;
+				brightnessValue = newVal / 10F;
+				Log.d("Brightness", String.valueOf(brightnessValue));
+				WindowManager.LayoutParams layoutParams = getWindow()
+						.getAttributes();
+				layoutParams.screenBrightness = brightnessValue;
+				getWindow().setAttributes(layoutParams);
+			}
+		});
 	}
 	
 	@Override
@@ -114,31 +124,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		}
 	}
 	
-	private OnTouchListener createOnTouchListener() {
-		return new OnTouchListener() {
-			//Each time the user presses the screen a new brightness value
-			//is generated
-			@Override
-			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_DOWN){
-					brightnessChanged = true;
-					
-					Random randomGenerator = new Random();
-				    int randomInt = randomGenerator.nextInt(100);
-					
-					brightnessValue = (float) randomInt / 100;
-
-					WindowManager.LayoutParams layoutParams = getWindow()
-							.getAttributes();
-					layoutParams.screenBrightness = brightnessValue;
-					getWindow().setAttributes(layoutParams);
-				}
-				
-				return false;
-			}
-		};
-	}
-
 	@Override
 	public void onClick(View view) {
 		if (view.getId() == R.id.button_next){
