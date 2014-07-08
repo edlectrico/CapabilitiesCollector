@@ -77,6 +77,7 @@
 	<string name="volume_info_message_es">Pulse la pantalla para cambiar el volumen</string>
 	<string name="end_message_en">End</string>
 	<string name="end_message_es">Fin</string>
+	<string name="volume_es">Volumen a</string>
 	
 	<!-- Mail_Sender_Activity -->
 	<string name="to_en">To: </string>

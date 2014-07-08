@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -41,6 +43,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 	private static List<String> audios;
 	
 	private GridLayout grid;
+	private NumberPicker volumePicker;
 	private AudioManager audioManager = null;
 	private int volumeLevel = 10;
 	private int callerActivity = -1;
@@ -63,8 +66,13 @@ public class VolumeConfigActivity extends AbstractActivity {
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		grid.setOnClickListener(this);
 		
-		redrawViews();
 		initializeServices(TAG);
+		
+		volumePicker = (NumberPicker) findViewById(R.id.volume_picker);
+		volumePicker.setMinValue(0);
+		volumePicker.setMaxValue(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+		
+		redrawViews();
 		addListeners();
 	}
 	
@@ -73,8 +81,6 @@ public class VolumeConfigActivity extends AbstractActivity {
 		if (callerActivity == 1){ //BrightnessActivity
 			if (userPrefs.getSightProblem() == 1){
 				super.initializeServices(TAG);
-				
-				speakOut(getResources().getString(R.string.edit_text_info_message_es));
 			}
 			if (userPrefs.getBrightness() != 0){
 				WindowManager.LayoutParams layoutParams = getWindow()
@@ -94,6 +100,18 @@ public class VolumeConfigActivity extends AbstractActivity {
 		
 		grid.getChildAt(0).setOnClickListener(this);
 		grid.getChildAt(1).setOnClickListener(this);
+		
+		volumePicker.setOnValueChangedListener(new OnValueChangeListener() {
+			@Override
+			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+				volumeLevel = newVal;
+				
+				audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+						volumeLevel, 0);
+				
+				speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
+			}
+		});
 	}
 	
 	@Override
@@ -179,8 +197,7 @@ public class VolumeConfigActivity extends AbstractActivity {
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 					volumeLevel, 0);
 			
-			speakOut("Volumen a " + volumeLevel);
-//			tts.speak("Testing volume", TextToSpeech.QUEUE_FLUSH, null);
+			speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
 		}
 	}
 	
