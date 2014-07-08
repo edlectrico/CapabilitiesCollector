@@ -71,6 +71,8 @@
 	<string name="edit_text_message_es">¡Léame!</string>
 	<string name="button_sample_es">Botón de ejemplo</string>
 	<string name="edit_text_sample_es">Entrada de texto de ejemplo</string>
+	<string name="current_luxes_es">Luz ambiental: </string>
+	<string name="current_luxes"></string>
 	
 	<!-- Volume_Config_Activity -->
 	<string name="volume_info_message_en">Tap the screen to change volume levels.</string>
