@@ -40,7 +40,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 
 	private Button buttonSend, buttonContextChange;
 	private EditText textTo, textSubject, textMessage;
-	private TextView textViewPhoneNo, textViewSubject, textViewMessage;
+	private TextView textViewPhoneNo, textViewSubject, textViewMessage, textViewInstructions;
 	
 	private LinearLayout layout;
 
@@ -81,6 +81,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		buttonContextChange = (Button) findViewById(R.id.buttonTriggerContextChange);
+		textViewInstructions = (EditText) findViewById(R.id.textViewEmailInstructions);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
 		textMessage = (EditText) findViewById(R.id.editTextMessage);
@@ -91,8 +92,8 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 
 		bundle = getIntent().getExtras();
 
-		userPrefs = bundle.getParcelable("viewParams");
-		if (bundle.getInt("caller") != 0){
+		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
+		if (bundle.getInt(getResources().getString(R.string.activity_caller)) != 0){
 			redrawViews();
 			initializeServices(TAG);
 		} else {
@@ -153,6 +154,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			textViewMessage.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
 			textViewSubject.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
 			textViewPhoneNo.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
+			textViewInstructions.setBackgroundColor(Color.argb(ALPHA, redTextViewBackgroundColor, greenTextViewBackgroundColor, blueTextViewBackgroundColor));
 
 			final int textViewTextColor = userPrefs.getTextViewTextColor();
 			final int redTextViewTextColor = Color.red(textViewTextColor);
@@ -161,6 +163,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			textViewMessage.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
 			textViewSubject.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
 			textViewPhoneNo.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
+			textViewInstructions.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
 		}
 		
 		textViewMessage.setTextSize(userPrefs.getTextEditSize() / 2);
@@ -259,17 +262,17 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		}
 		
 		if (view.getId() == R.id.editTextTo){
-			if (bundle.getInt("caller") == 1){
+			if (bundle.getInt(getResources().getString(R.string.activity_caller)) == 1){
 				speakOut(getResources().getString(R.string.to_es));
 			}
 		}
 		if (view.getId() == R.id.editTextSubject){
-			if (bundle.getInt("caller") == 1){
+			if (bundle.getInt(getResources().getString(R.string.activity_caller)) == 1){
 				speakOut(getResources().getString(R.string.subject_es));
 			}
 		}
 		if (view.getId() == R.id.editTextMessage){
-			if (bundle.getInt("caller") == 1){
+			if (bundle.getInt(getResources().getString(R.string.activity_caller)) == 1){
 				speakOut(getResources().getString(R.string.message_es));
 			}
 		}

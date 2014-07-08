@@ -46,7 +46,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		setContentView(R.layout.brightness_config_activity);
 		
 		Bundle bundle = getIntent().getExtras();
-		userPrefs = bundle.getParcelable("viewParams");
+		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
 		
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		onTouchListener = createOnTouchListener();
@@ -151,8 +151,8 @@ public class BrightnessConfigActivity extends AbstractActivity {
 				userPrefs.setBrightness(0);
 			}
 			
-			intent.putExtra("viewParams", userPrefs);
-			intent.putExtra("caller", 1); //0 - MainActivity; 1 - BrightnessAtivity
+			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
+			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
 			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 			super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);

@@ -94,7 +94,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				//TODO: Communication by audio (blind user)
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
 				interactionIntent.setClass(this,  MailSenderActivity.class);
-				interactionIntent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
+				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
 			} else if (suggestedWords.contains(getResources().getString(R.string.no))){
 				//TODO: Communication by visual interaction, but probably with a visual difficulty
 				tts.stop();
@@ -121,7 +121,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		longPush = false;
 
 		Intent intent = new Intent(this, VolumeConfigActivity.class);
-		intent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
+		intent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
 		startActivity(intent);
 		
 		return super.onLongClick(view);
@@ -142,7 +142,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic", false);
 				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
 				interactionIntent.setClass(this,  ButtonConfigActivity.class);
-				interactionIntent.putExtra("caller", 1);
+				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
 				tts.stop();
 				startActivity(interactionIntent);
 			} else if (longPush){
@@ -152,7 +152,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
 				longPush = false;
 				interactionIntent.setClass(this,  VolumeConfigActivity.class);
-				interactionIntent.putExtra("caller", 0); //0 - MainActivity; 1 - BrightnessAtivity
+				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
 				startActivity(interactionIntent);
 			}
 		} else if (view.getId() == R.id.mail_activity_button){
@@ -234,7 +234,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		}
 
 		interactionIntent.setClass(this,  MailSenderActivity.class);
-		interactionIntent.putExtra("caller", 1);
+		interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
 
 		userPrefs.setVolume(Float.parseFloat(vol));
 		userPrefs.setBrightness(Float.parseFloat(bri));
@@ -246,7 +246,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		userPrefs.setTextViewTextColor(Integer.parseInt(tvtc));
 		userPrefs.setTextViewTextSize(Float.parseFloat(tvts));
 
-		interactionIntent.putExtra("viewParams", userPrefs);
+		interactionIntent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
 		startActivity(interactionIntent);
 	}

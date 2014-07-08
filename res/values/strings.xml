@@ -2,6 +2,8 @@
 <resources>
     <string name="action_settings">Settings</string>
     <string name="app_name">AdaptUI demonstrator</string>
+    <string name="view_params">viewParams</string>
+    <string name="activity_caller">caller</string>
     
     <!-- MainActivity -->
     <string name="loading_message_dialog">Loading. Please wait&#8230;</string>
@@ -87,4 +89,5 @@
 	<string name="trigger_es">Cambiar contexto</string>
 	<string name="mail_sender_es">Pantalla de test para enviar email. Pulse sobre la pantalla para
 	    elegir entre Destinatario, Sujeto, Mensaje y Enviar</string>
+	<string name="mail_instructions_es">Aplicación de envío de email adaptada. Eliga destinatario, asunto y mensaje para completar el email.</string>
 </resources>

@@ -40,7 +40,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		setContentView(R.layout.edittext_config_activity);
 
 		Bundle bundle = getIntent().getExtras();
-		userPrefs = bundle.getParcelable("viewParams");
+		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
 		
 		btnTextEdit = (Button) findViewById(R.id.button_text_edit);
 		grid = (GridLayout) findViewById(R.id.default_layout);
@@ -126,8 +126,8 @@ public class EditTextConfigActivity extends AbstractActivity {
 			userPrefs.setTextEditSize(btnTextEdit.getTextSize());
 			userPrefs.setTextViewTextSize(btnTextEdit.getTextSize());
 
-			intent.putExtra("viewParams", userPrefs);
-			intent.putExtra("caller", 1);
+			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
+			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 			
 			removePreviousValuesFromOntology();
 			

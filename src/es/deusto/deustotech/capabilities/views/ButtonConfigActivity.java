@@ -72,7 +72,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 		Bundle bundle = getIntent().getExtras();
 		userPrefs = new UserMinimumPreferences();
-		callerActivity = bundle.getInt("caller");
+		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 
 		if (callerActivity != 2){ //2: VolumeActivity
 			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
@@ -187,9 +187,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 			userPrefs.setButtonWidth(btnResize.getWidth());
 			userPrefs.setButtonHeight(btnResize.getHeight());
 			userPrefs.setButtonTextColor(textColor);
-			intent.putExtra("caller", 1);
+			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 
-			intent.putExtra("viewParams", userPrefs);
+			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			
 			removePreviousValuesFromOntology();
 			

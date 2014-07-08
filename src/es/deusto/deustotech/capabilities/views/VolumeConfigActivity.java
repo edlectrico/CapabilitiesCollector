@@ -54,10 +54,10 @@ public class VolumeConfigActivity extends AbstractActivity {
 		
 		Bundle bundle = getIntent().getExtras();
 		
-		callerActivity = bundle.getInt("caller");
+		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 		
 		if (callerActivity == 1){ //BrightnessActivity
-			userPrefs = bundle.getParcelable("viewParams");
+			userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
 		}
 		
 		grid = (GridLayout) findViewById(R.id.volume_layout);
@@ -151,23 +151,23 @@ public class VolumeConfigActivity extends AbstractActivity {
 			
 			Gson gson = new Gson();
 			String json = gson.toJson(userPrefs);
-			prefsEditor.putString("viewParams", json);
+			prefsEditor.putString(getResources().getString(R.string.view_params), json);
 			prefsEditor.commit();
 			
 			checkOntology();
 			
 			if (callerActivity == 1){ //BrightnessActivity
 				Intent intent = new Intent(this, MailSenderActivity.class);
-				intent.putExtra("viewParams", userPrefs);
+				intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 				
 				if (userPrefs.getSightProblem() == 1){
 					speakOut("Now try to send an email!");
 				}
-				intent.putExtra("caller", 2);
+				intent.putExtra(getResources().getString(R.string.activity_caller), 2);
 				startActivity(intent);
 			} else { //MainActivity
 				Intent intent = new Intent(this, ButtonConfigActivity.class);
-				intent.putExtra("caller", 2); //0: MainActivity; 1: BrightnessActivity; 2: VolumeActivity
+				intent.putExtra(getResources().getString(R.string.activity_caller), 2); //0: MainActivity; 1: BrightnessActivity; 2: VolumeActivity
 				startActivity(intent);
 			}
 		} else {
