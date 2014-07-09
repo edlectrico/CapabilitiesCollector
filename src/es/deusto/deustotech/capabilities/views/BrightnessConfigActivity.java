@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
-
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -43,7 +41,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	private TextView textViewCurrentLuxes;
 	private NumberPicker brightnessPicker;
 
-	private float brightnessValue = 0.5f; // dummy default value
+	private float brightnessValue; // dummy default value
 	private boolean brightnessChanged = false;
 	private float currentLuxes;
 
@@ -63,6 +61,8 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		brightnessPicker.setMinValue(0);
 		brightnessPicker.setMaxValue(10);
 		brightnessPicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		
+		brightnessValue = brightnessPicker.getValue();
 
 		textViewCurrentLuxes = (TextView) findViewById(R.id.light_sensor_value);
 
@@ -182,8 +182,10 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			
 			if (bri > brightnessValue){
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", bri);
+				userPrefs.setBrightness(bri);
 			} else {
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
+				userPrefs.setBrightness(brightnessValue);
 			}
 			
 			if (userPrefs.getSightProblem() == 1){
