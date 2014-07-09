@@ -1290,10 +1290,10 @@
                   <swrl:AtomList>
                     <rdf:first>
                       <swrl:DatavaluedPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
                         <swrl:argument2>
                           <swrl:Variable rdf:about="value"/>
                         </swrl:argument2>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
                         <swrl:argument1>
                           <swrl:Variable rdf:about="light"/>
                         </swrl:argument1>
@@ -1301,11 +1301,28 @@
                     </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
+                        <rdf:first>
+                          <swrl:BuiltinAtom>
+                            <swrl:arguments>
+                              <rdf:List>
+                                <rdf:rest>
+                                  <rdf:List>
+                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                    >500</rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                  </rdf:List>
+                                </rdf:rest>
+                                <rdf:first rdf:resource="value"/>
+                              </rdf:List>
+                            </swrl:arguments>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                          </swrl:BuiltinAtom>
+                        </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                             <rdf:first>
                               <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                                 <swrl:arguments>
                                   <rdf:List>
                                     <rdf:rest>
@@ -1319,28 +1336,11 @@
                                     <rdf:first rdf:resource="value"/>
                                   </rdf:List>
                                 </swrl:arguments>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                               </swrl:BuiltinAtom>
                             </rdf:first>
-                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
-                        <rdf:first>
-                          <swrl:BuiltinAtom>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
-                            <swrl:arguments>
-                              <rdf:List>
-                                <rdf:rest>
-                                  <rdf:List>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                    >500</rdf:first>
-                                  </rdf:List>
-                                </rdf:rest>
-                                <rdf:first rdf:resource="value"/>
-                              </rdf:List>
-                            </swrl:arguments>
-                          </swrl:BuiltinAtom>
-                        </rdf:first>
                       </swrl:AtomList>
                     </rdf:rest>
                   </swrl:AtomList>
@@ -1369,15 +1369,103 @@
       <swrl:AtomList>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+            <swrl:argument1 rdf:resource="caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >sunrise</swrl:argument2>
-            <swrl:argument1 rdf:resource="caux"/>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
       </swrl:AtomList>
     </swrl:head>
+  </swrl:Imp>
+  <swrl:Imp rdf:about="adaptBrightnessTwilight">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >1.0</swrl:argument2>
+            <swrl:argument1>
+              <swrl:Variable rdf:about="adaptation"/>
+            </swrl:argument1>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+                <swrl:argument1>
+                  <swrl:Variable rdf:about="device"/>
+                </swrl:argument1>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:argument1 rdf:resource="caux"/>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >twilight</swrl:argument2>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:argument2>
+                              <swrl:Variable rdf:about="battery"/>
+                            </swrl:argument2>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                  </swrl:AtomList>
+                </rdf:rest>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                    <swrl:argument1>
+                      <swrl:Variable rdf:about="user"/>
+                    </swrl:argument1>
+                  </swrl:ClassAtom>
+                </rdf:first>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:body>
   </swrl:Imp>
   <rdf:Description>
     <rdf:rest rdf:parseType="Resource">
@@ -1531,94 +1619,70 @@
   <owl:NamedIndividual rdf:ID="userExperience">
     <rdf:type rdf:resource="#Experience"/>
   </owl:NamedIndividual>
-  <owl:NamedIndividual rdf:ID="deviceOS">
-    <rdf:type rdf:resource="#OS"/>
-  </owl:NamedIndividual>
-  <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/light_value"/>
-  <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelOvercast">
+  <swrl:Imp rdf:about="adaptBrightnessOfficeHallway">
     <swrl:body>
       <swrl:AtomList>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:argument1 rdf:resource="context"/>
-            <swrl:classPredicate rdf:resource="#Context"/>
-          </swrl:ClassAtom>
-        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
             <rdf:rest>
               <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
                 <rdf:rest>
                   <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:argument1 rdf:resource="caux"/>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
                         <rdf:rest>
                           <swrl:AtomList>
                             <rdf:first>
-                              <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
-                                <swrl:arguments>
-                                  <rdf:List>
-                                    <rdf:first rdf:resource="value"/>
-                                    <rdf:rest>
-                                      <rdf:List>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                        <rdf:first rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#int"
-                                        >1000</rdf:first>
-                                      </rdf:List>
-                                    </rdf:rest>
-                                  </rdf:List>
-                                </swrl:arguments>
-                              </swrl:BuiltinAtom>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >office_hallway</swrl:argument2>
+                              </swrl:DatavaluedPropertyAtom>
                             </rdf:first>
                             <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
                         <rdf:first>
-                          <swrl:BuiltinAtom>
-                            <swrl:arguments>
-                              <rdf:List>
-                                <rdf:first rdf:resource="value"/>
-                                <rdf:rest>
-                                  <rdf:List>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                    >500</rdf:first>
-                                  </rdf:List>
-                                </rdf:rest>
-                              </rdf:List>
-                            </swrl:arguments>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
-                          </swrl:BuiltinAtom>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
                         </rdf:first>
                       </swrl:AtomList>
                     </rdf:rest>
-                    <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:argument1 rdf:resource="light"/>
-                        <swrl:argument2 rdf:resource="value"/>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                      </swrl:DatavaluedPropertyAtom>
-                    </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                  <swrl:ClassAtom>
-                    <swrl:argument1 rdf:resource="caux"/>
-                    <swrl:classPredicate rdf:resource="#ContextAux"/>
-                  </swrl:ClassAtom>
-                </rdf:first>
               </swrl:AtomList>
             </rdf:rest>
             <rdf:first>
               <swrl:ClassAtom>
-                <swrl:argument1 rdf:resource="light"/>
-                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+                <swrl:argument1 rdf:resource="device"/>
               </swrl:ClassAtom>
             </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
     <swrl:head>
@@ -1626,14 +1690,178 @@
         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
-            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >overcast</swrl:argument2>
-            <swrl:argument1 rdf:resource="caux"/>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >3.0</swrl:argument2>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
       </swrl:AtomList>
     </swrl:head>
+  </swrl:Imp>
+  <owl:NamedIndividual rdf:ID="deviceOS">
+    <rdf:type rdf:resource="#OS"/>
+  </owl:NamedIndividual>
+  <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/light_value"/>
+  <swrl:Imp rdf:about="adaptBrightnessMoonlessOvercast">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >1.0</swrl:argument2>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:argument1 rdf:resource="caux"/>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >moonless_overcast</swrl:argument2>
+                                <swrl:argument1 rdf:resource="caux"/>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                  </swrl:AtomList>
+                </rdf:rest>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                    <swrl:argument1 rdf:resource="user"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+              </swrl:AtomList>
+            </rdf:rest>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+                <swrl:argument1 rdf:resource="device"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+          </swrl:AtomList>
+        </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:body>
+  </swrl:Imp>
+  <swrl:Imp rdf:about="adaptBrightnessSunrise">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >7.0</swrl:argument2>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="device"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:argument1 rdf:resource="caux"/>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >sunrise</swrl:argument2>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                  </swrl:AtomList>
+                </rdf:rest>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
   </swrl:Imp>
   <owl:NamedIndividual rdf:ID="deviceScreen">
     <rdf:type rdf:resource="http://daml.umbc.edu/ontologies/cobra/0.4/device#DeviceScreen"/>
@@ -1643,50 +1871,27 @@
       <swrl:AtomList>
         <rdf:rest>
           <swrl:AtomList>
-            <rdf:first>
-              <swrl:ClassAtom>
-                <swrl:classPredicate rdf:resource="#Context"/>
-                <swrl:argument1 rdf:resource="context"/>
-              </swrl:ClassAtom>
-            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:first>
                   <swrl:ClassAtom>
-                    <swrl:argument1 rdf:resource="caux"/>
                     <swrl:classPredicate rdf:resource="#ContextAux"/>
+                    <swrl:argument1 rdf:resource="caux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
                 <rdf:rest>
                   <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:argument2 rdf:resource="value"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
-                        <rdf:rest>
-                          <swrl:AtomList>
-                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                            <rdf:first>
-                              <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
-                                <swrl:arguments>
-                                  <rdf:List>
-                                    <rdf:first rdf:resource="value"/>
-                                    <rdf:rest>
-                                      <rdf:List>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                        <rdf:first rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#int"
-                                        >130000</rdf:first>
-                                      </rdf:List>
-                                    </rdf:rest>
-                                  </rdf:List>
-                                </swrl:arguments>
-                              </swrl:BuiltinAtom>
-                            </rdf:first>
-                          </swrl:AtomList>
-                        </rdf:rest>
                         <rdf:first>
                           <swrl:BuiltinAtom>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
                             <swrl:arguments>
                               <rdf:List>
                                 <rdf:first rdf:resource="value"/>
@@ -1699,42 +1904,65 @@
                                 </rdf:rest>
                               </rdf:List>
                             </swrl:arguments>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
                           </swrl:BuiltinAtom>
                         </rdf:first>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:first>
+                              <swrl:BuiltinAtom>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                <swrl:arguments>
+                                  <rdf:List>
+                                    <rdf:rest>
+                                      <rdf:List>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        <rdf:first rdf:datatype=
+                                        "http://www.w3.org/2001/XMLSchema#int"
+                                        >130000</rdf:first>
+                                      </rdf:List>
+                                    </rdf:rest>
+                                    <rdf:first rdf:resource="value"/>
+                                  </rdf:List>
+                                </swrl:arguments>
+                              </swrl:BuiltinAtom>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          </swrl:AtomList>
+                        </rdf:rest>
                       </swrl:AtomList>
                     </rdf:rest>
-                    <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                        <swrl:argument1 rdf:resource="light"/>
-                        <swrl:argument2 rdf:resource="value"/>
-                      </swrl:DatavaluedPropertyAtom>
-                    </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
               </swrl:AtomList>
             </rdf:rest>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="#Context"/>
+                <swrl:argument1 rdf:resource="context"/>
+              </swrl:ClassAtom>
+            </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
         <rdf:first>
           <swrl:ClassAtom>
-            <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
             <swrl:argument1 rdf:resource="light"/>
+            <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
           </swrl:ClassAtom>
         </rdf:first>
       </swrl:AtomList>
     </swrl:body>
     <swrl:head>
       <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >direct_sunlight</swrl:argument2>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
             <swrl:argument1 rdf:resource="caux"/>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
-        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
       </swrl:AtomList>
     </swrl:head>
   </swrl:Imp>
@@ -2001,124 +2229,196 @@
   <owl:NamedIndividual rdf:ID="physicalEnvironmentTemperature">
     <rdf:type rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Temperature"/>
   </owl:NamedIndividual>
-  <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/adaptBrightness">
-    <swrl:head>
-      <swrl:AtomList>
-        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-        <rdf:first>
-          <swrl:DatavaluedPropertyAtom>
-            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
-            <swrl:argument1>
-              <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/adaptation"/>
-            </swrl:argument1>
-            <swrl:argument2>
-              <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/brightness"/>
-            </swrl:argument2>
-          </swrl:DatavaluedPropertyAtom>
-        </rdf:first>
-      </swrl:AtomList>
-    </swrl:head>
+  <swrl:Imp rdf:about="adaptBrightnessMoonlessClear">
     <swrl:body>
       <swrl:AtomList>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/adaptation"/>
-            <swrl:classPredicate rdf:resource="#Adaptation"/>
-          </swrl:ClassAtom>
-        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+                <swrl:argument1 rdf:resource="device"/>
+              </swrl:ClassAtom>
+            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:rest>
                   <swrl:AtomList>
                     <rdf:rest>
                       <swrl:AtomList>
-                        <rdf:first>
-                          <swrl:DatavaluedPropertyAtom>
-                            <swrl:argument1>
-                              <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/user"/>
-                            </swrl:argument1>
-                            <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/brightness"/>
-                            <swrl:propertyPredicate rdf:resource="#userAuxHasDisplayBrightness"/>
-                          </swrl:DatavaluedPropertyAtom>
-                        </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
                             <rdf:first>
-                              <swrl:BuiltinAtom>
-                                <swrl:arguments>
-                                  <rdf:List>
-                                    <rdf:first>
-                                      <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/battery"/>
-                                    </rdf:first>
-                                    <rdf:rest>
-                                      <rdf:List>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                        <rdf:first rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#boolean"
-                                        >true</rdf:first>
-                                      </rdf:List>
-                                    </rdf:rest>
-                                  </rdf:List>
-                                </swrl:arguments>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
-                              </swrl:BuiltinAtom>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >moonless_clear</swrl:argument2>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                                <swrl:argument1 rdf:resource="caux"/>
+                              </swrl:DatavaluedPropertyAtom>
                             </rdf:first>
-                            <rdf:rest>
-                              <swrl:AtomList>
-                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                <rdf:first>
-                                  <swrl:BuiltinAtom>
-                                    <swrl:arguments>
-                                      <rdf:List>
-                                        <rdf:rest>
-                                          <rdf:List>
-                                            <rdf:first rdf:datatype=
-                                            "http://www.w3.org/2001/XMLSchema#int"
-                                            >255</rdf:first>
-                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                          </rdf:List>
-                                        </rdf:rest>
-                                        <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/brightness"/>
-                                      </rdf:List>
-                                    </swrl:arguments>
-                                    <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
-                                  </swrl:BuiltinAtom>
-                                </rdf:first>
-                              </swrl:AtomList>
-                            </rdf:rest>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:argument2 rdf:resource="battery"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
                       </swrl:AtomList>
                     </rdf:rest>
                     <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/battery"/>
-                        <swrl:argument1>
-                          <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/device"/>
-                        </swrl:argument1>
-                      </swrl:DatavaluedPropertyAtom>
+                      <swrl:ClassAtom>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                        <swrl:argument1 rdf:resource="caux"/>
+                      </swrl:ClassAtom>
                     </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
                 <rdf:first>
                   <swrl:ClassAtom>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/user"/>
+                    <swrl:argument1 rdf:resource="user"/>
                     <swrl:classPredicate rdf:resource="#UserAux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
               </swrl:AtomList>
             </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:body>
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >1.0</swrl:argument2>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </swrl:AtomList>
+    </swrl:head>
+  </swrl:Imp>
+  <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/adaptBrightness">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:argument2>
+              <swrl:Variable rdf:about="brightness"/>
+            </swrl:argument2>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:rest>
+                              <swrl:AtomList>
+                                <rdf:first>
+                                  <swrl:BuiltinAtom>
+                                    <swrl:arguments>
+                                      <rdf:List>
+                                        <rdf:first rdf:resource="brightness"/>
+                                        <rdf:rest>
+                                          <rdf:List>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            <rdf:first rdf:datatype=
+                                            "http://www.w3.org/2001/XMLSchema#int"
+                                            >255</rdf:first>
+                                          </rdf:List>
+                                        </rdf:rest>
+                                      </rdf:List>
+                                    </swrl:arguments>
+                                    <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
+                                  </swrl:BuiltinAtom>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                              </swrl:AtomList>
+                            </rdf:rest>
+                            <rdf:first>
+                              <swrl:BuiltinAtom>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
+                                <swrl:arguments>
+                                  <rdf:List>
+                                    <rdf:rest>
+                                      <rdf:List>
+                                        <rdf:first rdf:datatype=
+                                        "http://www.w3.org/2001/XMLSchema#boolean"
+                                        >true</rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      </rdf:List>
+                                    </rdf:rest>
+                                    <rdf:first rdf:resource="battery"/>
+                                  </rdf:List>
+                                </swrl:arguments>
+                              </swrl:BuiltinAtom>
+                            </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:propertyPredicate rdf:resource="#userAuxHasDisplayBrightness"/>
+                            <swrl:argument1 rdf:resource="user"/>
+                            <swrl:argument2 rdf:resource="brightness"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                        <swrl:argument2 rdf:resource="battery"/>
+                        <swrl:argument1 rdf:resource="device"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
             <rdf:first>
               <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="device"/>
                 <swrl:classPredicate rdf:resource="#DeviceAux"/>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/device"/>
               </swrl:ClassAtom>
             </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
   </swrl:Imp>
@@ -2134,40 +2434,26 @@
   <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelMoonlessOvercast">
     <swrl:body>
       <swrl:AtomList>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:argument1>
-              <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/light"/>
-            </swrl:argument1>
-            <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-          </swrl:ClassAtom>
-        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
-            <rdf:first>
-              <swrl:ClassAtom>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/context"/>
-                <swrl:classPredicate rdf:resource="#Context"/>
-              </swrl:ClassAtom>
-            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:rest>
                   <swrl:AtomList>
                     <rdf:first>
                       <swrl:DatavaluedPropertyAtom>
+                        <swrl:argument2 rdf:resource="value"/>
+                        <swrl:argument1 rdf:resource="light"/>
                         <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
                       </swrl:DatavaluedPropertyAtom>
                     </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
                         <rdf:first>
                           <swrl:BuiltinAtom>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                             <swrl:arguments>
                               <rdf:List>
-                                <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
                                 <rdf:rest>
                                   <rdf:List>
                                     <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
@@ -2175,9 +2461,9 @@
                                     <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                   </rdf:List>
                                 </rdf:rest>
+                                <rdf:first rdf:resource="value"/>
                               </rdf:List>
                             </swrl:arguments>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                           </swrl:BuiltinAtom>
                         </rdf:first>
                         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -2187,14 +2473,26 @@
                 </rdf:rest>
                 <rdf:first>
                   <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="caux"/>
                     <swrl:classPredicate rdf:resource="#ContextAux"/>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
               </swrl:AtomList>
             </rdf:rest>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="#Context"/>
+                <swrl:argument1 rdf:resource="context"/>
+              </swrl:ClassAtom>
+            </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+            <swrl:argument1 rdf:resource="light"/>
+          </swrl:ClassAtom>
+        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
     <swrl:head>
@@ -2202,10 +2500,10 @@
         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
+            <swrl:argument1 rdf:resource="caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >moonless_overcast</swrl:argument2>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
       </swrl:AtomList>
@@ -2385,51 +2683,28 @@
   <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelLivingRoom">
     <swrl:body>
       <swrl:AtomList>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:classPredicate rdf:resource="#Context"/>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/context"/>
-          </swrl:ClassAtom>
-        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
-            <rdf:first>
-              <swrl:ClassAtom>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-              </swrl:ClassAtom>
-            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:classPredicate rdf:resource="#ContextAux"/>
+                    <swrl:argument1 rdf:resource="caux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
                 <rdf:rest>
                   <swrl:AtomList>
                     <rdf:rest>
                       <swrl:AtomList>
-                        <rdf:first>
-                          <swrl:BuiltinAtom>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
-                            <swrl:arguments>
-                              <rdf:List>
-                                <rdf:rest>
-                                  <rdf:List>
-                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
-                                    >3.4</rdf:first>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                  </rdf:List>
-                                </rdf:rest>
-                                <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                              </rdf:List>
-                            </swrl:arguments>
-                          </swrl:BuiltinAtom>
-                        </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                             <rdf:first>
                               <swrl:BuiltinAtom>
                                 <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                                 <swrl:arguments>
                                   <rdf:List>
-                                    <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
                                     <rdf:rest>
                                       <rdf:List>
                                         <rdf:first rdf:datatype=
@@ -2438,34 +2713,57 @@
                                         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                       </rdf:List>
                                     </rdf:rest>
+                                    <rdf:first rdf:resource="value"/>
                                   </rdf:List>
                                 </swrl:arguments>
                               </swrl:BuiltinAtom>
                             </rdf:first>
-                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
+                        <rdf:first>
+                          <swrl:BuiltinAtom>
+                            <swrl:arguments>
+                              <rdf:List>
+                                <rdf:rest>
+                                  <rdf:List>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+                                    >3.4</rdf:first>
+                                  </rdf:List>
+                                </rdf:rest>
+                                <rdf:first rdf:resource="value"/>
+                              </rdf:List>
+                            </swrl:arguments>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                          </swrl:BuiltinAtom>
+                        </rdf:first>
                       </swrl:AtomList>
                     </rdf:rest>
                     <rdf:first>
                       <swrl:DatavaluedPropertyAtom>
                         <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:argument2 rdf:resource="value"/>
                       </swrl:DatavaluedPropertyAtom>
                     </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                  <swrl:ClassAtom>
-                    <swrl:classPredicate rdf:resource="#ContextAux"/>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
-                  </swrl:ClassAtom>
-                </rdf:first>
               </swrl:AtomList>
             </rdf:rest>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+                <swrl:argument1 rdf:resource="light"/>
+              </swrl:ClassAtom>
+            </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Context"/>
+            <swrl:argument1 rdf:resource="context"/>
+          </swrl:ClassAtom>
+        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
     <swrl:head>
@@ -2474,9 +2772,9 @@
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
             <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+            <swrl:argument1 rdf:resource="caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >living_room</swrl:argument2>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
       </swrl:AtomList>
@@ -2578,11 +2876,17 @@
   <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelMoonlessClear">
     <swrl:body>
       <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Context"/>
+            <swrl:argument1 rdf:resource="context"/>
+          </swrl:ClassAtom>
+        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
             <rdf:first>
               <swrl:ClassAtom>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
+                <swrl:argument1 rdf:resource="light"/>
                 <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
               </swrl:ClassAtom>
             </rdf:first>
@@ -2590,32 +2894,8 @@
               <swrl:AtomList>
                 <rdf:rest>
                   <swrl:AtomList>
-                    <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-                      </swrl:DatavaluedPropertyAtom>
-                    </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
-                        <rdf:first>
-                          <swrl:BuiltinAtom>
-                            <swrl:arguments>
-                              <rdf:List>
-                                <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                                <rdf:rest>
-                                  <rdf:List>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
-                                    >0.002</rdf:first>
-                                  </rdf:List>
-                                </rdf:rest>
-                              </rdf:List>
-                            </swrl:arguments>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
-                          </swrl:BuiltinAtom>
-                        </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
                             <rdf:first>
@@ -2623,13 +2903,13 @@
                                 <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                                 <swrl:arguments>
                                   <rdf:List>
-                                    <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
+                                    <rdf:first rdf:resource="value"/>
                                     <rdf:rest>
                                       <rdf:List>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                         <rdf:first rdf:datatype=
                                         "http://www.w3.org/2001/XMLSchema#float"
                                         >0.27</rdf:first>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                       </rdf:List>
                                     </rdf:rest>
                                   </rdf:List>
@@ -2639,13 +2919,37 @@
                             <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
+                        <rdf:first>
+                          <swrl:BuiltinAtom>
+                            <swrl:arguments>
+                              <rdf:List>
+                                <rdf:rest>
+                                  <rdf:List>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+                                    >0.002</rdf:first>
+                                  </rdf:List>
+                                </rdf:rest>
+                                <rdf:first rdf:resource="value"/>
+                              </rdf:List>
+                            </swrl:arguments>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                          </swrl:BuiltinAtom>
+                        </rdf:first>
                       </swrl:AtomList>
                     </rdf:rest>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
+                        <swrl:argument2 rdf:resource="value"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
                 <rdf:first>
                   <swrl:ClassAtom>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
+                    <swrl:argument1 rdf:resource="caux"/>
                     <swrl:classPredicate rdf:resource="#ContextAux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
@@ -2653,25 +2957,19 @@
             </rdf:rest>
           </swrl:AtomList>
         </rdf:rest>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/context"/>
-            <swrl:classPredicate rdf:resource="#Context"/>
-          </swrl:ClassAtom>
-        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
     <swrl:head>
       <swrl:AtomList>
-        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+            <swrl:argument1 rdf:resource="caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >moonless_clear</swrl:argument2>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
       </swrl:AtomList>
     </swrl:head>
   </swrl:Imp>
@@ -2794,12 +3092,6 @@
       <swrl:AtomList>
         <rdf:rest>
           <swrl:AtomList>
-            <rdf:first>
-              <swrl:ClassAtom>
-                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-                <swrl:argument1 rdf:resource="light"/>
-              </swrl:ClassAtom>
-            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:first>
@@ -2810,6 +3102,13 @@
                 </rdf:first>
                 <rdf:rest>
                   <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:argument2 rdf:resource="value"/>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
                         <rdf:first>
@@ -2819,9 +3118,9 @@
                               <rdf:List>
                                 <rdf:rest>
                                   <rdf:List>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                     <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >100</rdf:first>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                   </rdf:List>
                                 </rdf:rest>
                                 <rdf:first rdf:resource="value"/>
@@ -2831,6 +3130,7 @@
                         </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                             <rdf:first>
                               <swrl:BuiltinAtom>
                                 <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
@@ -2849,22 +3149,20 @@
                                 </swrl:arguments>
                               </swrl:BuiltinAtom>
                             </rdf:first>
-                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
                       </swrl:AtomList>
                     </rdf:rest>
-                    <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:argument1 rdf:resource="light"/>
-                        <swrl:argument2 rdf:resource="value"/>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                      </swrl:DatavaluedPropertyAtom>
-                    </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
               </swrl:AtomList>
             </rdf:rest>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="light"/>
+                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+              </swrl:ClassAtom>
+            </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
         <rdf:first>
@@ -2877,15 +3175,15 @@
     </swrl:body>
     <swrl:head>
       <swrl:AtomList>
-        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >office_lightning</swrl:argument2>
             <swrl:argument1 rdf:resource="caux"/>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
       </swrl:AtomList>
     </swrl:head>
   </swrl:Imp>
@@ -2917,7 +3215,9 @@
       <swrl:AtomList>
         <rdf:first>
           <swrl:ClassAtom>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/battery"/>
+            <swrl:argument1>
+              <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/battery"/>
+            </swrl:argument1>
             <swrl:classPredicate rdf:resource="http://daml.umbc.edu/ontologies/cobra/0.4/device#Battery"/>
           </swrl:ClassAtom>
         </rdf:first>
@@ -2963,7 +3263,9 @@
                     </rdf:rest>
                     <rdf:first>
                       <swrl:IndividualPropertyAtom>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/device"/>
+                        <swrl:argument1>
+                          <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/device"/>
+                        </swrl:argument1>
                         <swrl:propertyPredicate rdf:resource="#deviceIsDefinedBy"/>
                         <swrl:argument2>
                           <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/chars"/>
@@ -3105,6 +3407,7 @@
     </adaptui:deviceAccelerationAffects>
     <rdf:type rdf:resource="#Acceleration"/>
   </owl:NamedIndividual>
+  <swrl:Variable rdf:about="http://www.morelab.deusto.es/ontologies/brightness"/>
   <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkNoiseLevelOffice">
     <swrl:body>
       <swrl:AtomList>
@@ -3208,44 +3511,37 @@
   <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelTwilight">
     <swrl:head>
       <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >twilight</swrl:argument2>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
+            <swrl:argument1 rdf:resource="caux"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
-        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
       </swrl:AtomList>
     </swrl:head>
     <swrl:body>
       <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Context"/>
+            <swrl:argument1 rdf:resource="context"/>
+          </swrl:ClassAtom>
+        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
-            <rdf:first>
-              <swrl:ClassAtom>
-                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-              </swrl:ClassAtom>
-            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:first>
                   <swrl:ClassAtom>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
+                    <swrl:argument1 rdf:resource="caux"/>
                     <swrl:classPredicate rdf:resource="#ContextAux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
                 <rdf:rest>
                   <swrl:AtomList>
-                    <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                      </swrl:DatavaluedPropertyAtom>
-                    </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
                         <rdf:first>
@@ -3259,7 +3555,7 @@
                                     <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                   </rdf:List>
                                 </rdf:rest>
-                                <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
+                                <rdf:first rdf:resource="value"/>
                               </rdf:List>
                             </swrl:arguments>
                             <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
@@ -3270,22 +3566,118 @@
                             <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                             <rdf:first>
                               <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                                 <swrl:arguments>
                                   <rdf:List>
+                                    <rdf:first rdf:resource="value"/>
                                     <rdf:rest>
                                       <rdf:List>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                         <rdf:first rdf:datatype=
                                         "http://www.w3.org/2001/XMLSchema#float"
                                         >3.4</rdf:first>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                       </rdf:List>
                                     </rdf:rest>
-                                    <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
                                   </rdf:List>
                                 </swrl:arguments>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                               </swrl:BuiltinAtom>
                             </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:argument2 rdf:resource="value"/>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="light"/>
+                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+  </swrl:Imp>
+  <owl:NamedIndividual rdf:ID="userAux">
+    <rdf:type rdf:resource="#UserAux"/>
+  </owl:NamedIndividual>
+  <swrl:Imp rdf:about="adaptBrightnessDaylight">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >10.0</swrl:argument2>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="device"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                        <swrl:argument1 rdf:resource="caux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:argument1 rdf:resource="device"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >daylight</swrl:argument2>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
                       </swrl:AtomList>
@@ -3296,18 +3688,9 @@
             </rdf:rest>
           </swrl:AtomList>
         </rdf:rest>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:classPredicate rdf:resource="#Context"/>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/context"/>
-          </swrl:ClassAtom>
-        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
   </swrl:Imp>
-  <owl:NamedIndividual rdf:ID="userAux">
-    <rdf:type rdf:resource="#UserAux"/>
-  </owl:NamedIndividual>
   <owl:NamedIndividual rdf:ID="adaptation">
     <rdf:type rdf:resource="#Adaptation"/>
   </owl:NamedIndividual>
@@ -3413,6 +3796,86 @@
         </rdf:first>
       </swrl:AtomList>
     </swrl:body>
+  </swrl:Imp>
+  <swrl:Imp rdf:about="adaptBrightnessDirectSunlight">
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="device"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                    <swrl:argument1 rdf:resource="user"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                        <swrl:argument1 rdf:resource="caux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >direct_sunlight</swrl:argument2>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >10.0</swrl:argument2>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </swrl:AtomList>
+    </swrl:head>
   </swrl:Imp>
   <owl:NamedIndividual rdf:ID="InterfaceInput">
     <rdf:type rdf:resource="#Input"/>
@@ -3532,10 +3995,10 @@
       <swrl:AtomList>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
-            <swrl:argument1 rdf:resource="caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >daylight</swrl:argument2>
+            <swrl:argument1 rdf:resource="caux"/>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -3543,14 +4006,14 @@
     </swrl:head>
     <swrl:body>
       <swrl:AtomList>
-        <rdf:first>
-          <swrl:ClassAtom>
-            <swrl:classPredicate rdf:resource="#Context"/>
-            <swrl:argument1 rdf:resource="context"/>
-          </swrl:ClassAtom>
-        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="light"/>
+                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+              </swrl:ClassAtom>
+            </rdf:first>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:first>
@@ -3563,6 +4026,29 @@
                   <swrl:AtomList>
                     <rdf:rest>
                       <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            <rdf:first>
+                              <swrl:BuiltinAtom>
+                                <swrl:arguments>
+                                  <rdf:List>
+                                    <rdf:first rdf:resource="value"/>
+                                    <rdf:rest>
+                                      <rdf:List>
+                                        <rdf:first rdf:datatype=
+                                        "http://www.w3.org/2001/XMLSchema#int"
+                                        >25000</rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      </rdf:List>
+                                    </rdf:rest>
+                                  </rdf:List>
+                                </swrl:arguments>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                              </swrl:BuiltinAtom>
+                            </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
                         <rdf:first>
                           <swrl:BuiltinAtom>
                             <swrl:arguments>
@@ -3575,35 +4061,12 @@
                             <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
                           </swrl:BuiltinAtom>
                         </rdf:first>
-                        <rdf:rest>
-                          <swrl:AtomList>
-                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                            <rdf:first>
-                              <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
-                                <swrl:arguments>
-                                  <rdf:List>
-                                    <rdf:rest>
-                                      <rdf:List>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                        <rdf:first rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#int"
-                                        >25000</rdf:first>
-                                      </rdf:List>
-                                    </rdf:rest>
-                                    <rdf:first rdf:resource="value"/>
-                                  </rdf:List>
-                                </swrl:arguments>
-                              </swrl:BuiltinAtom>
-                            </rdf:first>
-                          </swrl:AtomList>
-                        </rdf:rest>
                       </swrl:AtomList>
                     </rdf:rest>
                     <rdf:first>
                       <swrl:DatavaluedPropertyAtom>
-                        <swrl:argument1 rdf:resource="light"/>
                         <swrl:argument2 rdf:resource="value"/>
+                        <swrl:argument1 rdf:resource="light"/>
                         <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
                       </swrl:DatavaluedPropertyAtom>
                     </rdf:first>
@@ -3611,14 +4074,14 @@
                 </rdf:rest>
               </swrl:AtomList>
             </rdf:rest>
-            <rdf:first>
-              <swrl:ClassAtom>
-                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-                <swrl:argument1 rdf:resource="light"/>
-              </swrl:ClassAtom>
-            </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="context"/>
+            <swrl:classPredicate rdf:resource="#Context"/>
+          </swrl:ClassAtom>
+        </rdf:first>
       </swrl:AtomList>
     </swrl:body>
   </swrl:Imp>
@@ -3728,9 +4191,9 @@
         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
+            <swrl:argument1 rdf:resource="caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >dark_overcast</swrl:argument2>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
             <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
@@ -3740,8 +4203,8 @@
       <swrl:AtomList>
         <rdf:first>
           <swrl:ClassAtom>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/context"/>
             <swrl:classPredicate rdf:resource="#Context"/>
+            <swrl:argument1 rdf:resource="context"/>
           </swrl:ClassAtom>
         </rdf:first>
         <rdf:rest>
@@ -3750,63 +4213,63 @@
               <swrl:AtomList>
                 <rdf:rest>
                   <swrl:AtomList>
-                    <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                      </swrl:DatavaluedPropertyAtom>
-                    </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
                         <rdf:first>
                           <swrl:BuiltinAtom>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
                             <swrl:arguments>
                               <rdf:List>
+                                <rdf:first rdf:resource="value"/>
                                 <rdf:rest>
                                   <rdf:List>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                     <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >80</rdf:first>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                   </rdf:List>
                                 </rdf:rest>
-                                <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
                               </rdf:List>
                             </swrl:arguments>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
                           </swrl:BuiltinAtom>
                         </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
-                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                             <rdf:first>
                               <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                                 <swrl:arguments>
                                   <rdf:List>
-                                    <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
                                     <rdf:rest>
                                       <rdf:List>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                         <rdf:first rdf:datatype=
                                         "http://www.w3.org/2001/XMLSchema#int"
                                         >100</rdf:first>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                       </rdf:List>
                                     </rdf:rest>
+                                    <rdf:first rdf:resource="value"/>
                                   </rdf:List>
                                 </swrl:arguments>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
                               </swrl:BuiltinAtom>
                             </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
                         </rdf:rest>
                       </swrl:AtomList>
                     </rdf:rest>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:argument2 rdf:resource="value"/>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
                   </swrl:AtomList>
                 </rdf:rest>
                 <rdf:first>
                   <swrl:ClassAtom>
                     <swrl:classPredicate rdf:resource="#ContextAux"/>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
+                    <swrl:argument1 rdf:resource="caux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
               </swrl:AtomList>
@@ -3814,13 +4277,93 @@
             <rdf:first>
               <swrl:ClassAtom>
                 <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
+                <swrl:argument1 rdf:resource="light"/>
               </swrl:ClassAtom>
             </rdf:first>
           </swrl:AtomList>
         </rdf:rest>
       </swrl:AtomList>
     </swrl:body>
+  </swrl:Imp>
+  <swrl:Imp rdf:about="adaptBrightnessLivingRoom">
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="device"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:argument1 rdf:resource="caux"/>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >living_room</swrl:argument2>
+                                <swrl:argument1 rdf:resource="caux"/>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:argument2 rdf:resource="battery"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >2.0</swrl:argument2>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </swrl:AtomList>
+    </swrl:head>
   </swrl:Imp>
   <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkBatteryIsSufficient">
     <swrl:head>
@@ -4303,69 +4846,65 @@
       </swrl:AtomList>
     </swrl:body>
   </swrl:Imp>
-  <owl:NamedIndividual rdf:ID="deviceStorage">
-    <rdf:type rdf:resource="#DeviceStorage"/>
-  </owl:NamedIndividual>
-  <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelOfficeHallway">
+  <swrl:Imp rdf:about="adaptBrightnessOfficeLightning">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >5.0</swrl:argument2>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
     <swrl:body>
       <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
         <rdf:rest>
           <swrl:AtomList>
             <rdf:rest>
               <swrl:AtomList>
                 <rdf:first>
                   <swrl:ClassAtom>
-                    <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
-                    <swrl:classPredicate rdf:resource="#ContextAux"/>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
                   </swrl:ClassAtom>
                 </rdf:first>
                 <rdf:rest>
                   <swrl:AtomList>
                     <rdf:first>
-                      <swrl:DatavaluedPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
-                        <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
-                        <swrl:argument2 rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                      </swrl:DatavaluedPropertyAtom>
+                      <swrl:ClassAtom>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                        <swrl:argument1 rdf:resource="caux"/>
+                      </swrl:ClassAtom>
                     </rdf:first>
                     <rdf:rest>
                       <swrl:AtomList>
                         <rdf:first>
-                          <swrl:BuiltinAtom>
-                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
-                            <swrl:arguments>
-                              <rdf:List>
-                                <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                                <rdf:rest>
-                                  <rdf:List>
-                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                    >50</rdf:first>
-                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                  </rdf:List>
-                                </rdf:rest>
-                              </rdf:List>
-                            </swrl:arguments>
-                          </swrl:BuiltinAtom>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
                         </rdf:first>
                         <rdf:rest>
                           <swrl:AtomList>
                             <rdf:first>
-                              <swrl:BuiltinAtom>
-                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
-                                <swrl:arguments>
-                                  <rdf:List>
-                                    <rdf:rest>
-                                      <rdf:List>
-                                        <rdf:first rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#int"
-                                        >80</rdf:first>
-                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                      </rdf:List>
-                                    </rdf:rest>
-                                    <rdf:first rdf:resource="http://www.morelab.deusto.es/ontologies/value"/>
-                                  </rdf:List>
-                                </swrl:arguments>
-                              </swrl:BuiltinAtom>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >office_lightning</swrl:argument2>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                              </swrl:DatavaluedPropertyAtom>
                             </rdf:first>
                             <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                           </swrl:AtomList>
@@ -4378,16 +4917,100 @@
             </rdf:rest>
             <rdf:first>
               <swrl:ClassAtom>
-                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
-                <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/light"/>
+                <swrl:argument1 rdf:resource="device"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
               </swrl:ClassAtom>
             </rdf:first>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+  </swrl:Imp>
+  <owl:NamedIndividual rdf:ID="deviceStorage">
+    <rdf:type rdf:resource="#DeviceStorage"/>
+  </owl:NamedIndividual>
+  <swrl:Imp rdf:about="http://www.morelab.deusto.es/ontologies/checkLightLevelOfficeHallway">
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="http://u2m.org/2003/02/UserModelOntology.rdf#Light"/>
+                <swrl:argument1 rdf:resource="light"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="caux"/>
+                    <swrl:classPredicate rdf:resource="#ContextAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:first>
+                              <swrl:BuiltinAtom>
+                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThan"/>
+                                <swrl:arguments>
+                                  <rdf:List>
+                                    <rdf:first rdf:resource="value"/>
+                                    <rdf:rest>
+                                      <rdf:List>
+                                        <rdf:first rdf:datatype=
+                                        "http://www.w3.org/2001/XMLSchema#int"
+                                        >80</rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                      </rdf:List>
+                                    </rdf:rest>
+                                  </rdf:List>
+                                </swrl:arguments>
+                              </swrl:BuiltinAtom>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                        <rdf:first>
+                          <swrl:BuiltinAtom>
+                            <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#greaterThanOrEqual"/>
+                            <swrl:arguments>
+                              <rdf:List>
+                                <rdf:first rdf:resource="value"/>
+                                <rdf:rest>
+                                  <rdf:List>
+                                    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                    >50</rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                  </rdf:List>
+                                </rdf:rest>
+                              </rdf:List>
+                            </swrl:arguments>
+                          </swrl:BuiltinAtom>
+                        </rdf:first>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                    <rdf:first>
+                      <swrl:DatavaluedPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="#contextHasLight"/>
+                        <swrl:argument1 rdf:resource="light"/>
+                        <swrl:argument2 rdf:resource="value"/>
+                      </swrl:DatavaluedPropertyAtom>
+                    </rdf:first>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
           </swrl:AtomList>
         </rdf:rest>
         <rdf:first>
           <swrl:ClassAtom>
             <swrl:classPredicate rdf:resource="#Context"/>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/context"/>
+            <swrl:argument1 rdf:resource="context"/>
           </swrl:ClassAtom>
         </rdf:first>
       </swrl:AtomList>
@@ -4397,10 +5020,10 @@
         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
         <rdf:first>
           <swrl:DatavaluedPropertyAtom>
-            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
-            <swrl:argument1 rdf:resource="http://www.morelab.deusto.es/ontologies/caux"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >office_hallway</swrl:argument2>
+            <swrl:argument1 rdf:resource="caux"/>
+            <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
       </swrl:AtomList>
@@ -4579,6 +5202,86 @@
             <swrl:propertyPredicate rdf:resource="#contextAuxHasNoiseLevel"/>
             <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >absolute_threshold_of_hearing</swrl:argument2>
+          </swrl:DatavaluedPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+  </swrl:Imp>
+  <swrl:Imp rdf:about="adaptBrightnessDarkOvercast">
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Adaptation"/>
+            <swrl:argument1 rdf:resource="adaptation"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:argument1 rdf:resource="device"/>
+                <swrl:classPredicate rdf:resource="#DeviceAux"/>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:argument1 rdf:resource="user"/>
+                    <swrl:classPredicate rdf:resource="#UserAux"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:ClassAtom>
+                        <swrl:classPredicate rdf:resource="#ContextAux"/>
+                        <swrl:argument1 rdf:resource="caux"/>
+                      </swrl:ClassAtom>
+                    </rdf:first>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:rest>
+                          <swrl:AtomList>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            <rdf:first>
+                              <swrl:DatavaluedPropertyAtom>
+                                <swrl:argument1 rdf:resource="caux"/>
+                                <swrl:argument2 rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >dark_overcast</swrl:argument2>
+                                <swrl:propertyPredicate rdf:resource="#contextAuxHasLightLevel"/>
+                              </swrl:DatavaluedPropertyAtom>
+                            </rdf:first>
+                          </swrl:AtomList>
+                        </rdf:rest>
+                        <rdf:first>
+                          <swrl:DatavaluedPropertyAtom>
+                            <swrl:argument2 rdf:resource="battery"/>
+                            <swrl:argument1 rdf:resource="device"/>
+                            <swrl:propertyPredicate rdf:resource="#deviceAuxBatteryIsSufficient"/>
+                          </swrl:DatavaluedPropertyAtom>
+                        </rdf:first>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:DatavaluedPropertyAtom>
+            <swrl:argument1 rdf:resource="adaptation"/>
+            <swrl:argument2 rdf:datatype="http://www.w3.org/2001/XMLSchema#float"
+            >3.0</swrl:argument2>
+            <swrl:propertyPredicate rdf:resource="#adaptationBrightnessHasValue"/>
           </swrl:DatavaluedPropertyAtom>
         </rdf:first>
       </swrl:AtomList>
