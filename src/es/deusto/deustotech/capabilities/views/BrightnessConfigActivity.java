@@ -35,7 +35,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
 
-	private static List<String> displays;
+	private static List<String> displays, physicalEnvLights;
 
 	private GridLayout grid;
 	private TextView textViewCurrentLuxes;
@@ -43,6 +43,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	private float brightnessValue = 0.5f; // dummy default value
 	private boolean brightnessChanged = false;
+	private float currentLuxes;
 
 	private static final int DEFAULT_BUTTON_COLOR = -16777216;
 
@@ -66,6 +67,10 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		redrawViews();
 		initializeServices(TAG);
 		addListeners();
+		
+		displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+		physicalEnvLights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
+		removePreviousValuesFromOntology();
 	}
 
 	@Override
@@ -86,7 +91,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			@Override
 			public void onSensorChanged(SensorEvent event) {
 				if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-					final float currentLuxes = event.values[0];
+					currentLuxes = event.values[0];
 
 					textViewCurrentLuxes.setText(currentLuxes + " luxes");
 				}
@@ -169,9 +174,9 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 
-			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
 			super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
-
+			super.getOntologyManager().addDataTypePropertyValue(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight", currentLuxes);
+			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
 			}
@@ -181,14 +186,25 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 		}
 	}
+	
+	private void removePreviousValuesFromOntology() {
+		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
+		super.getOntologyManager().deleteAllValuesOfProperty(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight");
+		
+		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
+		super.getOntologyManager().deleteAllValuesOfProperty(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
+	}
 
 	private void checkOntology() {
-		//final List<String> displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-
 		final Collection<OWLLiteral> brightness	= super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
-
-		System.out.println("checkOntology(): " 	+ TAG);
-		System.out.println("brightness: " 		+ brightness);
+		final Collection<OWLLiteral> contextLight = super.getOntologyManager().getDataTypePropertyValue(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight");
+		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
+		final Collection<OWLLiteral> contextCheckedLight = super.getOntologyManager().getDataTypePropertyValue(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
+		
+		System.out.println("checkOntology(): " 	 + TAG);
+		System.out.println("brightness: " 		 + brightness);
+		System.out.println("light: " 			 + contextLight);
+		System.out.println("contextLightLevel: " + contextCheckedLight);
 	}
 
 }

@@ -256,9 +256,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 		super.getOntologyManager().deleteAllValuesOfProperty(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
 		super.getOntologyManager().deleteAllValuesOfProperty(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
 		super.getOntologyManager().deleteAllValuesOfProperty(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-//		super.getOntologyManager().deleteAllValuesOfProperty(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
-		
-//		super.getOntologyManager().deleteAllValuesOfProperty(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
 	}
 
 	private void checkOntology() {
