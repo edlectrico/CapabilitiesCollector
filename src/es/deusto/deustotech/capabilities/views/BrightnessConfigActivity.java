@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
+
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -173,7 +175,16 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 
 			super.getOntologyManager().addDataTypePropertyValue(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight", currentLuxes);
-			super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
+			
+			final List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
+			final Collection<OWLLiteral> adaptationBrightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
+			final float bri = Float.parseFloat(((OWLLiteral) adaptationBrightness.toArray()[0]).getLiteral()) / 10F; 
+			
+			if (bri > brightnessValue){
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", bri);
+			} else {
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
+			}
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
@@ -181,7 +192,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 			checkOntology();
 			startActivity(intent);
-
 		}
 	}
 	
@@ -208,12 +218,12 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		final List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
 		final Collection<OWLLiteral> adaptationBrightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
 		
-		System.out.println("checkOntology(): " 	 + TAG);
-		System.out.println("brightness: " 		 + brightness);
-		System.out.println("light: " 			 + contextLight);
-		System.out.println("contextLightLevel: " + contextCheckedLight);
-		System.out.println("battery: " + battery);
-		System.out.println("adaptations: " + adaptations);
+		System.out.println("checkOntology(): " 	 	+ TAG);
+		System.out.println("brightness: " 		 	+ brightness);
+		System.out.println("light: " 			 	+ contextLight);
+		System.out.println("contextLightLevel: " 	+ contextCheckedLight);
+		System.out.println("battery: " 				+ battery);
+		System.out.println("adaptations: " 			+ adaptations);
 		System.out.println("adaptationHasBrightness: " + adaptationBrightness);
 	}
 
