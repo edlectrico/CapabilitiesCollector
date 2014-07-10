@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
+import es.deustotech.piramide.activities.location.Categories;
 
 /**
  * This activity checks user basic input capabilities
@@ -61,6 +62,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		findViewById(R.id.button_input).setOnLongClickListener(this);
 		findViewById(R.id.button_input).setOnClickListener(this);
 		findViewById(R.id.mail_activity_button).setOnClickListener(this);
+		findViewById(R.id.navigate_button).setOnClickListener(this);
 	}
 
 	//Check if voice recognition is present
@@ -157,6 +159,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 			}
 		} else if (view.getId() == R.id.mail_activity_button){
 			onBackPressed();
+		} else if (view.getId() == R.id.navigate_button){
+			startActivity(new Intent(this, Categories.class));
 		}
 	}
 
