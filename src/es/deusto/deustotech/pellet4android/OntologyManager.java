@@ -712,7 +712,7 @@ public class OntologyManager {
 			OWLNamedIndividual ind = factory.getOWLNamedIndividual(IRI
 					.create(i));
 
-			NodeSet<OWLClass> nodes = reasoner.getTypes(ind, true);
+			NodeSet<OWLClass> nodes = reasoner.getTypes(ind, false);
 
 			Set<OWLClass> types = nodes.getFlattened();
 
