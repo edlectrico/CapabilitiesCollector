@@ -14,7 +14,7 @@
     <string name="sqwrl_uri">http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl</string>
     
     <!-- AbstractActivity -->
-    <string name="ontology_path">/sdcard/data/</string>
+    <string name="ontology_path">/sdcard/ontologies/</string>
     <string name="ontology_namespace">http://www.morelab.deusto.es/ontologies/adaptui#</string>
     <string name="ontology_filename">adaptui.owl</string>
     
