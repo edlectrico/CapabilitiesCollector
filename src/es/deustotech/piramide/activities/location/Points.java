@@ -23,14 +23,19 @@
 package es.deustotech.piramide.activities.location;
 
 import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,8 +50,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.capabilities.views.AbstractActivity;
 import es.deustotech.piramide.activities.PiramideCaptureActivity;
 import es.deustotech.piramide.activities.options.Help;
 import es.deustotech.piramide.services.LocationService;
@@ -63,6 +70,8 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
 	private static String selectedPointName;
 	private TextToSpeech tts;
 	private Vibrator vibrator;
+	
+	private static List<String> textEdits, backgrounds, textViews;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +102,26 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
         } else {
         	Log.d(Constants.TAG, "Vector is null");
         }
+        
+        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "TextView");
+        textEdits = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "EditText");
+        backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
+        
+        final Collection<OWLLiteral> textEditBackColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textEdits.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+        final Collection<OWLLiteral> backgroundColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+//        final Collection<OWLLiteral> textEditTextColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textEdits.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasTextColor");
+	
+        final int viewColor = Integer.parseInt(((OWLLiteral) textEditBackColor.toArray()[0]).getLiteral());
+        final int back = Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
+//        final int textColor = Integer.parseInt(((OWLLiteral) textEditTextColor.toArray()[0]).getLiteral());
+        
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        listView.setBackgroundColor(Color.argb(255, Color.red(viewColor), Color.green(viewColor), Color.blue(viewColor)));
+        
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_points);
+        layout.setBackgroundColor(Color.argb(255, Color.red(back), Color.green(back), Color.blue(back)));
+//        listView.setTextColor(Color.argb(255, Color.red(viewColor), Color.green(viewColor), Color.blue(viewColor)));
+//        listView.setTextSize
 	}
 	
 	private void createMenu(final Vector<Point> vector) {
