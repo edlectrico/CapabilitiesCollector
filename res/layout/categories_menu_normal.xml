@@ -3,57 +3,58 @@
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:paddingLeft="15px"
+    android:paddingLeft="55dp"
+    android:id="@+id/table_row"
    >
-	<TableRow>
+	<TableRow android:id="@+id/row_1">
 		<ImageView
 			android:id="@+id/img_bar_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/bar_normal" >
 		</ImageView>
  		<ImageView
 			android:id="@+id/img_restaurant_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/restaurant_normal" >
 		</ImageView>
 		<ImageView
 			android:id="@+id/img_cafe_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/cafe_normal" >
 		</ImageView>
 		<ImageView
 			android:id="@+id/img_hotel_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/hotel_normal" >
 		</ImageView>
     </TableRow>
-    <TableRow>
+    <TableRow android:id="@+id/row_2">
     	<ImageView
 			android:id="@+id/img_museums_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/museum_normal" >
 		</ImageView>
  		<ImageView
 			android:id="@+id/img_gas_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/gas_normal" >
 		</ImageView>
 		<ImageView
 			android:id="@+id/img_transport_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/taxi_normal" >
 		</ImageView>
 		<ImageView
 			android:id="@+id/img_airport_button"
-			android:layout_width="130px"
-			android:layout_height="130px"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
 			android:background="@drawable/airport_normal" >
 		</ImageView>
 		

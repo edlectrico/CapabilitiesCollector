@@ -22,16 +22,21 @@
 
 package es.deustotech.piramide.activities.location;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,8 +50,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.capabilities.views.AbstractActivity;
 import es.deustotech.piramide.activities.options.Help;
 import es.deustotech.piramide.services.LocationService;
 import es.deustotech.piramide.utils.constants.Constants;
@@ -70,6 +78,8 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 			Toast.makeText(getApplicationContext(), "Imposible conectar con la red...", Toast.LENGTH_SHORT);
 		}
 	};
+	
+	private static List<String> backgrounds, textViews;
 	
 	public static String getSelection(){
 		return selection;
@@ -123,6 +133,7 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.categories_menu_normal);
+
         startLocationService();
         currentContext = this.getApplicationContext();
         Log.d(Constants.TAG, "Launching Categories...");
@@ -130,6 +141,24 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         createMenu();
         setResult(Constants.SUCCESS_RETURN_CODE, new Intent());
+        
+        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "TextView");
+        backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
+        
+        final Collection<OWLLiteral> textViewBackColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+        final Collection<OWLLiteral> backgroundColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+	
+        final int viewColor = Integer.parseInt(((OWLLiteral) textViewBackColor.toArray()[0]).getLiteral());
+        final int back = Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
+        
+        TableLayout table = (TableLayout) findViewById(R.id.table_row);
+		table.setBackgroundColor(Color.argb(255, Color.red(back), Color.green(back), Color.blue(back)));
+		
+		TableRow row1 = (TableRow) findViewById(R.id.row_1);
+		TableRow row2 = (TableRow) findViewById(R.id.row_2);
+		
+		row1.setBackgroundColor(Color.argb(255, Color.red(viewColor), Color.green(viewColor), Color.blue(viewColor)));
+		row2.setBackgroundColor(Color.argb(255, Color.red(viewColor), Color.green(viewColor), Color.blue(viewColor)));
 	}
 	
 	public static Context getContext(){
