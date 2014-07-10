@@ -30,18 +30,82 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".capabilities.views.CapabilitiesActivity" >
+        <activity android:name="es.deusto.deustotech.capabilities.views.CapabilitiesActivity" >
         </activity>
-        <activity android:name=".capabilities.views.ButtonConfigActivity" >
+        <activity android:name="es.deusto.deustotech.capabilities.views.ButtonConfigActivity" >
         </activity>
-        <activity android:name=".capabilities.views.EditTextConfigActivity" >
+        <activity android:name="es.deusto.deustotech.capabilities.views.EditTextConfigActivity" >
         </activity>
-        <activity android:name=".capabilities.views.BrightnessConfigActivity" >
+        <activity android:name="es.deusto.deustotech.capabilities.views.BrightnessConfigActivity" >
         </activity>
-        <activity android:name=".capabilities.views.VolumeConfigActivity" >
+        <activity android:name="es.deusto.deustotech.capabilities.views.VolumeConfigActivity" >
         </activity>
-        <activity android:name=".capabilities.views.MailSenderActivity" >
+        <activity android:name="es.deusto.deustotech.capabilities.views.MailSenderActivity" >
         </activity>
+        
+        
+         <!-- AssistedCity-->
+        <!-- Activities -->
+        <activity
+            android:name="es.deustotech.piramide.activities.PiramideCaptureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="es.deustotech.piramide.activities.options.OptionsList"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="es.deustotech.piramide.activities.location.Directions"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name="es.deustotech.piramide.activities.location.Categories" 
+			android:screenOrientation="landscape"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name="es.deustotech.piramide.activities.location.Points"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="points" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="es.deustotech.piramide.activities.location.CurrentLocation"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="es.deustotech.piramide.activities.options.Settings"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="es.deustotech.piramide.activities.options.SettingsSimple"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="es.deustotech.piramide.activities.options.Help"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="es.deustotech.piramide.activities.options.HelpSimple"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <!-- Services -->
+        <service android:name=".services.LocationService" >
+            <intent-filter>
+                <action android:name="prueba" />
+            </intent-filter>
+        </service>
     </application>
 
+    <supports-screens android:largeScreens="true" />
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.flash" />
+        
 </manifest>
