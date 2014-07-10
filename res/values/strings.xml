@@ -28,8 +28,9 @@
 	</string>
     <string name="input_button_message_en">PUSH ME!</string>
     <string name="input_button_message_es">¡Púlseme!</string>
-    <string name="avoid_configuration_message_en">Avoid configuration</string>
- 	<string name="avoid_configuration_message_es">Saltar configurador</string>
+    <string name="send_email_en">Avoid configuration</string>
+ 	<string name="send_email_es">Enviar Email</string>
+ 	<string name="navigate_es">Buscar lugar</string>
  	<string name="message_visual_interaction_es">Seleccionada interacción visual</string>
  	<string name="si">Si</string>
  	<string name="no">No</string>

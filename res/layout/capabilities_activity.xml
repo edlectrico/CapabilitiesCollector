@@ -37,8 +37,15 @@
     <Button
         android:id="@+id/mail_activity_button"
         android:layout_column="0"
-        android:layout_gravity="center_horizontal|bottom"
+        android:layout_gravity="left|bottom"
         android:layout_row="3"
-        android:text="@string/avoid_configuration_message_es" />
+        android:text="@string/send_email_es" />
+
+    <Button
+        android:id="@+id/navigate_button"
+        android:layout_column="0"
+        android:layout_gravity="right|bottom"
+        android:layout_row="3"
+        android:text="@string/navigate_es" />
 
 </GridLayout>
