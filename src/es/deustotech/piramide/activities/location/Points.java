@@ -23,6 +23,7 @@
 package es.deustotech.piramide.activities.location;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -60,6 +61,7 @@ import es.deustotech.piramide.services.LocationService;
 import es.deustotech.piramide.utils.constants.Constants;
 import es.deustotech.piramide.utils.distancecalc.DistanceCalculator;
 import es.deustotech.piramide.utils.parcelable.Point;
+import es.deustotech.piramide.utils.views.CustomAdapter;
 
 @SuppressLint("NewApi")
 public class Points extends Activity implements TextToSpeech.OnInitListener{
@@ -71,7 +73,7 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
 	private TextToSpeech tts;
 	private Vibrator vibrator;
 	
-	private static List<String> textEdits, backgrounds, textViews;
+	private static List<String> backgrounds;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,25 +105,13 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
         	Log.d(Constants.TAG, "Vector is null");
         }
         
-        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "TextView");
-        textEdits = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "EditText");
         backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
         
-        final Collection<OWLLiteral> textEditBackColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textEdits.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
-        final Collection<OWLLiteral> backgroundColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
-//        final Collection<OWLLiteral> textEditTextColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textEdits.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasTextColor");
-	
-        final int viewColor = Integer.parseInt(((OWLLiteral) textEditBackColor.toArray()[0]).getLiteral());
-        final int back = Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
-//        final int textColor = Integer.parseInt(((OWLLiteral) textEditTextColor.toArray()[0]).getLiteral());
-        
-        ListView listView = (ListView) findViewById(R.id.list_view);
-        listView.setBackgroundColor(Color.argb(255, Color.red(viewColor), Color.green(viewColor), Color.blue(viewColor)));
+        final Collection<OWLLiteral> backgroundColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+        final int back 			= Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
         
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_points);
         layout.setBackgroundColor(Color.argb(255, Color.red(back), Color.green(back), Color.blue(back)));
-//        listView.setTextColor(Color.argb(255, Color.red(viewColor), Color.green(viewColor), Color.blue(viewColor)));
-//        listView.setTextSize
 	}
 	
 	private void createMenu(final Vector<Point> vector) {
@@ -154,7 +144,8 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
 			longitudeList[i] = vector.get(i).getLongitude();
 		}
 		
-		adapter = new ArrayAdapter<String>(this, adapterLayout, pointList);
+//		adapter = new ArrayAdapter<String>(this, adapterLayout, pointList);
+		adapter = new CustomAdapter(this, adapterLayout, pointList);
 		list.setAdapter(adapter);
 
 		list.setOnItemClickListener(new OnItemClickListener(){
