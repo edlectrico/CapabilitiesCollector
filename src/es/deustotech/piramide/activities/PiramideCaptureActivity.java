@@ -23,12 +23,14 @@
 
 package es.deustotech.piramide.activities;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GeodeticCurve;
 import org.gavaghan.geodesy.GlobalCoordinates;
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -45,6 +47,7 @@ import com.google.zxing.client.android.CaptureActivity;
 import com.google.zxing.client.android.camera.CameraManager;
 
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.capabilities.views.AbstractActivity;
 import es.deustotech.piramide.activities.location.Points;
 import es.deustotech.piramide.services.LocationService;
 import es.deustotech.piramide.utils.constants.Constants;
@@ -61,12 +64,25 @@ public class PiramideCaptureActivity extends CaptureActivity implements SensorEv
 	private static volatile int distanceToPoint = 0;
 	private TextView distanceTextView;
 	
+	private List<String> textViews;
+	
 	@Override
 	public void onCreate(Bundle bundle){
 		super.onCreate(bundle);
 		
+		textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "TextView");
+		final Collection<OWLLiteral> textEditBackColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasColor");
+        final Collection<OWLLiteral> textEditTextColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasTextColor");
+        final Collection<OWLLiteral> textEditTextSize 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasTextSize");
+	
+        final int viewColor 	= Integer.parseInt(((OWLLiteral) textEditBackColor.toArray()[0]).getLiteral());
+        final int textColor 	= Integer.parseInt(((OWLLiteral) textEditTextColor.toArray()[0]).getLiteral());
+        final float textSize 	= Float.parseFloat(((OWLLiteral) textEditTextSize.toArray()[0]).getLiteral());
+    
 		distanceTextView 	= (TextView) findViewById(R.id.distance_text_view);
-		distanceTextView.setTextColor(Color.WHITE);
+		distanceTextView.setTextColor(textColor);
+		distanceTextView.setBackgroundColor(viewColor);
+		distanceTextView.setTextSize(textSize);
 		
 		viewfinderView 		= (ViewfinderView) findViewById(R.id.viewfinder_view);
 		sensorManager  		= (SensorManager)getSystemService(Context.SENSOR_SERVICE);

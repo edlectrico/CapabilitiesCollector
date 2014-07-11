@@ -95,6 +95,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				tts.stop();
 				//TODO: Communication by audio (blind user)
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), "displayHasApplicabe", false);
 				interactionIntent.setClass(this,  MailSenderActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
 			} else if (suggestedWords.contains(getResources().getString(R.string.no))){
@@ -140,18 +141,18 @@ public class CapabilitiesActivity extends AbstractActivity {
 			if (!longPush){
 				vibrator.vibrate(500);
 				speakOut(getResources().getString(R.string.message_visual_interaction_es));
-				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable", true);
-				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic", false);
-				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasApplicable", true);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "isStatic", false);
+				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "audioHasApplicable", true);
 				interactionIntent.setClass(this,  ButtonConfigActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
 				tts.stop();
 				startActivity(interactionIntent);
 			} else if (longPush){
 				//If longPush means that the user cannot see the screen properly
-				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable", false);
-				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic", true);
-				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "userAudioHasApplicabe", true);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasApplicable", false);
+				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "isStatic", true);
+				super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	 super.getOntologyNamespace() + "audioHasApplicable", true);
 				longPush = false;
 				interactionIntent.setClass(this,  VolumeConfigActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
@@ -170,9 +171,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 	 * a new one.
 	 */
 	private void deletePreviousValues() {
-		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "userDisplayHasApplicable");
-		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "userDisplayApplicableIsStatic");
-		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "userAudioHasApplicabe");
+		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "displayHasApplicable");
+		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "isStatic");
+		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "audioHasApplicable");
 	}
 
 	public boolean isVoiceRecognition() {
