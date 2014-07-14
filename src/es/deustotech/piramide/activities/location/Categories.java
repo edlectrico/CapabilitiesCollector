@@ -144,7 +144,7 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
         
         final List<String> displays = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Display");
         //TODO: The following line is for testing False case
-		AbstractActivity.getOntologyManager().addDataTypePropertyValue(displays.get(0), getResources().getString(R.string.ontology_namespace) + "displayHasApplicable", false);
+//		AbstractActivity.getOntologyManager().addDataTypePropertyValue(displays.get(0), getResources().getString(R.string.ontology_namespace) + "displayHasApplicable", false);
 		final Collection<OWLLiteral> displayIsApplicables = AbstractActivity.getOntologyManager().getDataTypePropertyValue(displays.get(0), 
 				getResources().getString(R.string.ontology_namespace) + "displayHasApplicable");
 		
