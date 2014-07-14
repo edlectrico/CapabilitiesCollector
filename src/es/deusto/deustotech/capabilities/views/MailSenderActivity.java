@@ -289,7 +289,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			System.out.println(l);
 
 			try {
-				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/data/" + super.getOntologyFilename());
+				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());
 			} catch (OntologySavingException e) {
 				e.printStackTrace();
 			}
