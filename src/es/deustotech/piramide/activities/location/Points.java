@@ -169,6 +169,16 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
 				dialogHandler.sendMessage(dialogHandler.obtainMessage());
 //				Intent intent = new Intent(Points.this, Categories.getOnLoadActivity());
 				Intent intent = new Intent(Points.this, PiramideCaptureActivity.class);
+				
+				final List<String> displays = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Display");
+				final Collection<OWLLiteral> displayIsApplicables = AbstractActivity.getOntologyManager().getDataTypePropertyValue(displays.get(0), 
+						getResources().getString(R.string.ontology_namespace) + "displayHasApplicable");
+				boolean displayIsApplicable = Boolean.valueOf(((OWLLiteral) displayIsApplicables.toArray()[0]).getLiteral());
+				
+				if (!displayIsApplicable){
+					intent.setClass(Points.this, Directions.class);
+				}
+				
 				//#if ${piramide.user.capabilities.problems}
 					//#if ${piramide.user.capabilities.problems.sight}
 							selectedAddress = new Address(new Locale("es", "ES"));

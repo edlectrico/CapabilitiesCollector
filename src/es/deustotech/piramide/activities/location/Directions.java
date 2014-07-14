@@ -49,6 +49,7 @@ import es.deusto.deustotech.R;
 import es.deustotech.piramide.activities.options.Help;
 import es.deustotech.piramide.utils.constants.Constants;
 import es.deustotech.piramide.utils.distancecalc.DistanceCalculator;
+import es.deustotech.piramide.utils.views.CustomAdapter;
 
 public class Directions extends Activity implements TextToSpeech.OnInitListener{
 	
@@ -114,7 +115,8 @@ public class Directions extends Activity implements TextToSpeech.OnInitListener{
 	private void createDirectionsList() {
 		final ListView list 				= (ListView)findViewById(R.id.list_view);
 		final int adapterLayout 			= R.layout.list_item_sight_disability;
-		final ArrayAdapter<String> adapter 	= new ArrayAdapter<String>(this, adapterLayout, DIRECTIONS_ITEMS);
+//		final ArrayAdapter<String> adapter 	= new ArrayAdapter<String>(this, adapterLayout, DIRECTIONS_ITEMS);
+		final ArrayAdapter<String> adapter = new CustomAdapter(this, adapterLayout, Constants.CATEGORIES);
 		list.setAdapter(adapter);
 		
 		list.setOnItemClickListener(new OnItemClickListener(){

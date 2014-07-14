@@ -74,8 +74,6 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	private static Class<?> onLoadActivity;
 	private final Class<Directions> defaultActivity = Directions.class;
 	
-	private static final String TAG = Categories.class.getSimpleName();
-	
 	private static Context currentContext;
 	private Vibrator vibrator;
 	private static Intent locationService;
