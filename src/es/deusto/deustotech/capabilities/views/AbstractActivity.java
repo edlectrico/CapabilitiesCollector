@@ -125,6 +125,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public void speakOut(final String text) {
 		if (tts == null){
 			tts = new TextToSpeech(this, this);
+			tts.setLanguage(new Locale("spa", "ES"));
 		}
       tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
   }

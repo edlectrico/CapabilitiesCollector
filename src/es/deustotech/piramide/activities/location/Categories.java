@@ -25,7 +25,6 @@ package es.deustotech.piramide.activities.location;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
@@ -53,6 +52,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -66,15 +66,18 @@ import es.deustotech.piramide.utils.constants.Constants;
 import es.deustotech.piramide.utils.net.GoogleLocalClient;
 import es.deustotech.piramide.utils.net.GoogleLocalClient.GoogleLocalException;
 import es.deustotech.piramide.utils.parcelable.Point;
+import es.deustotech.piramide.utils.views.CustomAdapter;
 
-@SuppressLint("NewApi")
+@SuppressLint({ "HandlerLeak", "UseSparseArrays" })
 public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	//TODO: show a list of some points of interest near our location
 	private static Class<?> onLoadActivity;
 	private final Class<Directions> defaultActivity = Directions.class;
+	
+	private static final String TAG = Categories.class.getSimpleName();
+	
 	private static Context currentContext;
 	private Vibrator vibrator;
-	private TextToSpeech tts;
 	private static Intent locationService;
 	private static String selection = "";
 	private boolean displayIsApplicable = true;
@@ -82,7 +85,7 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	private Handler handler = new Handler(){
 		@Override
 		public void handleMessage(Message msg){
-			Toast.makeText(getApplicationContext(), "Imposible conectar con la red...", Toast.LENGTH_SHORT);
+			Toast.makeText(getApplicationContext(), "Imposible conectar con la red...", Toast.LENGTH_SHORT).show();
 		}
 	};
 	
@@ -110,7 +113,6 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 		public int getPressedDrawable() {
 			return pressedDrawable;
 		}
-		
 
 		public String getUri() {
 			return uri;
@@ -140,6 +142,8 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+//        initializeServices(TAG);
+        
         final List<String> displays = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Display");
         //TODO: The following line is for testing False case
 		AbstractActivity.getOntologyManager().addDataTypePropertyValue(displays.get(0), getResources().getString(R.string.ontology_namespace) + "displayHasApplicable", false);
@@ -152,7 +156,13 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 			setContentView(R.layout.categories_menu_normal);
 		}else {
 			setContentView(R.layout.list_menu);
-			tts = new TextToSpeech(this, this);
+			backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
+	        
+	        final Collection<OWLLiteral> backgroundColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+	        final int back 			= Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
+	        
+	        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_points);
+	        layout.setBackgroundColor(Color.argb(255, Color.red(back), Color.green(back), Color.blue(back)));
 		}
         
         startLocationService();
@@ -174,22 +184,6 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
-	@Override
-	protected void onResume() {
-		if (tts != null){
-			speak("Listando categorías");
-			for(String category : Constants.CATEGORIES)
-				speak(category);
-			
-		}
-		super.onResume();
-	}
-	
-//	private void createMenu() {
-//		onLoadActivity = defaultActivity; //default activity to be launched
-//		createButtons();
-//	}
 	
 	private void createMenu() {
 		System.out.println("displayIsApplicable: " + displayIsApplicable);
@@ -228,7 +222,9 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 			onLoadActivity = Directions.class;
 			final ListView list = (ListView)findViewById(R.id.list_view);
 			//#endif
-			adapter = new ArrayAdapter<String>(this, adapterLayout, Constants.CATEGORIES);
+//			adapter = new ArrayAdapter<String>(this, adapterLayout, Constants.CATEGORIES);
+			adapter = new CustomAdapter(this, adapterLayout, Constants.CATEGORIES);
+			
 			list.setAdapter(adapter);
 			list.setOnItemClickListener(new OnItemClickListener(){
 				ProgressDialog dialog = null;
@@ -243,17 +239,15 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 						int position, long id) {
 					vibrator.vibrate(500);
 					selection 	= list.getItemAtPosition(position).toString();
-					if (tts!=null){
-						tts.stop();
-						speak(Constants.SELECTED + selection);
-					}
+//					speakOut(Constants.SELECTED + selection);
+
 					dialog = ProgressDialog.show(Categories.this, "", 
 	                        "Consultando lugares...", true);
 					Thread t = new Thread(new Runnable() {
 						@Override
 						public void run() {
 							try {
-								speak("Espere");
+//								speakOut("Ha seleccionado " + selection);
 								requestInterestedPoints(selection);
 								dialogHandler.sendMessage(dialogHandler.obtainMessage());
 							} catch (GoogleLocalException e) {
@@ -276,8 +270,6 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 		String[] titlesArray 				= new String[pointList.size()];
 		double[] latitudesArray				= new double[pointList.size()];
 		double[] longitudesArray			= new double[pointList.size()];
-		//TODO: Use EncapsulatePoints
-		//EncapsulatePoints encapsulatePoints = new EncapsulatePoints();
 
 		for (int i=0; i<pointList.size(); i++){
 			streetsArray[i] 	= pointList.get(i).getStreetAddress();
@@ -289,8 +281,6 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 		final Bundle extras = putExtras(pointList, streetsArray, titlesArray,
 				latitudesArray, longitudesArray);
 
-		//		encapsulatePoints.setPoints(streetsArray, titlesArray);
-		//		extras.putParcelable("points", encapsulatePoints);
 		intent.setAction("points");
 		intent.putExtras(extras);
 		startActivityForResult(intent, 0);
@@ -373,16 +363,8 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-		    /*case R.id.add_point:
-		        addPoint();
-		        return true;
-		    case R.id.remove_point:
-		        removePoint();
-		        return true;*/
 		    case R.id.help:
-		    	if (tts != null){
-					tts.stop();
-		    	}
+//				tts.stop();
 		    	showHelpActivity();
 		    	return true;
 		    case R.id.exit:
@@ -394,26 +376,16 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	}
 	
 	private void showHelpActivity() {
-		if (tts != null){
-			tts.stop();
-		}
+//		tts.stop();
 		startActivityForResult(new Intent(Categories.this, 
 				Help.class), 0);
 	}
 
 	private void exit() {
-		if (tts != null){
-			tts.stop();
-		}
+//		tts.stop();
 		this.finish();
 	}
 	
-	/*
-	//TODO
-	private void removePoint() { }
-	//TODO
-	private void addPoint() { }
-	*/
 	public static Class<?> getOnLoadActivity() {
 		return onLoadActivity;
 	}
@@ -421,75 +393,34 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_HOME){
-			if (tts != null) {
-				tts.stop();	
-				tts.shutdown();
-			}
+//			tts.stop();	
+//			tts.shutdown();
 			stopService(locationService);
 			this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	@Override
-	public void onInit(int status) {
-		// status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
-        if (status == TextToSpeech.SUCCESS) {
-            // Set preferred language to US english.
-            // Note that a language may not be available, and the result will indicate this.
-            int result = tts.setLanguage(Locale.US);
-            // Try this someday for some interesting results.
-            // int result tts.setLanguage(Locale.FRANCE);
-            if (result == TextToSpeech.LANG_MISSING_DATA ||
-                result == TextToSpeech.LANG_NOT_SUPPORTED) {
-               // Lanuage data is missing or the language is not supported.
-                Log.e(Constants.TAG, "Language is not available.");
-            } else {
-                // Check the documentation for other possible result codes.
-                // For example, the language may be available for the locale,
-                // but not for the specified country and variant.
-
-                // The TTS engine has been successfully initialized.
-                // Allow the user to press the button for the app to speak again.
-//                button.setEnabled(true);
-                // Greet the user.
-            	speak("Listando categorías");
-            	
-            	for(String category : Constants.CATEGORIES)
-            		speak(category);
-            }
-        } else {
-            // Initialization failed.
-            Log.e(Constants.TAG, "Could not initialize TextToSpeech.");
-        }
-	}
-	
-	private void speak(String message){
-        tts.speak(message,
-            TextToSpeech.QUEUE_ADD,  // Drop all pending entries in the playback queue.
-            null);
-	}
-	
 	@Override 
 	protected void onDestroy() {
-		if (tts != null) {
-			tts.stop();
-			tts.shutdown();
-		}
 		stopService(locationService);
 		this.finish();
 		super.onDestroy();
 	}
 	
-	
 	@Override
 	public void onBackPressed() {
-		if (tts != null) {
-			tts.stop();
-			tts.shutdown();
-		}
+//		tts.stop();
+//		tts.shutdown();
 		stopService(locationService);
 		this.finish();
 		super.onBackPressed();
 	}
+
+	@Override
+	public void onInit(int status) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

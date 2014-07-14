@@ -23,7 +23,6 @@
 package es.deustotech.piramide.activities.location;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -31,7 +30,6 @@ import java.util.Vector;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -63,7 +61,6 @@ import es.deustotech.piramide.utils.distancecalc.DistanceCalculator;
 import es.deustotech.piramide.utils.parcelable.Point;
 import es.deustotech.piramide.utils.views.CustomAdapter;
 
-@SuppressLint("NewApi")
 public class Points extends Activity implements TextToSpeech.OnInitListener{
 
 	private Vector<Point> pointsVector;

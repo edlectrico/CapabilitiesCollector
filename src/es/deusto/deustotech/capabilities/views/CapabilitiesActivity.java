@@ -107,6 +107,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
 			}
 			//TODO: If no answer, hearing_impairments = true
+			tts.stop();
 			startActivity(interactionIntent);
 		}
 	}
@@ -125,6 +126,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 		Intent intent = new Intent(this, VolumeConfigActivity.class);
 		intent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
+		tts.stop();
 		startActivity(intent);
 		
 		return super.onLongClick(view);
@@ -156,11 +158,13 @@ public class CapabilitiesActivity extends AbstractActivity {
 				longPush = false;
 				interactionIntent.setClass(this,  VolumeConfigActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
+				tts.stop();
 				startActivity(interactionIntent);
 			}
 		} else if (view.getId() == R.id.mail_activity_button){
 			onBackPressed();
 		} else if (view.getId() == R.id.navigate_button){
+			tts.stop();
 			startActivity(new Intent(this, Categories.class));
 		}
 	}
@@ -253,6 +257,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 		interactionIntent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
+		tts.stop();
 		startActivity(interactionIntent);
 	}
 

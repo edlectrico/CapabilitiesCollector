@@ -33,7 +33,6 @@ import org.gavaghan.geodesy.GlobalCoordinates;
 import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
