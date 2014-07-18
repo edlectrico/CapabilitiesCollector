@@ -69,7 +69,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.PrefixOWLOntologyFormat;
 
-import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImpl;
+import uk.ac.manchester.cs.owl.owlapi.OWLLiteralImplNoCompression;
 import android.util.Log;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
@@ -670,8 +670,11 @@ public class OntologyManager {
 		if (dataProp.isFunctional(ontology))
 			deleteAllValuesOfProperty(individual, property);
 
-		OWLLiteral literal = new OWLLiteralImpl(factory, value,
-				factory.getOWLDatatype(IRI.create(type)));
+//		OWLLiteral literal = new OWLLiteralImpl(factory, value,
+//				factory.getOWLDatatype(IRI.create(type)));
+		
+		OWLLiteral literal  = new OWLLiteralImplNoCompression(value, "", factory.getOWLDatatype(IRI.create(type)));
+		
 		axiom = factory
 				.getOWLDataPropertyAssertionAxiom(dataProp, ind, literal);
 		ontology.getOWLOntologyManager().addAxiom(ontology, axiom);

@@ -3,6 +3,7 @@ package es.deusto.deustotech.pellet4android;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -10,25 +11,30 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import android.util.Log;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.pellet4android.exceptions.OntologyLoadException;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnInitListener {
 
 	private static OntologyManager ontManager = new OntologyManager();
 	private ProgressDialog dialog;
 	private Intent intent;
 	private static String ONT_FILENAME, ONT_PATH;
-	
+
+	private TextToSpeech tts;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		
+
 		loadStringResources();
 		intent = getDefaultIntent();
 		showDialog();
-		
+
 		new OntologyImports().execute("adaptui"); // The name is not important
 	}
 
@@ -45,10 +51,10 @@ public class MainActivity extends Activity {
 
 					//Direct load from '/assets' folder
 					//ontManager.loadOntologyFromFile(getAssets().open("adaptui.owl"));
-					
+
 					File file = new File(ONT_PATH + ONT_FILENAME);
 					FileInputStream fileInputStream = new FileInputStream(file);
-					
+
 					ontManager.loadOntologyFromFile(fileInputStream);				
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -68,11 +74,11 @@ public class MainActivity extends Activity {
 	private String getExternalDirectory(final String file){
 		return "file:" + Environment.getExternalStorageDirectory().getPath() + "/ontologies/" + file;
 	}
-	
+
 	public static OntologyManager getOntologyManager(){
 		return ontManager;
 	}
-	
+
 	private Intent getDefaultIntent() {
 		return new Intent(this, es.deusto.deustotech.capabilities.views.CapabilitiesActivity.class);
 	}
@@ -86,4 +92,20 @@ public class MainActivity extends Activity {
 		dialog = ProgressDialog.show(MainActivity.this, "", getResources().getString(R.string.loading_message_dialog), true);        
 		dialog.show();
 	}
+
+	@Override
+	public void onInit(int status) {
+		if (status == TextToSpeech.SUCCESS) {
+			int result = tts.setLanguage(new Locale("spa", "ES"));
+
+			if (result == TextToSpeech.LANG_MISSING_DATA
+					|| result == TextToSpeech.LANG_NOT_SUPPORTED) {
+				Log.e("TTS", "This Language is not supported");
+			} 
+		} else {
+			Log.e("TTS", "Initilization Failed!");
+		}
+//		speakOut(getResources().getString(R.string.basic_input_message_es));
+	}
+
 }

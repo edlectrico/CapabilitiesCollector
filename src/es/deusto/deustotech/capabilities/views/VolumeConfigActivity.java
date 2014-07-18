@@ -1,5 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +14,8 @@ import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -36,7 +39,7 @@ import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
  *
  */
 
-public class VolumeConfigActivity extends AbstractActivity {
+public class VolumeConfigActivity extends AbstractActivity implements TextToSpeech.OnInitListener {
 
 	private static final String TAG = VolumeConfigActivity.class.getSimpleName();
 
@@ -59,22 +62,46 @@ public class VolumeConfigActivity extends AbstractActivity {
 
 		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 
-		if (callerActivity == 1){ //BrightnessActivity
-			userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
-		}
-
 		grid = (GridLayout) findViewById(R.id.volume_layout);
 		grid.setOnClickListener(this);
+		
+		if (callerActivity == 1){ //BrightnessActivity
+			audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+			
+			userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
+			volumePicker = (NumberPicker) findViewById(R.id.volume_picker);
+			volumePicker.setMinValue(0);
+			volumePicker.setMaxValue(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+			volumePicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		} else {
+			speakOut(getResources().getString(R.string.volume_longpush_es) + volumeLevel);
+			grid.setOnLongClickListener(this);
+		}
 
 		initializeServices(TAG);
 
-		volumePicker = (NumberPicker) findViewById(R.id.volume_picker);
-		volumePicker.setMinValue(0);
-		volumePicker.setMaxValue(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-		volumePicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-
 		redrawViews();
 		addListeners();
+	}
+	
+	@Override
+	public boolean onLongClick(View view) {
+//		speakOut("Hable ahora");
+		listenToSpeech();
+		
+		return super.onLongClick(view);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == VR_REQUEST && resultCode == RESULT_OK) {
+			//store the returned word list as an ArrayList
+			ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			if (suggestedWords.contains("siguiente")){
+				tts.stop();
+				startActivity(new Intent(this, MailSenderActivity.class));
+			}
+		}
 	}
 
 	@Override
@@ -89,9 +116,10 @@ public class VolumeConfigActivity extends AbstractActivity {
 				layoutParams.screenBrightness = userPrefs.getBrightness();
 				getWindow().setAttributes(layoutParams);
 			}
+		} else {
+			audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		}
 
-		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	}
 
 	@Override
@@ -102,17 +130,19 @@ public class VolumeConfigActivity extends AbstractActivity {
 		grid.getChildAt(0).setOnClickListener(this);
 		grid.getChildAt(1).setOnClickListener(this);
 
-		volumePicker.setOnValueChangedListener(new OnValueChangeListener() {
-			@Override
-			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-				volumeLevel = newVal;
-
-				audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-						volumeLevel, 0);
-
-				speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
-			}
-		});
+		if (callerActivity == 1){
+			volumePicker.setOnValueChangedListener(new OnValueChangeListener() {
+				@Override
+				public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+					volumeLevel = newVal;
+					
+					audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+							volumeLevel, 0);
+					
+					speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
+				}
+			});
+		}
 	}
 
 	@Override
@@ -143,6 +173,14 @@ public class VolumeConfigActivity extends AbstractActivity {
 			if (userPrefs.getTextEditTextColor() != 0){
 				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
 			}
+		} else {
+			Random randomGenerator = new Random();
+			volumeLevel = randomGenerator.nextInt(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+					volumeLevel, 0);
+
+			speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
 		}
 	}
 
@@ -209,6 +247,15 @@ public class VolumeConfigActivity extends AbstractActivity {
 
 		System.out.println("checkOntology(): " 	+ TAG);
 		System.out.println("volume: " 		+ volumes);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if (callerActivity == 1){
+			startActivity(new Intent(this, BrightnessConfigActivity.class));
+		} else {
+			startActivity(new Intent(this, CapabilitiesActivity.class));
+		}
 	}
 
 }

@@ -42,7 +42,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 		initializeServices(TAG);
 		addListeners();
-
+		
 		interactionIntent = new Intent(this, ButtonConfigActivity.class);
 		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
@@ -51,18 +51,24 @@ public class CapabilitiesActivity extends AbstractActivity {
 		
 		audios 	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
 		displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+		
+		listenToSpeech();
+		
 	}
-
+	
 	@Override
 	public void addListeners() {
 		//OnLongClick -> audio-based interaction
 		GridLayout grid = (GridLayout) findViewById(R.id.grid_layout);
 		grid.setOnLongClickListener(this);
 
-		findViewById(R.id.button_input).setOnLongClickListener(this);
 		findViewById(R.id.button_input).setOnClickListener(this);
 		findViewById(R.id.mail_activity_button).setOnClickListener(this);
 		findViewById(R.id.navigate_button).setOnClickListener(this);
+		
+		findViewById(R.id.button_input).setOnLongClickListener(this);
+		findViewById(R.id.mail_activity_button).setOnLongClickListener(this);
+		findViewById(R.id.navigate_button).setOnLongClickListener(this);
 	}
 
 	//Check if voice recognition is present
@@ -77,14 +83,6 @@ public class CapabilitiesActivity extends AbstractActivity {
 		return true;
 	}
 
-	private void onLongClickView() {
-		longPush = true;
-
-		if (voiceRecognition){
-			listenToSpeech();
-		}
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//check speech recognition result 
@@ -96,8 +94,10 @@ public class CapabilitiesActivity extends AbstractActivity {
 				//TODO: Communication by audio (blind user)
 				interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 1);
 				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), "displayHasApplicabe", false);
-				interactionIntent.setClass(this,  MailSenderActivity.class);
+				interactionIntent.setClass(this,  VolumeConfigActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
+				speakOut(getResources().getString(R.string.volume_info_message_es));
+				speakOut(getResources().getString(R.string.volume_longpush_es));
 			} else if (suggestedWords.contains(getResources().getString(R.string.no))){
 				//TODO: Communication by visual interaction, but probably with a visual difficulty
 				tts.stop();
@@ -114,19 +114,19 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	@Override
 	public boolean onLongClick(View view) {
+		
+		listenToSpeech();
+		
 		audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-		if (view.getId() == R.id.grid_layout) {
-			onLongClickView();
-		} else if (view.getId() == R.id.button_input){
-			onLongClickView();
-		}
-
 		super.getOntologyManager().addDataTypePropertyValue(audios.get(0), 	super.getOntologyNamespace() + "audioHasApplicabe", true);
 		longPush = false;
 
 		Intent intent = new Intent(this, VolumeConfigActivity.class);
 		intent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
-		tts.stop();
+		
+		speakOut(getResources().getString(R.string.volume_info_message_es));
+		speakOut(getResources().getString(R.string.volume_longpush_es));
+		
 		startActivity(intent);
 		
 		return super.onLongClick(view);
@@ -162,7 +162,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 				startActivity(interactionIntent);
 			}
 		} else if (view.getId() == R.id.mail_activity_button){
-			onBackPressed();
+			tts.stop();
+			launchMailSenderActivity();
 		} else if (view.getId() == R.id.navigate_button){
 			tts.stop();
 			startActivity(new Intent(this, Categories.class));
@@ -188,9 +189,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		this.voiceRecognition = voiceRecognition;
 	}
 
-	@Override
-	public void onBackPressed() {
-		//Avoiding the configuration, as it is stored in the ontology
+	public void launchMailSenderActivity() {
+		//Avoiding the configuration. Using the values stored in the ontology
 		final List<String> buttons	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
 		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
@@ -257,8 +257,12 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 		interactionIntent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
-		tts.stop();
 		startActivity(interactionIntent);
 	}
-
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+	}
+	
 }

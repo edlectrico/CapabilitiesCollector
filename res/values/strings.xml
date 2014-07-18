@@ -22,15 +22,13 @@
     <string name="instructions_es">Configurador de AdaptUI</string>
     <string name="basic_input_message_en">If you prefer an audio based interaction, please say YES or
         hold your finger over the screen. Otherwise, please say NO or push the button.</string>
-    <string name="basic_input_message_es">¿Prefiere una interacción por medio de audio y voz? Por favor,
-        diga "Sí" en voz alta para activar esta característica o mantenga presionada la pantalla con un dedo.
-		Si por el contrario no desea una interacción por audio, por favor diga "No" o pulse el botón mostrado.
+    <string name="basic_input_message_es">Para una interacción por voz diga "Sí" o mantenga pulsada la pantalla.
 	</string>
     <string name="input_button_message_en">PUSH ME!</string>
     <string name="input_button_message_es">¡Púlseme!</string>
     <string name="send_email_en">Avoid configuration</string>
- 	<string name="send_email_es">Enviar Email</string>
- 	<string name="navigate_es">Buscar lugar</string>
+ 	<string name="send_email_es">Demo Email</string>
+ 	<string name="navigate_es">Demo AssistedCity</string>
  	<string name="message_visual_interaction_es">Seleccionada interacción visual</string>
  	<string name="si">Si</string>
  	<string name="no">No</string>
@@ -81,6 +79,8 @@
 	<string name="end_message_en">End</string>
 	<string name="end_message_es">Fin</string>
 	<string name="volume_es">Volumen a</string>
+	<string name="volume_longpush_es">Mantenga pulsado con un dedo la pantalla para hablar. Al oir la señal diga "Siguiente"
+	    si quiere continuar a la pantalla de envio de email</string>
 	
 	<!-- Mail_Sender_Activity -->
 	<string name="to_en">To: </string>
