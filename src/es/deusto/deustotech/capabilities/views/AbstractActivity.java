@@ -123,13 +123,16 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	
 	@Override
 	public void onBackPressed() {
-		vibrator.cancel();
-		tts.stop();
-		tts.shutdown();
+		if (vibrator != null){
+			vibrator.cancel();
+		}
 		
-		finish();
+		if (tts != null){
+			tts.stop();
+			tts.shutdown();
+		}
 		
-		super.onDestroy();
+		super.onBackPressed();
 	}
 	
 }
