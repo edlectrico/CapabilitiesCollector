@@ -78,7 +78,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		if (super.tts != null){
 			super.tts.stop();
 		}
-
+		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		buttonContextChange = (Button) findViewById(R.id.buttonTriggerContextChange);
 		textViewInstructions = (TextView) findViewById(R.id.textViewEmailInstructions);

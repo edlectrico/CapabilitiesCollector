@@ -14,7 +14,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
-import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
 
 /**
  * This activity configures the minimum visual interaction values
@@ -37,13 +35,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
-	private static List<String> buttons;
-	private static List<String> backgrounds;
+	private static List<String> buttons, backgrounds;
 	
-	private Button btnResize;
-	private Button btnBackgroundColor;
-	private Button btnColorButton;
-	private Button btnTextColor;
+	private Button btnResize, btnBackgroundColor, btnColorButton, btnTextColor;
 	private GridLayout grid;
 	
 	private int maxWidth = 0;
@@ -51,6 +45,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private int buttonBackgroundColor = 0;
 	private int textColor = 0;
 	private int layoutBackgroundColor = 0;
+	
 	private int defaultButtonColor;
 	private static final int DEFAULT_BACK_COLOR = Color.WHITE;
 
