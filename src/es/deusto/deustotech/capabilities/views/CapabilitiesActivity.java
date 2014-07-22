@@ -270,7 +270,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 	private void checkPreviousAdaptations(){
 		List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
 		List<String> devices = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "DeviceAux");
-		super.getOntologyManager().addDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient" , true);
+//		super.getOntologyManager().addDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient" , true);
 		Collection<OWLLiteral> battery = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient");
 		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxHasBrightness");
 		
