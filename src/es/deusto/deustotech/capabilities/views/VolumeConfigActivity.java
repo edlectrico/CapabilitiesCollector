@@ -80,7 +80,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 
 		initializeServices(TAG);
 		
-		removePreviousValuesFromOntology();
+//		removePreviousValuesFromOntology();
 
 		redrawViews();
 		addListeners();
@@ -117,6 +117,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 						.getAttributes();
 				layoutParams.screenBrightness = userPrefs.getBrightness();
 				getWindow().setAttributes(layoutParams);
+				
+				System.out.println("Brightness: " + userPrefs.getBrightness());
 			}
 		} else {
 			audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -260,13 +262,13 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		}
 	}
 	
-	private void removePreviousValuesFromOntology() {
-		audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-		
-		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
-		
-		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
-		super.getOntologyManager().deleteAllValuesOfProperty(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasNoiseLevel");
-	}
+//	private void removePreviousValuesFromOntology() {
+//		audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+//		
+//		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
+//		
+//		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
+//		super.getOntologyManager().deleteAllValuesOfProperty(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasNoiseLevel");
+//	}
 
 }

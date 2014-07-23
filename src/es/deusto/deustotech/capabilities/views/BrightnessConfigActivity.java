@@ -70,7 +70,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 		
-		removePreviousValuesFromOntology();
+//		removePreviousValuesFromOntology();
 	}
 
 	@Override
@@ -174,6 +174,9 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 
+			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
+			physicalEnvLights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
+			
 			super.getOntologyManager().addDataTypePropertyValue(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight", currentLuxes);
 			
 			final List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
@@ -192,41 +195,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 				speakOut("Well done!");
 			}
 
-			checkOntology();
 			startActivity(intent);
 		}
 	}
-	
-	private void removePreviousValuesFromOntology() {
-		displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-		physicalEnvLights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
-		
-		super.getOntologyManager().deleteAllValuesOfProperty(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
-		super.getOntologyManager().deleteAllValuesOfProperty(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight");
-		
-		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
-		super.getOntologyManager().deleteAllValuesOfProperty(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
-	}
-
-	private void checkOntology() {
-		final Collection<OWLLiteral> brightness	= super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
-		final Collection<OWLLiteral> contextLight = super.getOntologyManager().getDataTypePropertyValue(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight");
-		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
-		final Collection<OWLLiteral> contextCheckedLight = super.getOntologyManager().getDataTypePropertyValue(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
-
-		final List<String> devices = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "DeviceAux");
-		final Collection<OWLLiteral> battery = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient");
-		
-		final List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
-		final Collection<OWLLiteral> adaptationBrightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
-		
-		System.out.println("checkOntology(): " 	 	+ TAG);
-		System.out.println("brightness: " 		 	+ brightness);
-		System.out.println("light: " 			 	+ contextLight);
-		System.out.println("contextLightLevel: " 	+ contextCheckedLight);
-		System.out.println("battery: " 				+ battery);
-		System.out.println("adaptations: " 			+ adaptations);
-		System.out.println("adaptationHasBrightness: " + adaptationBrightness);
-	}
-
 }

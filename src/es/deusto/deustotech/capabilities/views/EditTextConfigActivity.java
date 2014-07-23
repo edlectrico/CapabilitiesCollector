@@ -1,10 +1,7 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-
-import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -57,7 +54,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 		edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
 		textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
 		
-		removePreviousValuesFromOntology();
 		super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 		super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 	}
@@ -134,8 +130,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 			
-			removePreviousValuesFromOntology();
-			
 			if (edit_backgroundcolor_changed){
 				super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 				super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
@@ -158,7 +152,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 				speakOut("Well done!");
 			}
 			
-			checkOntology();
 			startActivity(intent);
 		} else if (view.getId() == R.id.button_background_color){
 			edit_backgroundcolor_changed = true;
@@ -178,51 +171,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 		}
 	}
 	
-	private void removePreviousValuesFromOntology() {
-		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasColor");
-		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		super.getOntologyManager().deleteAllValuesOfProperty(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-		
-		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
-		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		super.getOntologyManager().deleteAllValuesOfProperty(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-		
-	}
-
-	private void checkOntology() {
-		edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
-		textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
-		
-		final Collection<OWLLiteral> editWidth 		= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		final Collection<OWLLiteral> editHeight 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-		final Collection<OWLLiteral> editBackColor 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		
-		System.out.println("checkOntology(): " 	+ TAG);
-		System.out.println("editWidth: " 		+ editWidth);
-		System.out.println("editHeight: " 		+ editHeight);
-		System.out.println("editTextSize: " 	+ editTextSize);
-		System.out.println("editBackColor: " 	+ editBackColor);
-		System.out.println("editTextColor: " 	+ editTextColor);
-		
-		final Collection<OWLLiteral> textViewWidth 		= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		final Collection<OWLLiteral> textViewHeight 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		final Collection<OWLLiteral> textViewTextSize 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-		final Collection<OWLLiteral> textViewBackColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> textViewTextColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		
-		System.out.println("textViewWidth: " 		+ textViewWidth);
-		System.out.println("textViewHeight: " 		+ textViewHeight);
-		System.out.println("textViewTextSize: " 	+ textViewTextSize);
-		System.out.println("textViewBackColor: " 	+ textViewBackColor);
-		System.out.println("textViewTextColor: " 	+ textViewTextColor);
-	}
-
 	public boolean isEditTextTextColorChanged() {
 		return editTextTextColorChanged;
 	}

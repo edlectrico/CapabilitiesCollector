@@ -63,8 +63,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	private int focusCounter = 0;
 	private int editTextCounter = 0;
 
-	private WindowManager.LayoutParams layoutParams;
-
 	private long start;
 	private List<Double> times;
 	
@@ -106,17 +104,19 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	@Override
 	public void initializeServices(String TAG) {
 		launchedAt = System.currentTimeMillis();
-
+	}
+	
+	@Override
+	public void redrawViews() {
 		if (userPrefs.getBrightness() != 0) {
+			WindowManager.LayoutParams layoutParams = getWindow()
+					.getAttributes();
 			layoutParams = getWindow().getAttributes();
 			layoutParams.screenBrightness = userPrefs.getBrightness();
 
 			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
 		}
-	}
-	
-	@Override
-	public void redrawViews() {
+		
 		if ((ButtonConfigActivity.getLayoutBackgroundColorChanged()) || (userPrefs.getLayoutBackgroundColor() != 0)){
 			final int layoutBackgroundColor = userPrefs.getLayoutBackgroundColor();
 			final int redBackgroundColor = Color.red(layoutBackgroundColor);
@@ -306,6 +306,11 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			final String bri = ((OWLLiteral) brightness.toArray()[1]).getLiteral();
 
 			System.out.println(bri);
+			
+			
+			//TODO
+			WindowManager.LayoutParams layoutParams = getWindow()
+					.getAttributes();
 
 			layoutParams.screenBrightness = Float.parseFloat(bri);
 
