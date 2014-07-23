@@ -282,16 +282,21 @@ public class CapabilitiesActivity extends AbstractActivity {
 		userPrefs.setTextViewHeight(Integer.parseInt(tvh));
 
 		
-		//TODO: Simulating office light
-		List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
-		super.getOntologyManager().addDataTypePropertyValue(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel", "office_hallway");
-		
 		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
+		String bri;
 		
-		if (brightness.size() > 0){
-			final String bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
-			userPrefs.setBrightness(Float.parseFloat(bri));
+		if (brightness.size() < 1){
+			//TODO: Simulating office light
+			List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
+			super.getOntologyManager().addDataTypePropertyValue(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel", "office_hallway");
+			
+			brightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
+			
+			System.out.println("Simulating Light");
 		}
+		
+		bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
+		userPrefs.setBrightness(Float.parseFloat(bri));
 
 		final String etts = ((OWLLiteral) ettSize.toArray()[0]).getLiteral();
 		final String tvts = ((OWLLiteral) tvtSize.toArray()[0]).getLiteral();

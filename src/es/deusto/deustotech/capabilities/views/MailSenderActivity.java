@@ -415,5 +415,11 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		 * model.put("focusedElapsedTime", focusElapsedTime/focusCounter);
 		 */
 	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		startActivity(new Intent(this, CapabilitiesActivity.class));
+	}
 
 }
