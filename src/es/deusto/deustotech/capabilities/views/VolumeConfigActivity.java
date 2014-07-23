@@ -1,11 +1,8 @@
 package es.deusto.deustotech.capabilities.views;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-
-import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Context;
 import android.content.Intent;
@@ -80,15 +77,12 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 
 		initializeServices(TAG);
 		
-//		removePreviousValuesFromOntology();
-
 		redrawViews();
 		addListeners();
 	}
 	
 	@Override
 	public boolean onLongClick(View view) {
-//		speakOut("Hable ahora");
 		listenToSpeech();
 		
 		return super.onLongClick(view);
@@ -215,8 +209,6 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			prefsEditor.putString(getResources().getString(R.string.view_params), json);
 			prefsEditor.commit();
 
-			checkOntology();
-
 			if (callerActivity == 1){ //BrightnessActivity
 				Intent intent = new Intent(this, MailSenderActivity.class);
 				intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
@@ -244,15 +236,6 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		}
 	}
 
-	private void checkOntology() {
-		final List<String> audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-
-		final Collection<OWLLiteral> volumes	= super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
-
-		System.out.println("checkOntology(): " 	+ TAG);
-		System.out.println("volume: " 		+ volumes);
-	}
-	
 	@Override
 	public void onBackPressed() {
 		if (callerActivity == 1){
@@ -261,14 +244,4 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			startActivity(new Intent(this, CapabilitiesActivity.class));
 		}
 	}
-	
-//	private void removePreviousValuesFromOntology() {
-//		audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-//		
-//		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
-//		
-//		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
-//		super.getOntologyManager().deleteAllValuesOfProperty(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasNoiseLevel");
-//	}
-
 }
