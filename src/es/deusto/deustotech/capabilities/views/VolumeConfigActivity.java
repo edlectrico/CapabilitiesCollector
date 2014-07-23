@@ -79,6 +79,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		}
 
 		initializeServices(TAG);
+		
+		removePreviousValuesFromOntology();
 
 		redrawViews();
 		addListeners();
@@ -256,6 +258,15 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		} else {
 			startActivity(new Intent(this, CapabilitiesActivity.class));
 		}
+	}
+	
+	private void removePreviousValuesFromOntology() {
+		audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
+		
+		super.getOntologyManager().deleteAllValuesOfProperty(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
+		
+		final List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
+		super.getOntologyManager().deleteAllValuesOfProperty(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasNoiseLevel");
 	}
 
 }
