@@ -41,7 +41,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.capabilities_activity);
 
-		checkPreviousAdaptations();
+//		checkPreviousAdaptations();
 		
 		initializeServices(TAG);
 		addListeners();
@@ -193,86 +193,29 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 	public void launchMailSenderActivity() {
 		//Avoiding the configuration. Using the values stored in the ontology
-		final List<String> buttons	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
-		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
-		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
-		final List<String> backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
+//		final List<String> buttons	 = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
+//		final List<String> editTexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
+//		final List<String> textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
+//		final List<String> backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
 
 		final Collection<OWLLiteral> volume = super.getOntologyManager().getDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume");
-		final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
-		final Collection<OWLLiteral> buttonWidth = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
-		final Collection<OWLLiteral> buttonHeiht = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight");
-		final Collection<OWLLiteral> buttonColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> buttonTextColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-
-		final Collection<OWLLiteral> editColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-
-		final Collection<OWLLiteral> textViewColor		= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
-		final Collection<OWLLiteral> textViewTextColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
-		final Collection<OWLLiteral> textViewTextSize 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
-
-		final Collection<OWLLiteral> backgroundColor 	= super.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
-
-		final String vol = ((OWLLiteral) volume.toArray()[0]).getLiteral();
-		final String bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
-		final String bwi = ((OWLLiteral) buttonWidth.toArray()[0]).getLiteral();
-		final String bhe = ((OWLLiteral) buttonHeiht.toArray()[0]).getLiteral();
-		final String btc = ((OWLLiteral) buttonTextColor.toArray()[0]).getLiteral();
-		final String etc = ((OWLLiteral) editTextColor.toArray()[0]).getLiteral();
-		final String ets = ((OWLLiteral) editTextSize.toArray()[0]).getLiteral();
-		final String tvtc = ((OWLLiteral) textViewTextColor.toArray()[0]).getLiteral();
-		final String tvts = ((OWLLiteral) textViewTextSize.toArray()[0]).getLiteral();
-
-		String bco, bck, tvco, eco;
+//		final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
+//		final Collection<OWLLiteral> buttonWidth = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth");
+//		final Collection<OWLLiteral> buttonHeiht = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight");
+//		final Collection<OWLLiteral> buttonColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
+//		final Collection<OWLLiteral> buttonTextColor = super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+//
+//		final Collection<OWLLiteral> editColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasColor");
+//		final Collection<OWLLiteral> editTextColor 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+//		final Collection<OWLLiteral> editTextSize 	= super.getOntologyManager().getDataTypePropertyValue(editTexts.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+//
+//		final Collection<OWLLiteral> textViewColor		= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor");
+//		final Collection<OWLLiteral> textViewTextColor 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor");
+//		final Collection<OWLLiteral> textViewTextSize 	= super.getOntologyManager().getDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize");
+//
+//		final Collection<OWLLiteral> backgroundColor 	= super.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
 		
-		if (buttonColor.size() > 0){
-			bco = ((OWLLiteral) buttonColor.toArray()[0]).getLiteral();
-			userPrefs.setButtonBackgroundColor(Integer.parseInt(bco));
-		}
-		
-		if (editColor.size() > 0){
-			eco = ((OWLLiteral) editColor.toArray()[0]).getLiteral();
-			tvco = ((OWLLiteral) textViewColor.toArray()[0]).getLiteral();
-			userPrefs.setTextEditBackgroundColor(Integer.parseInt(eco));
-			userPrefs.setTextViewBackgroundColor(Integer.parseInt(tvco));
-		}
-
-		if (backgroundColor.size() > 0){
-			bck = ((OWLLiteral) backgroundColor.toArray()[0]).getLiteral();
-			userPrefs.setLayoutBackgroundColor(Integer.parseInt(bck));
-		}
-
-		interactionIntent.setClass(this,  MailSenderActivity.class);
-		interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
-
-		userPrefs.setVolume(Float.parseFloat(vol));
-		userPrefs.setBrightness(Float.parseFloat(bri));
-		userPrefs.setButtonWidth(Float.parseFloat(bwi));
-		userPrefs.setButtonHeight(Float.parseFloat(bhe));
-		userPrefs.setButtonTextColor(Integer.parseInt(btc));
-		userPrefs.setTextEditSize(Float.parseFloat(ets));
-		userPrefs.setTextEditTextColor(Integer.parseInt(etc));
-		userPrefs.setTextViewTextColor(Integer.parseInt(tvtc));
-		userPrefs.setTextViewTextSize(Float.parseFloat(tvts));
-
-		interactionIntent.putExtra(getResources().getString(R.string.view_params), userPrefs);
-
-		startActivity(interactionIntent);
-	}
-	
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-	}
-	
-	private void checkPreviousAdaptations(){
 		List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
-		List<String> devices = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "DeviceAux");
-//		super.getOntologyManager().addDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient" , true);
-		Collection<OWLLiteral> battery = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient");
-		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxHasBrightness");
 		
 		Collection<OWLLiteral> btnBackColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasButtonBackgroundColor");
 		Collection<OWLLiteral> btnTextColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasButtonTextColor");
@@ -283,35 +226,133 @@ public class CapabilitiesActivity extends AbstractActivity {
 		Collection<OWLLiteral> tvTextColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewTextColor");
 		Collection<OWLLiteral> tvWidth = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewWidth");
 		Collection<OWLLiteral> tvHeight = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewHeight");
+		Collection<OWLLiteral> tvtSize = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewTextSize");
 		
 		Collection<OWLLiteral> etBackColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextBackgroundColor");
 		Collection<OWLLiteral> etTextColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextTextColor");
 		Collection<OWLLiteral> etWidth = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextWidth");
 		Collection<OWLLiteral> etHeight = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextHeight");
+		Collection<OWLLiteral> ettSize = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextTextSize");
 		
 		Collection<OWLLiteral> backColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasBackgroundColor");
+
+		final String vol = ((OWLLiteral) volume.toArray()[0]).getLiteral();
+		final String bwi = ((OWLLiteral) btnWidth.toArray()[0]).getLiteral();
+		final String bhe = ((OWLLiteral) btnHeight.toArray()[0]).getLiteral();
+		final String btc = ((OWLLiteral) btnTextColor.toArray()[0]).getLiteral();
+		final String etc = ((OWLLiteral) etTextColor.toArray()[0]).getLiteral();
+		final String tvtc = ((OWLLiteral) tvTextColor.toArray()[0]).getLiteral();
 		
-		System.out.println("Previous adaptations");
+		final String etw = ((OWLLiteral) etWidth.toArray()[0]).getLiteral();
+		final String tvw = ((OWLLiteral) tvWidth.toArray()[0]).getLiteral();
+		final String eth = ((OWLLiteral) etHeight.toArray()[0]).getLiteral();
+		final String tvh = ((OWLLiteral) tvHeight.toArray()[0]).getLiteral();
+
+		String bco, bck, tvco, eco;
 		
-		System.out.println("battery: " 		+ battery );
-		System.out.println("brightness: " 	+ brightness);
+		if (btnBackColor.size() > 0){
+			bco = ((OWLLiteral) btnBackColor.toArray()[0]).getLiteral();
+			userPrefs.setButtonBackgroundColor(Integer.parseInt(bco));
+		}
 		
-		System.out.println("btnBackColor: " + btnBackColor);
-		System.out.println("btnTextColor: " + btnTextColor);
-		System.out.println("btnWidth: " 	+ btnWidth);
-		System.out.println("btnHeight: " 	+ btnHeight);
+		if (etBackColor.size() > 0){
+			eco = ((OWLLiteral) etBackColor.toArray()[0]).getLiteral();
+			tvco = ((OWLLiteral) tvBackColor.toArray()[0]).getLiteral();
+			userPrefs.setTextEditBackgroundColor(Integer.parseInt(eco));
+			userPrefs.setTextViewBackgroundColor(Integer.parseInt(tvco));
+		}
+
+		if (backColor.size() > 0){
+			bck = ((OWLLiteral) backColor.toArray()[0]).getLiteral();
+			userPrefs.setLayoutBackgroundColor(Integer.parseInt(bck));
+		}
+
+		interactionIntent.setClass(this,  MailSenderActivity.class);
+		interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
+
+		userPrefs.setVolume(Float.parseFloat(vol));
+		userPrefs.setButtonWidth(Float.parseFloat(bwi));
+		userPrefs.setButtonHeight(Float.parseFloat(bhe));
+		userPrefs.setButtonTextColor(Integer.parseInt(btc));
+		userPrefs.setEditTextTextColor(Integer.parseInt(etc));
+		userPrefs.setEditTextWidth(Integer.parseInt(etw));
+		userPrefs.setEditTextHeight(Integer.parseInt(eth));
+		userPrefs.setTextViewTextColor(Integer.parseInt(tvtc));
+		userPrefs.setTextViewWidth(Integer.parseInt(tvw));
+		userPrefs.setTextViewHeight(Integer.parseInt(tvh));
+
 		
-		System.out.println("tvBackColor: " 	+ tvBackColor);
-		System.out.println("tvTextColor: " 	+ tvTextColor);
-		System.out.println("tvWidth: " 		+ tvWidth);
-		System.out.println("tvHeight: " 	+ tvHeight);
+		//TODO: Simulating office light
+		List<String> contextAux = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
+		super.getOntologyManager().addDataTypePropertyValue(contextAux.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel", "office_hallway");
 		
-		System.out.println("etBackColor: " 	+ etBackColor);
-		System.out.println("etTextColor: " 	+ etTextColor);
-		System.out.println("etWidth: " 		+ etWidth);
-		System.out.println("etHeight: " 	+ etHeight);
+		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
 		
-		System.out.println("backColor: " 	+ backColor);
+		if (brightness.size() > 0){
+			final String bri = ((OWLLiteral) brightness.toArray()[0]).getLiteral();
+			userPrefs.setBrightness(Float.parseFloat(bri));
+		}
+
+		final String etts = ((OWLLiteral) ettSize.toArray()[0]).getLiteral();
+		final String tvts = ((OWLLiteral) tvtSize.toArray()[0]).getLiteral();
+		
+		userPrefs.setEditTextTextSize(Float.parseFloat(etts));
+		userPrefs.setTextViewTextSize(Float.parseFloat(tvts));
+		
+		interactionIntent.putExtra(getResources().getString(R.string.view_params), userPrefs);
+
+		startActivity(interactionIntent);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+	}
+	
+//	private void checkPreviousAdaptations(){
+//		List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
+//		List<String> devices = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "DeviceAux");
+//		Collection<OWLLiteral> battery = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxBatteryIsSufficient");
+//		Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(devices.get(0), super.getOntologyNamespace() + "deviceAuxHasBrightness");
+//		
+//		Collection<OWLLiteral> btnBackColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasButtonBackgroundColor");
+//		Collection<OWLLiteral> btnTextColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasButtonTextColor");
+//		Collection<OWLLiteral> btnWidth = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasButtonWidth");
+//		Collection<OWLLiteral> btnHeight = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasButtonHeight");
+//		
+//		Collection<OWLLiteral> tvBackColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewBackgroundColor");
+//		Collection<OWLLiteral> tvTextColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewTextColor");
+//		Collection<OWLLiteral> tvWidth = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewWidth");
+//		Collection<OWLLiteral> tvHeight = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasTextViewHeight");
+//		
+//		Collection<OWLLiteral> etBackColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextBackgroundColor");
+//		Collection<OWLLiteral> etTextColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextTextColor");
+//		Collection<OWLLiteral> etWidth = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextWidth");
+//		Collection<OWLLiteral> etHeight = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasEditTextHeight");
+//		
+//		Collection<OWLLiteral> backColor = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationHasBackgroundColor");
+//		
+//		System.out.println("Previous adaptations");
+//		
+//		System.out.println("battery: " 		+ battery );
+//		System.out.println("brightness: " 	+ brightness);
+//		
+//		System.out.println("btnBackColor: " + btnBackColor);
+//		System.out.println("btnTextColor: " + btnTextColor);
+//		System.out.println("btnWidth: " 	+ btnWidth);
+//		System.out.println("btnHeight: " 	+ btnHeight);
+//		
+//		System.out.println("tvBackColor: " 	+ tvBackColor);
+//		System.out.println("tvTextColor: " 	+ tvTextColor);
+//		System.out.println("tvWidth: " 		+ tvWidth);
+//		System.out.println("tvHeight: " 	+ tvHeight);
+//		
+//		System.out.println("etBackColor: " 	+ etBackColor);
+//		System.out.println("etTextColor: " 	+ etTextColor);
+//		System.out.println("etWidth: " 		+ etWidth);
+//		System.out.println("etHeight: " 	+ etHeight);
+//		
+//		System.out.println("backColor: " 	+ backColor);
+//	}
 	
 }

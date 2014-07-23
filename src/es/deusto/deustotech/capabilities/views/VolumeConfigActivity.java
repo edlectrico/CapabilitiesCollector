@@ -72,7 +72,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			volumePicker = (NumberPicker) findViewById(R.id.volume_picker);
 			volumePicker.setMinValue(0);
 			volumePicker.setMaxValue(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-			volumePicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			volumePicker.setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 		} else {
 			speakOut(getResources().getString(R.string.volume_longpush_es) + volumeLevel);
 			grid.setOnLongClickListener(this);
@@ -150,28 +150,28 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		if (callerActivity == 1){ //BrightnessActivity
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
-			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
+			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
-			if (userPrefs.getTextEditTextColor() != 0){
-				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+			if (userPrefs.getEditTextTextColor() != 0){
+				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getEditTextTextColor());
 			}
 
-			if (userPrefs.getTextEditBackgroundColor() != 0){
-				((TextView)findViewById(R.id.volume_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+			if (userPrefs.getEditTextBackgroundColor() != 0){
+				((TextView)findViewById(R.id.volume_message)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 			}
 
 			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
-			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getTextEditSize() / 2);
+			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
 			if (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR){
 				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			}
 
-			if (userPrefs.getTextEditTextColor() != 0){
-				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getTextEditTextColor());
+			if (userPrefs.getEditTextTextColor() != 0){
+				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getEditTextTextColor());
 			}
 		} else {
 			Random randomGenerator = new Random();

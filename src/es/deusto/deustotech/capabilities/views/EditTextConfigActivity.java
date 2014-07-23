@@ -22,7 +22,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 	
 	private static List<String> edits, textViews;
 
-	private Button btnTextEdit;
+	private Button btnTextEdit, btnNext, btnBackColor, btnTextColor;
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
 	
@@ -33,7 +33,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 	private boolean editTextTextColorChanged = false;
 	
 	public static boolean edit_backgroundcolor_changed = false;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +46,10 @@ public class EditTextConfigActivity extends AbstractActivity {
 		grid = (GridLayout) findViewById(R.id.default_layout);
 		onTouchListener = createOnTouchListener();
 
+		btnNext = (Button) findViewById(R.id.button_next);
+		btnBackColor = (Button) findViewById(R.id.button_background_color);
+		btnTextColor = (Button) findViewById(R.id.button_text_color);
+		
 		redrawViews();
 		initializeServices(TAG);
 		addListeners();
@@ -72,37 +76,38 @@ public class EditTextConfigActivity extends AbstractActivity {
 		grid.getChildAt(1).setOnTouchListener(onTouchListener);
 		grid.getChildAt(2).setOnTouchListener(onTouchListener);
 		grid.getChildAt(3).setOnTouchListener(onTouchListener);
-
-		findViewById(R.id.button_next).setOnClickListener(this);
-		findViewById(R.id.button_background_color).setOnClickListener(this);
-		findViewById(R.id.button_text_color).setOnClickListener(this);
+		
+		btnNext.setOnClickListener(this);
+		btnBackColor.setOnClickListener(this);
+		btnTextColor.setOnClickListener(this);
 		btnTextEdit.setOnClickListener(this);
 	}
 
 	@Override
 	public void redrawViews() {
-		if (ButtonConfigActivity.button_backgroundcolor_changed){
-			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			((Button)findViewById(R.id.button_background_color)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			((Button)findViewById(R.id.button_text_color)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
+			btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			btnBackColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+			btnTextColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}
 
-		if (ButtonConfigActivity.layout_backgroundcolor_changed){
+		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 		}
-		
+
 		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.button_next)).setTextColor(userPrefs.getButtonTextColor());
+		btnNext.setTextColor(userPrefs.getButtonTextColor());
 
 		findViewById(R.id.button_background_color).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_background_color).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.button_background_color)).setTextColor(userPrefs.getButtonTextColor());
+		btnBackColor.setTextColor(userPrefs.getButtonTextColor());
 
 		findViewById(R.id.button_text_color).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_text_color).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.button_text_color)).setTextColor(userPrefs.getButtonTextColor());
+		btnTextColor.setTextColor(userPrefs.getButtonTextColor());
 	}
+
 
 	private OnTouchListener createOnTouchListener(){
 		return new OnTouchListener() {
@@ -123,7 +128,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 		if (view.getId() == R.id.button_next){
 			Intent intent = new Intent(this, BrightnessConfigActivity.class);
 			
-			userPrefs.setTextEditSize(btnTextEdit.getTextSize());
+			userPrefs.setEditTextTextSize(btnTextEdit.getTextSize());
 			userPrefs.setTextViewTextSize(btnTextEdit.getTextSize());
 
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
@@ -168,7 +173,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 			Random randomTextColor = new Random(); 
 			textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
 			((Button)findViewById(R.id.button_text_edit)).setTextColor(textColor);
-			userPrefs.setTextEditTextColor(textColor);
+			userPrefs.setEditTextTextColor(textColor);
 			userPrefs.setTextViewTextColor(textColor);
 		}
 	}

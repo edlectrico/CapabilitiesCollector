@@ -117,7 +117,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	
 	@Override
 	public void redrawViews() {
-		if ((ButtonConfigActivity.layout_backgroundcolor_changed) || (userPrefs.getLayoutBackgroundColor() != 0)){
+		if ((ButtonConfigActivity.getLayoutBackgroundColorChanged()) || (userPrefs.getLayoutBackgroundColor() != 0)){
 			final int layoutBackgroundColor = userPrefs.getLayoutBackgroundColor();
 			final int redBackgroundColor = Color.red(layoutBackgroundColor);
 			final int greenBackgroundColor = Color.green(layoutBackgroundColor);
@@ -128,7 +128,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
 
-		if ((ButtonConfigActivity.button_backgroundcolor_changed) || (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR)) { 
+		if ((ButtonConfigActivity.getButtonBackgroundColorChanged()) || (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR)) { 
 			final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();
 			final int redButtonBackgroundColor = Color.red(buttonBackgroundColor);
 			final int greenButtonBackgroundColor = Color.green(buttonBackgroundColor);
@@ -166,18 +166,18 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			textViewInstructions.setTextColor(Color.argb(ALPHA, redTextViewTextColor, greenTextViewTextColor, blueTextViewTextColor));
 		}
 		
-		textViewMessage.setTextSize(userPrefs.getTextEditSize() / 2);
-		textViewSubject.setTextSize(userPrefs.getTextEditSize() / 2);
-		textViewPhoneNo.setTextSize(userPrefs.getTextEditSize() / 2);
+		textViewMessage.setTextSize(userPrefs.getEditTextTextSize() / 2);
+		textViewSubject.setTextSize(userPrefs.getEditTextTextSize() / 2);
+		textViewPhoneNo.setTextSize(userPrefs.getEditTextTextSize() / 2);
 		////////////////////////////////////////////////////////////////////////////////////////
 		
 		/*EditText*/
-		textTo.setTextSize(userPrefs.getTextEditSize() / 2);
-		textSubject.setTextSize(userPrefs.getTextEditSize() / 2);
-		textMessage.setTextSize(userPrefs.getTextEditSize() / 2);
+		textTo.setTextSize(userPrefs.getEditTextTextSize() / 2);
+		textSubject.setTextSize(userPrefs.getEditTextTextSize() / 2);
+		textMessage.setTextSize(userPrefs.getEditTextTextSize() / 2);
 
-		if (userPrefs.getTextEditTextColor() != 0){
-			final int textEditTextColor = userPrefs.getTextEditTextColor();
+		if (userPrefs.getEditTextTextColor() != 0){
+			final int textEditTextColor = userPrefs.getEditTextTextColor();
 			final int redTextEditTextColor = Color.red(textEditTextColor);
 			final int greenTextEditTextColor = Color.green(textEditTextColor);
 			final int blueTextEditTextColor = Color.blue(textEditTextColor);
@@ -186,8 +186,8 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			textMessage.setTextColor(Color.argb(ALPHA, redTextEditTextColor, greenTextEditTextColor, blueTextEditTextColor));
 		}
 
-		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getTextEditBackgroundColor() != 0)){
-			final int textEditBackgroundColor = userPrefs.getTextEditBackgroundColor();
+		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getEditTextBackgroundColor() != 0)){
+			final int textEditBackgroundColor = userPrefs.getEditTextBackgroundColor();
 			final int redTextEditBackgroundColor = Color.red(textEditBackgroundColor);
 			final int greenTextEditBackgroundColor = Color.green(textEditBackgroundColor);
 			final int blueTextEditBackgroundColor = Color.blue(textEditBackgroundColor);

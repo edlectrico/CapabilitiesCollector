@@ -60,7 +60,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		brightnessPicker = (NumberPicker) findViewById(R.id.brightness_picker);
 		brightnessPicker.setMinValue(0);
 		brightnessPicker.setMaxValue(10);
-		brightnessPicker.setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		brightnessPicker.setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 		
 		brightnessValue = brightnessPicker.getValue();
 
@@ -124,21 +124,21 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	@Override
 	public void redrawViews() {
 		//EditText config
-		((EditText)findViewById(R.id.button_text_edit)).setTextSize(userPrefs.getTextEditSize() / 2);
+		((EditText)findViewById(R.id.button_text_edit)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
-		if (userPrefs.getTextEditTextColor() != 0){
-			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getTextEditTextColor());
-			((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getTextEditTextColor());
+		if (userPrefs.getEditTextTextColor() != 0){
+			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getEditTextTextColor());
+			((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getEditTextTextColor());
 		}
 
-		if (userPrefs.getTextEditBackgroundColor() != 0){
-			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
-			((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getTextEditBackgroundColor());
+		if (userPrefs.getEditTextBackgroundColor() != 0){
+			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
+			((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 		}
 
-		System.out.println("TextEditTextSize: " + userPrefs.getTextEditSize());
+		System.out.println("TextEditTextSize: " + userPrefs.getEditTextTextSize());
 
-		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getTextEditSize() / 2);
+		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
 		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
