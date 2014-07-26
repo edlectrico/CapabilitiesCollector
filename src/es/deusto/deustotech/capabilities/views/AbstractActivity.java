@@ -28,10 +28,10 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
 	
-	//ontology classes
+	//ontology individuals
 	private List<String> buttons, edits, textViews,
 	audios, displays, noises, lights, backgrounds,
-	devices, contexts;
+	devices, contexts, currentAdaptations, storedAdaptations;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,9 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		contexts 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "ContextAux");
 		lights 		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
 		noises		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Noise");
+		
+		currentAdaptations 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Adaptation");
+		storedAdaptations 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "StoredAdaptation");
 	}
 
 	public void initializeServices(final String TAG){
@@ -196,6 +199,12 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		return contexts;
 	}
 	
+	public List<String> getCurrentAdaptations(){
+		return currentAdaptations;
+	}
 	
+	public List<String> getStoredAdaptations(){
+		return storedAdaptations;
+	}
 	
 }
