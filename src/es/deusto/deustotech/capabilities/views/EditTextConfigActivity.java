@@ -1,6 +1,5 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.util.List;
 import java.util.Random;
 
 import android.content.Intent;
@@ -17,8 +16,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 
 	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
 	
-	private static List<String> edits, textViews;
-
 	private Button btnTextEdit, btnNext, btnBackColor, btnTextColor;
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
@@ -51,11 +48,8 @@ public class EditTextConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 		
-		edits = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "EditText");
-		textViews = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "TextView");
-		
-		super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
-		super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+		super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+		super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 	}
 
 	@Override
@@ -131,20 +125,20 @@ public class EditTextConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 			
 			if (edit_backgroundcolor_changed){
-				super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
-				super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
+				super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
+				super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 				userPrefs.setTextViewBackgroundColor(backgroundColor);
 			}
 			
-			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
-			super.getOntologyManager().addDataTypePropertyValue(edits.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
+			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
+			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
+			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
 			
-			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
-			super.getOntologyManager().addDataTypePropertyValue(textViews.get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
+			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
+			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
+			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
 			
 			System.out.println("TextEditTextSize: " + btnTextEdit.getTextSize());
 			

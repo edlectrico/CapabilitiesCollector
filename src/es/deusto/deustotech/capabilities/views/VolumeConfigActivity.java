@@ -1,7 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import android.content.Context;
@@ -39,8 +38,6 @@ import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
 public class VolumeConfigActivity extends AbstractActivity implements TextToSpeech.OnInitListener {
 
 	private static final String TAG = VolumeConfigActivity.class.getSimpleName();
-
-	private static List<String> audios;
 
 	private GridLayout grid;
 	private NumberPicker volumePicker;
@@ -192,8 +189,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 
 			userPrefs.setVolume(volumeLevel);
 
-			audios = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Audio");
-			super.getOntologyManager().addDataTypePropertyValue(audios.get(0), super.getOntologyNamespace() + "audioHasVolume", volumeLevel);
+			super.getOntologyManager().addDataTypePropertyValue(super.getAudios().get(0), super.getOntologyNamespace() + "audioHasVolume", volumeLevel);
 
 			try {
 				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());

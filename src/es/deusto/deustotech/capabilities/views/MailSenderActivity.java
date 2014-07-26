@@ -148,6 +148,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		/*TextViews*/
 		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getTextViewBackgroundColor() != 0)){
 			final int textViewBackgroundColor = userPrefs.getTextViewBackgroundColor();
+			System.out.println("MAil - TextViewBackColor: " + userPrefs.getTextViewBackgroundColor());
 			final int redTextViewBackgroundColor = Color.red(textViewBackgroundColor);
 			final int greenTextViewBackgroundColor = Color.green(textViewBackgroundColor);
 			final int blueTextViewBackgroundColor = Color.blue(textViewBackgroundColor);
@@ -282,10 +283,9 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			start = System.nanoTime();
 
 			//http://u2m.org/2003/02/UserModelOntology.rdf#Light
-			List<String> lights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#" + "Light");
-			super.getOntologyManager().addDataTypePropertyValue(lights.get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
+			super.getOntologyManager().addDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
 
-			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(lights.get(0), super.getOntologyNamespace() + "contextHasLight");
+			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight");
 			System.out.println(l);
 
 			try {
@@ -294,13 +294,11 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 				e.printStackTrace();
 			}
 
-			List<String> contexts = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "ContextAux");
-			final Collection<OWLLiteral> c = super.getOntologyManager().getDataTypePropertyValue(contexts.get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
+			final Collection<OWLLiteral> c = super.getOntologyManager().getDataTypePropertyValue(super.getContexts().get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
 
 			System.out.println(c);
 
-			List<String> displays 	= super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-			final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness");
+			final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness");
 			System.out.println(brightness);
 
 			final String bri = ((OWLLiteral) brightness.toArray()[1]).getLiteral();

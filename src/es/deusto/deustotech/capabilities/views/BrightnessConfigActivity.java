@@ -35,8 +35,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
 
-	private static List<String> displays, physicalEnvLights;
-
 	private GridLayout grid;
 	private TextView textViewCurrentLuxes;
 	private NumberPicker brightnessPicker;
@@ -174,20 +172,17 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 
-			displays = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Display");
-			physicalEnvLights = super.getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
-			
-			super.getOntologyManager().addDataTypePropertyValue(physicalEnvLights.get(0), super.getOntologyNamespace() + "contextHasLight", currentLuxes);
+			super.getOntologyManager().addDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight", currentLuxes);
 			
 			final List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
 			final Collection<OWLLiteral> adaptationBrightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
 			final float bri = Float.parseFloat(((OWLLiteral) adaptationBrightness.toArray()[0]).getLiteral()) / 10F; 
 			
 			if (bri > brightnessValue){
-				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", bri);
+				super.getOntologyManager().addDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness", bri);
 				userPrefs.setBrightness(bri);
 			} else {
-				super.getOntologyManager().addDataTypePropertyValue(displays.get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
+				super.getOntologyManager().addDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
 				userPrefs.setBrightness(brightnessValue);
 			}
 			

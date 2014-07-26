@@ -1,6 +1,5 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.util.List;
 import java.util.Random;
 
 import android.content.Intent;
@@ -32,8 +31,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
-	private static List<String> buttons, backgrounds;
-	
 	private Button btnResize, btnBackgroundColor, btnColorButton, btnTextColor;
 	private GridLayout grid;
 	
@@ -87,22 +84,18 @@ public class ButtonConfigActivity extends AbstractActivity {
 		addListeners();
 		
 		//Assigning default back colors to avoid null/black configuration if no color is selected
-		buttons = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Button");
-		backgrounds = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Background");
-
-		if (super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-			super.getOntologyManager().deleteAllValuesOfProperty(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
+		if (super.getOntologyManager().getDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
+			super.getOntologyManager().deleteAllValuesOfProperty(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor");
 		}
-		if (super.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-			super.getOntologyManager().deleteAllValuesOfProperty(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
+		if (super.getOntologyManager().getDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
+			super.getOntologyManager().deleteAllValuesOfProperty(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor");
 		}
 		
-		super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", defaultButtonColor);
-		super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+		super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor", defaultButtonColor);
+		super.getOntologyManager().addDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 	}
 
 	private void drawButtons() {
-//		btnNext = (Button) findViewById(R.id.buttonact_next);
 		btnResize = (Button) findViewById(R.id.button_resize);
 		textColor = btnResize.getTextColors().getDefaultColor();
 		btnBackgroundColor = (Button) findViewById(R.id.button_background_color);
@@ -191,25 +184,25 @@ public class ButtonConfigActivity extends AbstractActivity {
 			
 			//Store in the ontology
 			if (BUTTON_BACKGROUND_COLOR_CHANGED){
-				if (super.getOntologyManager().getDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-					super.getOntologyManager().deleteAllValuesOfProperty(buttons.get(0), super.getOntologyNamespace() + "viewHasColor");
+				if (super.getOntologyManager().getDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
+					super.getOntologyManager().deleteAllValuesOfProperty(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor");
 				}
-				super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
+				super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
 				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			}
 			
 			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
-				if (super.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-					super.getOntologyManager().deleteAllValuesOfProperty(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor");
+				if (super.getOntologyManager().getDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
+					super.getOntologyManager().deleteAllValuesOfProperty(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor");
 				}
-				super.getOntologyManager().addDataTypePropertyValue(backgrounds.get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
+				super.getOntologyManager().addDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
 				userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
 			}
 			
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
-			super.getOntologyManager().addDataTypePropertyValue(buttons.get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
+			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
+			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
+			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
+			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
 
 			startActivity(intent);
 		}				

@@ -1,5 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -27,6 +28,11 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
 	
+	//ontology classes
+	private List<String> buttons, edits, textViews,
+	audios, displays, noises, lights, backgrounds,
+	devices, contexts;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,8 +54,23 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
+		initOntology();
 	}
 	
+	private void initOntology() {
+		buttons 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Button");
+		edits 		= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "EditText");
+		textViews 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "TextView");
+		backgrounds	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Background");
+		audios 		= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Audio");
+		displays 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Display");
+		devices 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "DeviceAux");
+		contexts 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "ContextAux");
+		lights 		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
+		noises		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Noise");
+	}
+
 	public void initializeServices(final String TAG){
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		userPrefs = new UserMinimumPreferences();
@@ -134,5 +155,47 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		
 		super.onBackPressed();
 	}
+
+	public List<String> getButtons() {
+		return buttons;
+	}
+
+	public List<String> getEditTexts() {
+		return edits;
+	}
+
+	public List<String> getTextViews() {
+		return textViews;
+	}
+
+	public List<String> getAudios() {
+		return audios;
+	}
+
+	public List<String> getDisplays() {
+		return displays;
+	}
+
+	public List<String> getNoises() {
+		return noises;
+	}
+
+	public List<String> getLights() {
+		return lights;
+	}
+
+	public List<String> getBackgrounds() {
+		return backgrounds;
+	}
+
+	public List<String> getDevices() {
+		return devices;
+	}
+
+	public List<String> getContexts() {
+		return contexts;
+	}
+	
+	
 	
 }
