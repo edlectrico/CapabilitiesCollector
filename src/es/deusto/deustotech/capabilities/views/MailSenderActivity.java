@@ -1,15 +1,8 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.semanticweb.owlapi.model.OWLLiteral;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -20,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserInteraction;
-import es.deusto.deustotech.pellet4android.exceptions.OntologySavingException;
 
 /**
  * @author edlectrico
@@ -63,9 +55,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	private int focusCounter = 0;
 	private int editTextCounter = 0;
 
-	private long start;
-	private List<Double> times;
-	
 	private Bundle bundle;
 
 	@Override
@@ -87,10 +76,12 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		textViewSubject = (TextView) findViewById(R.id.textViewSubject);
 		textViewPhoneNo = (TextView) findViewById(R.id.textViewPhoneNo);
 		layout = (LinearLayout) findViewById(R.id.linearLayout0);
+		
 
 		bundle = getIntent().getExtras();
 
 		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
+		System.out.println("buttonWidth: " + userPrefs.getButtonWidth());
 		if (bundle.getInt(getResources().getString(R.string.activity_caller)) != 0){
 			redrawViews();
 			initializeServices(TAG);
@@ -99,6 +90,18 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			speakOut(getResources().getString(R.string.mail_sender_es));
 		}
 		addListeners();
+		
+		//Store userPrefs as JSON
+//		Editor prefsEditor = getStoredPreferences().edit();
+//		Gson gson = new Gson();
+//		String json = gson.toJson(userPrefs);
+//		
+//		Collection<OWLLiteral> contextLight = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
+//		System.out.println("stored contextlight: " + contextLight);
+//		System.out.println("(contextLight.toArray()[0]).toString(): " + (contextLight.toArray()[0]).toString());
+//		
+//		prefsEditor.putString((contextLight.toArray()[0]).toString(), json);
+//		prefsEditor.commit();
 	}
 
 	@Override
@@ -148,7 +151,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		/*TextViews*/
 		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getTextViewBackgroundColor() != 0)){
 			final int textViewBackgroundColor = userPrefs.getTextViewBackgroundColor();
-			System.out.println("MAil - TextViewBackColor: " + userPrefs.getTextViewBackgroundColor());
+			System.out.println("Mail - TextViewBackColor: " + userPrefs.getTextViewBackgroundColor());
 			final int redTextViewBackgroundColor = Color.red(textViewBackgroundColor);
 			final int greenTextViewBackgroundColor = Color.green(textViewBackgroundColor);
 			final int blueTextViewBackgroundColor = Color.blue(textViewBackgroundColor);
@@ -279,48 +282,48 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		}
 
 		if (view.getId() == R.id.buttonTriggerContextChange) {
-			times = new ArrayList<Double>();
-			start = System.nanoTime();
-
-			//http://u2m.org/2003/02/UserModelOntology.rdf#Light
-			super.getOntologyManager().addDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
-
-			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight");
-			System.out.println(l);
-
-			try {
-				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());
-			} catch (OntologySavingException e) {
-				e.printStackTrace();
-			}
-
-			final Collection<OWLLiteral> c = super.getOntologyManager().getDataTypePropertyValue(super.getContexts().get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
-
-			System.out.println(c);
-
-			final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness");
-			System.out.println(brightness);
-
-			final String bri = ((OWLLiteral) brightness.toArray()[1]).getLiteral();
-
-			System.out.println(bri);
-			
-			
-			//TODO
-			WindowManager.LayoutParams layoutParams = getWindow()
-					.getAttributes();
-
-			layoutParams.screenBrightness = Float.parseFloat(bri);
-
-			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
-
-			double end = System.nanoTime();
-			double elapsed = end - start;
-			double seconds = (elapsed / Math.pow(10, 9));
-
-			times.add(seconds);
-
-			System.out.println("Elapsed: " + seconds);
+//			times = new ArrayList<Double>();
+//			start = System.nanoTime();
+//
+//			//http://u2m.org/2003/02/UserModelOntology.rdf#Light
+//			super.getOntologyManager().addDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
+//
+//			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight");
+//			System.out.println(l);
+//
+//			try {
+//				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());
+//			} catch (OntologySavingException e) {
+//				e.printStackTrace();
+//			}
+//
+//			final Collection<OWLLiteral> c = super.getOntologyManager().getDataTypePropertyValue(super.getContexts().get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
+//
+//			System.out.println(c);
+//
+//			final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness");
+//			System.out.println(brightness);
+//
+//			final String bri = ((OWLLiteral) brightness.toArray()[1]).getLiteral();
+//
+//			System.out.println(bri);
+//			
+//			
+//			//TODO
+//			WindowManager.LayoutParams layoutParams = getWindow()
+//					.getAttributes();
+//
+//			layoutParams.screenBrightness = Float.parseFloat(bri);
+//
+//			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
+//
+//			double end = System.nanoTime();
+//			double elapsed = end - start;
+//			double seconds = (elapsed / Math.pow(10, 9));
+//
+//			times.add(seconds);
+//
+//			System.out.println("Elapsed: " + seconds);
 		}
 
 	}

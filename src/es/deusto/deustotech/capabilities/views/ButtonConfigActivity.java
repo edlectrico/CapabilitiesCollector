@@ -83,16 +83,19 @@ public class ButtonConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 		
-		//Assigning default back colors to avoid null/black configuration if no color is selected
-		if (super.getOntologyManager().getDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-			super.getOntologyManager().deleteAllValuesOfProperty(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor");
-		}
-		if (super.getOntologyManager().getDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-			super.getOntologyManager().deleteAllValuesOfProperty(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor");
-		}
+//		//Assigning default back colors to avoid null/black configuration if no color is selected
+//		if (getOntologyManager().getDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasColor").size() > 0){
+//			getOntologyManager().deleteAllValuesOfProperty(getButtons().get(0), getOntologyNamespace() + "viewHasColor");
+//		}
+//		if (getOntologyManager().getDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor").size() > 0){
+//			getOntologyManager().deleteAllValuesOfProperty(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor");
+//		}
+//		
+//		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasColor", defaultButtonColor);
+//		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
 		
-		super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor", defaultButtonColor);
-		super.getOntologyManager().addDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+		userPrefs.setButtonBackgroundColor(defaultButtonColor);
+		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
 	}
 
 	private void drawButtons() {
@@ -184,25 +187,25 @@ public class ButtonConfigActivity extends AbstractActivity {
 			
 			//Store in the ontology
 			if (BUTTON_BACKGROUND_COLOR_CHANGED){
-				if (super.getOntologyManager().getDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-					super.getOntologyManager().deleteAllValuesOfProperty(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor");
-				}
-				super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
+//				if (super.getOntologyManager().getDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
+//					super.getOntologyManager().deleteAllValuesOfProperty(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor");
+//				}
+//				super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
 				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			}
 			
 			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
-				if (super.getOntologyManager().getDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-					super.getOntologyManager().deleteAllValuesOfProperty(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor");
-				}
-				super.getOntologyManager().addDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
+//				if (super.getOntologyManager().getDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
+//					super.getOntologyManager().deleteAllValuesOfProperty(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor");
+//				}
+//				super.getOntologyManager().addDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
 				userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
 			}
 			
-			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
-			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
+//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
+//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
+//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
+//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
 
 			startActivity(intent);
 		}				

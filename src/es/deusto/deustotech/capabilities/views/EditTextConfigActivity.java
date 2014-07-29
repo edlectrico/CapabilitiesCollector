@@ -48,14 +48,17 @@ public class EditTextConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 		
-		super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
-		super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+//		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+//		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
+		
+		userPrefs.setEditTextBackgroundColor(DEFAULT_BACK_COLOR);
+		userPrefs.setTextViewBackgroundColor(DEFAULT_BACK_COLOR);
 	}
 
 	@Override
 	public void initializeServices(String TAG) {
 		if (userPrefs.getSightProblem() == 1){
-			super.initializeServices(TAG);
+			initializeServices(TAG);
 
 			speakOut(getResources().getString(R.string.edit_text_info_message_es));
 		}
@@ -125,22 +128,33 @@ public class EditTextConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 			
 			if (edit_backgroundcolor_changed){
-				super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
-				super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasColor", 	backgroundColor);
+//				getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasColor", 	backgroundColor);
+//				getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 				userPrefs.setTextViewBackgroundColor(backgroundColor);
+				userPrefs.setEditTextBackgroundColor(backgroundColor);
 			}
 			
-			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
-			super.getOntologyManager().addDataTypePropertyValue(super.getEditTexts().get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
+//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
+//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
+//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+//			
+//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
+//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
+//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
+//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+//			
+//			System.out.println("TextEditTextSize: " + btnTextEdit.getTextSize());
 			
-			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
-			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
-			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
-			super.getOntologyManager().addDataTypePropertyValue(super.getTextViews().get(0), super.getOntologyNamespace() + "viewHasTextColor", (int) textColor);
+			userPrefs.setEditTextWidth(btnTextEdit.getWidth());
+			userPrefs.setEditTextHeight(btnTextEdit.getHeight());
+			userPrefs.setEditTextTextSize(btnTextEdit.getTextSize());
+			userPrefs.setEditTextTextColor((int) textColor);
 			
-			System.out.println("TextEditTextSize: " + btnTextEdit.getTextSize());
+			userPrefs.setTextViewWidth(userPrefs.getEditTextWidth());
+			userPrefs.setTextViewHeight(userPrefs.getEditTextHeight());
+			userPrefs.setTextViewTextSize(userPrefs.getEditTextTextSize());
+			userPrefs.setTextViewTextColor(userPrefs.getEditTextTextColor());
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");
@@ -153,7 +167,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 			Random randomBackColor = new Random(); 
 			backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
 			((Button)findViewById(R.id.button_text_edit)).setBackgroundColor(backgroundColor);
-			userPrefs.setTextEditBackgroundColor(backgroundColor);
+			userPrefs.setEditTextBackgroundColor(backgroundColor);
 			userPrefs.setTextViewBackgroundColor(backgroundColor);
 
 		} else if (view.getId() == R.id.button_text_color){

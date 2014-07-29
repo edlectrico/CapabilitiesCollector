@@ -188,9 +188,12 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			}
 
 			userPrefs.setVolume(volumeLevel);
-
-			super.getOntologyManager().addDataTypePropertyValue(super.getAudios().get(0), super.getOntologyNamespace() + "audioHasVolume", volumeLevel);
-
+			
+			super.initOntology();
+			super.removeAllValuesFromOntology();
+			storeUserPreferencesIntoOntology();
+			
+			//Saving the ontology
 			try {
 				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());
 			} catch (OntologySavingException e) {
@@ -230,6 +233,32 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 
 			speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
 		}
+	}
+	
+	private void storeUserPreferencesIntoOntology() {
+		System.out.println("Storing in the ontology...");
+		
+		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasVolume", 			volumeLevel);
+		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasBrightness", 	userPrefs.getBrightness());
+		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getEditTextBackgroundColor());
+		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasWidth", 			userPrefs.getEditTextWidth());
+		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasHeight", 			userPrefs.getEditTextHeight());
+		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasTextSize", 		userPrefs.getEditTextTextSize());
+		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasTextColor", 		userPrefs.getEditTextTextColor());
+		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getTextViewBackgroundColor());
+		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), 	getOntologyNamespace() + "viewHasWidth", 			userPrefs.getTextViewWidth());
+		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), 	getOntologyNamespace() + "viewHasHeight", 			userPrefs.getTextViewHeight());
+		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), 	getOntologyNamespace() + "viewHasTextSize", 		userPrefs.getTextViewTextSize());
+		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), 	getOntologyNamespace() + "viewHasTextColor", 		userPrefs.getTextViewTextColor());
+		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasColor", 			userPrefs.getButtonBackgroundColor());
+		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasWidth", 			(int)userPrefs.getButtonWidth());
+		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasHeight", 			(int)userPrefs.getButtonHeight());
+		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextSize", 		userPrefs.getEditTextTextSize());
+		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextColor", 		userPrefs.getButtonTextColor());
+		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getLayoutBackgroundColor());
+	
+		System.out.println("userPrefs.getLayoutBackgroundColor(): " + userPrefs.getLayoutBackgroundColor());
+		System.out.println("backgroundColor: " + getOntologyManager().getDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor"));
 	}
 
 	@Override

@@ -108,7 +108,7 @@ public class UserMinimumPreferences implements Parcelable {
 		return editTextBackgroundColor;
 	}
 
-	public void setTextEditBackgroundColor(int editTextBackgroundColor) {
+	public void setEditTextBackgroundColor(int editTextBackgroundColor) {
 		this.editTextBackgroundColor = editTextBackgroundColor;
 	}
 

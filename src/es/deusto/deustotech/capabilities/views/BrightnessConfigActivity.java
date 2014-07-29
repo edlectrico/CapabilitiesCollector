@@ -1,10 +1,5 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.semanticweb.owlapi.model.OWLLiteral;
-
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -67,14 +62,12 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		redrawViews();
 		initializeServices(TAG);
 		addListeners();
-		
-//		removePreviousValuesFromOntology();
 	}
 
 	@Override
 	public void initializeServices(String TAG) {
 		if (userPrefs.getSightProblem() == 1){
-			super.initializeServices(TAG);
+			initializeServices(TAG);
 
 			speakOut(getResources().getString(R.string.edit_text_info_message_es));
 		}
@@ -172,19 +165,20 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 
-			super.getOntologyManager().addDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight", currentLuxes);
-			
-			final List<String> adaptations = super.getOntologyManager().getIndividualOfClass(super.getOntologyNamespace() + "Adaptation");
-			final Collection<OWLLiteral> adaptationBrightness = super.getOntologyManager().getDataTypePropertyValue(adaptations.get(0), super.getOntologyNamespace() + "adaptationBrightnessHasValue");
-			final float bri = Float.parseFloat(((OWLLiteral) adaptationBrightness.toArray()[0]).getLiteral()) / 10F; 
-			
-			if (bri > brightnessValue){
-				super.getOntologyManager().addDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness", bri);
-				userPrefs.setBrightness(bri);
-			} else {
-				super.getOntologyManager().addDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness", brightnessValue);
-				userPrefs.setBrightness(brightnessValue);
-			}
+//			getOntologyManager().addDataTypePropertyValue(getLights().get(0), getOntologyNamespace() + "contextHasLight", currentLuxes);
+//			
+//			//Rule launched
+//			final List<String> adaptations = getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Adaptation");
+//			final Collection<OWLLiteral> adaptationBrightness = getOntologyManager().getDataTypePropertyValue(adaptations.get(0), getOntologyNamespace() + "adaptationBrightnessHasValue");
+//			final float bri = Float.parseFloat(((OWLLiteral) adaptationBrightness.toArray()[0]).getLiteral()) / 10F; 
+//			
+//			if (bri > brightnessValue){
+////				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasBrightness", bri);
+//				userPrefs.setBrightness(bri);
+//			} else {
+////				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasBrightness", brightnessValue);
+//				userPrefs.setBrightness(brightnessValue);
+//			}
 			
 			if (userPrefs.getSightProblem() == 1){
 				speakOut("Well done!");

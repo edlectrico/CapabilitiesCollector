@@ -1,11 +1,13 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
@@ -28,10 +30,12 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	public UserMinimumPreferences userPrefs;
 	public Vibrator vibrator;
 	
+	private SharedPreferences  storedPreferences;
+	
 	//ontology individuals
 	private List<String> buttons, edits, textViews,
 	audios, displays, noises, lights, backgrounds,
-	devices, contexts, currentAdaptations, storedAdaptations;
+	devices, contexts;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +59,10 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 		    WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
-		initOntology();
+//		initOntology();
 	}
 	
-	private void initOntology() {
+	protected void initOntology() {
 		buttons 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Button");
 		edits 		= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "EditText");
 		textViews 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "TextView");
@@ -69,9 +73,6 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		contexts 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "ContextAux");
 		lights 		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
 		noises		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Noise");
-		
-		currentAdaptations 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Adaptation");
-		storedAdaptations 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "StoredAdaptation");
 	}
 
 	public void initializeServices(final String TAG){
@@ -109,6 +110,39 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
             Log.e("TTS", "Initilization Failed!");
         }
 		
+	}
+	
+	protected void removeAllValuesFromOntology() {
+		//Get all the individuals from the ontology and remove previous values
+		//The only remaining values are the ones in the Adaptation individual
+		final List <String> views = new ArrayList<String>();
+		views.add(getButtons().get(0));
+		views.add(getEditTexts().get(0));
+		views.add(getTextViews().get(0));
+		views.add(getBackgrounds().get(0));
+		
+		for (int i = 0; i < views.size(); i++){
+			getOntologyManager().removeIndividualMembership(views.get(i), getOntologyNamespace() + "viewHasColor");
+			getOntologyManager().removeIndividualMembership(views.get(i), getOntologyNamespace() + "viewHasTextColor");
+			getOntologyManager().removeIndividualMembership(views.get(i), getOntologyNamespace() + "viewHasTextSize");
+			getOntologyManager().removeIndividualMembership(views.get(i), getOntologyNamespace() + "viewHasWidth");
+			getOntologyManager().removeIndividualMembership(views.get(i), getOntologyNamespace() + "viewHasHeight");
+		}
+		
+		getOntologyManager().removeIndividualMembership(getAudios().get(0), getOntologyNamespace() + "audioHasVolume");
+		getOntologyManager().removeIndividualMembership(getAudios().get(0), getOntologyNamespace() + "audioHasApplicable");
+
+		getOntologyManager().removeIndividualMembership(getDisplays().get(0), getOntologyNamespace() + "displayHasBrightness");
+		getOntologyManager().removeIndividualMembership(getDisplays().get(0), getOntologyNamespace() + "displayHasApplicable");
+		
+		getOntologyManager().removeIndividualMembership(getDevices().get(0), getOntologyNamespace() + "deviceAuxBatteryIsSufficient");
+		getOntologyManager().removeIndividualMembership(getDevices().get(0), getOntologyNamespace() + "deviceAuxHasBrightness");
+		
+		getOntologyManager().removeIndividualMembership(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
+		getOntologyManager().removeIndividualMembership(getContexts().get(0), getOntologyNamespace() + "contextAuxHasNoiseLevel");
+		
+		getOntologyManager().removeIndividualMembership(getLights().get(0), getOntologyNamespace() + "contextHasLight");
+		getOntologyManager().removeIndividualMembership(getLights().get(0), getOntologyNamespace() + "contextHasNoise");
 	}
 	
 	public void listenToSpeech() {
@@ -199,12 +233,8 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		return contexts;
 	}
 	
-	public List<String> getCurrentAdaptations(){
-		return currentAdaptations;
-	}
-	
-	public List<String> getStoredAdaptations(){
-		return storedAdaptations;
+	public SharedPreferences getStoredPreferences() {
+		return storedPreferences;
 	}
 	
 }
