@@ -66,8 +66,8 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	@Override
 	public void initializeServices(String TAG) {
-		if (userPrefs.getSightProblem() == 1){
-			initializeServices(TAG);
+		if (userPrefs.getDisplayHasApplicable() == 0){
+			super.initializeServices(TAG);
 
 			speakOut(getResources().getString(R.string.edit_text_info_message_es));
 		}
@@ -180,7 +180,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 //				userPrefs.setBrightness(brightnessValue);
 //			}
 			
-			if (userPrefs.getSightProblem() == 1){
+			if (userPrefs.getAudioHasApplicable() == 0){
 				speakOut("Well done!");
 			}
 

@@ -100,7 +100,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 	@Override
 	public void initializeServices(String TAG) {
 		if (callerActivity == 1){ //BrightnessActivity
-			if (userPrefs.getSightProblem() == 1){
+			if (userPrefs.getDisplayHasApplicable() == 0){
 				super.initializeServices(TAG);
 			}
 			if (userPrefs.getBrightness() != 0){
@@ -212,7 +212,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 				Intent intent = new Intent(this, MailSenderActivity.class);
 				intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
-				if (userPrefs.getSightProblem() == 1){
+				if (userPrefs.getDisplayHasApplicable() == 0){
 					speakOut("Now try to send an email!");
 				}
 				intent.putExtra(getResources().getString(R.string.activity_caller), 2);
@@ -257,6 +257,9 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextColor", 		userPrefs.getButtonTextColor());
 		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getLayoutBackgroundColor());
 	
+		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasApplicable", 	(userPrefs.getDisplayHasApplicable() == 1) ? true : false);
+		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 	getOntologyNamespace() + "audioHasBrightness", 			(userPrefs.getAudioHasApplicable() == 1) ? true : false);
+		
 		System.out.println("userPrefs.getLayoutBackgroundColor(): " + userPrefs.getLayoutBackgroundColor());
 		System.out.println("backgroundColor: " + getOntologyManager().getDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor"));
 	}

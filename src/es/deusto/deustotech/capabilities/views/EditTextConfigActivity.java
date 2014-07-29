@@ -57,8 +57,8 @@ public class EditTextConfigActivity extends AbstractActivity {
 
 	@Override
 	public void initializeServices(String TAG) {
-		if (userPrefs.getSightProblem() == 1){
-			initializeServices(TAG);
+		if (userPrefs.getDisplayHasApplicable() == 0){
+			super.initializeServices(TAG);
 
 			speakOut(getResources().getString(R.string.edit_text_info_message_es));
 		}
@@ -156,7 +156,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 			userPrefs.setTextViewTextSize(userPrefs.getEditTextTextSize());
 			userPrefs.setTextViewTextColor(userPrefs.getEditTextTextColor());
 			
-			if (userPrefs.getSightProblem() == 1){
+			if (userPrefs.getDisplayHasApplicable() == 0){
 				speakOut("Well done!");
 			}
 			

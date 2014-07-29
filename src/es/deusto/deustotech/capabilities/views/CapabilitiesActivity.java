@@ -136,6 +136,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 			if (!longPush){
 				vibrator.vibrate(500);
 				speakOut(getResources().getString(R.string.message_visual_interaction_es));
+				userPrefs.setDisplayHasApplicable(1);
+				userPrefs.setAudioHasApplicable(1);
 //				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasApplicable", true);
 //				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "isStatic", false);
 //				getOntologyManager().addDataTypePropertyValue(getAudios().get(0), getOntologyNamespace() + "audioHasApplicable", true);
@@ -144,6 +146,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 				tts.stop();
 				startActivity(interactionIntent);
 			} else if (longPush){
+				userPrefs.setDisplayHasApplicable(0);
+				userPrefs.setAudioHasApplicable(1);
 				//If longPush means that the user cannot see the screen properly
 //				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasApplicable", false);
 //				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "isStatic", true);

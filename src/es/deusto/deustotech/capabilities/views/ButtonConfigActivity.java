@@ -69,8 +69,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 
 		if (callerActivity != 2){ //2: VolumeActivity
-			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
-			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
+//			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
+//			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
 			
 			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			userPrefs.setButtonTextColor(btnResize.getTextColors().getDefaultColor());
@@ -116,7 +116,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	@Override
 	public void initializeServices(String TAG) {
 		//If blind user, voice control
-		if (userPrefs.getSightProblem() == 1){
+		if (userPrefs.getDisplayHasApplicable() == 0){
 			super.initializeServices(TAG);
 			speakOut(getResources().getString(R.string.button_info_message_es));
 		}
@@ -173,7 +173,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	public void onClick(View view) {
 		if (view.getId() == R.id.buttonact_next) {
 			//TODO: next activity for configuring TextEdit size and color
-			if (userPrefs.getSightProblem() == 1){
+			if (userPrefs.getDisplayHasApplicable() == 0){
 				speakOut("Well done!");
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
@@ -240,7 +240,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(layoutBackgroundColor);
 			Log.d(ButtonConfigActivity.class.getSimpleName(), "BackgroundColor: " + layoutBackgroundColor);
-		
 		} else if (view.getId() == R.id.button_resize){
 			btnTextColor.setVisibility(View.VISIBLE);
 			btnBackgroundColor.setVisibility(View.VISIBLE);

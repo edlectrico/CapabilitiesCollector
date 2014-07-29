@@ -23,8 +23,8 @@ public class UserMinimumPreferences implements Parcelable {
 	private int editTextHeight;
 	private int textViewHeight;
 	
-	private int sightProblem = 0; //false
-	private int hearingProblem = 0;
+	private int displayHasApplicable = 0; //false
+	private int audioHasApplicable = 0;
 	
 	public UserMinimumPreferences() {
 		super();
@@ -33,7 +33,8 @@ public class UserMinimumPreferences implements Parcelable {
 	public UserMinimumPreferences(int layoutBackgroundColor,
 			float buttonWidth, float buttonHeight, int buttonBackgroundColor, int buttonTextColor, 
 			float editTextTextSize, int editTextBackgroundColor, int editTextTextColor, int textViewBackgroundColor,
-			int textViewTextColor, float textViewTextSize, int editTextWidth, int textViewWidth, int editTextHeight, int textViewHeight) {
+			int textViewTextColor, float textViewTextSize, int editTextWidth, int textViewWidth, int editTextHeight,
+			int textViewHeight, int displayHasApplicable, int audioHasApplicable) {
 		super();
 		this.layoutBackgroundColor = layoutBackgroundColor;
 		this.buttonWidth = buttonWidth;
@@ -50,6 +51,9 @@ public class UserMinimumPreferences implements Parcelable {
 		this.textViewWidth = textViewWidth;
 		this.editTextHeight = editTextHeight;
 		this.textViewHeight = textViewHeight;
+		
+		this.displayHasApplicable = displayHasApplicable;
+		this.audioHasApplicable = audioHasApplicable;
 	}
 	
 	public UserMinimumPreferences(Parcel in) { 
@@ -136,20 +140,20 @@ public class UserMinimumPreferences implements Parcelable {
 		this.volume = volume;
 	}
 	
-	public int getSightProblem() {
-		return sightProblem;
+	public int getDisplayHasApplicable() {
+		return displayHasApplicable;
 	}
 
-	public void setSightProblem(int sightProblem) {
-		this.sightProblem = sightProblem;
+	public void setDisplayHasApplicable(int isApplicable) {
+		this.displayHasApplicable = isApplicable;
 	}
 
-	public int getHearingProblem() {
-		return hearingProblem;
+	public int getAudioHasApplicable() {
+		return audioHasApplicable;
 	}
 
-	public void setHearingProblem(int hearingProblem) {
-		this.hearingProblem = hearingProblem;
+	public void setAudioHasApplicable(int isApplicable) {
+		this.audioHasApplicable = isApplicable;
 	}
 	
 	public void setTextViewBackgroundColor(int textViewBackgroundColor) {
@@ -229,8 +233,8 @@ public class UserMinimumPreferences implements Parcelable {
 		dest.writeInt(editTextTextColor);
 		dest.writeFloat(brightness);
 		dest.writeFloat(volume);
-		dest.writeInt(sightProblem);
-		dest.writeInt(hearingProblem);
+		dest.writeInt(displayHasApplicable);
+		dest.writeInt(audioHasApplicable);
 		dest.writeInt(textViewBackgroundColor);
 		dest.writeInt(textViewTextColor);
 		dest.writeFloat(textViewTextSize);
@@ -251,8 +255,8 @@ public class UserMinimumPreferences implements Parcelable {
 		editTextTextColor = in.readInt();
 		brightness = in.readFloat();
 		volume = in.readFloat();
-		sightProblem = in.readInt();
-		hearingProblem = in.readInt();
+		displayHasApplicable = in.readInt();
+		audioHasApplicable = in.readInt();
 		textViewBackgroundColor = in.readInt();
 		textViewTextColor = in.readInt();
 		textViewTextSize = in.readFloat();

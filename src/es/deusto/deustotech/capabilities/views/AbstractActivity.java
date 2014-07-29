@@ -77,7 +77,10 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 
 	public void initializeServices(final String TAG){
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		userPrefs = new UserMinimumPreferences();
+		
+		if (userPrefs == null){
+			userPrefs = new UserMinimumPreferences();
+		}
 	}
 	
 	public static OntologyManager getOntologyManager() {
