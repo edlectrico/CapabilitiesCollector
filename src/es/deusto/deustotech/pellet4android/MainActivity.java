@@ -85,6 +85,7 @@ public class MainActivity extends Activity implements OnInitListener {
 
 	private void loadStringResources() {
 		ONT_FILENAME 	= getResources().getString(R.string.ontology_filename);
+//		ONT_FILENAME = "test.owl";
 		ONT_PATH		= getResources().getString(R.string.ontology_path);
 	}
 

@@ -10,6 +10,7 @@ import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
@@ -190,8 +191,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			userPrefs.setVolume(volumeLevel);
 			
 			super.initOntology();
-			super.removeAllValuesFromOntology();
 			storeUserPreferencesIntoOntology();
+			storeUserPreferencesInMobile();
 			
 			//Saving the ontology
 			try {
@@ -199,14 +200,6 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			} catch (OntologySavingException e) {
 				e.printStackTrace();
 			}
-
-			SharedPreferences  preferences = getPreferences(MODE_PRIVATE);
-			Editor prefsEditor = preferences.edit();
-
-			Gson gson = new Gson();
-			String json = gson.toJson(userPrefs);
-			prefsEditor.putString(getResources().getString(R.string.view_params), json);
-			prefsEditor.commit();
 
 			if (callerActivity == 1){ //BrightnessActivity
 				Intent intent = new Intent(this, MailSenderActivity.class);
@@ -235,11 +228,27 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		}
 	}
 	
+	private void storeUserPreferencesInMobile() {
+		SharedPreferences  preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		Editor prefsEditor = preferences.edit();
+
+		//Store last UI configuration in the mobile
+		Gson gson = new Gson();
+		String json = gson.toJson(userPrefs);
+		prefsEditor.putString(getResources().getString(R.string.view_params), json);
+		prefsEditor.commit();
+		prefsEditor.apply();
+		
+		System.out.println(json);
+		userPrefs = gson.fromJson(preferences.getString(getResources().getString(R.string.view_params), ""), UserMinimumPreferences.class);
+	}
+
 	private void storeUserPreferencesIntoOntology() {
 		System.out.println("Storing in the ontology...");
 		
 		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasVolume", 			volumeLevel);
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasBrightness", 	userPrefs.getBrightness());
+		getOntologyManager().addDataTypePropertyValue(getLights().get(0), 		getOntologyNamespace() + "contextHasLight", 		userPrefs.getLuxes());
 		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getEditTextBackgroundColor());
 		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasWidth", 			userPrefs.getEditTextWidth());
 		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasHeight", 			userPrefs.getEditTextHeight());
@@ -258,10 +267,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getLayoutBackgroundColor());
 	
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasApplicable", 	(userPrefs.getDisplayHasApplicable() == 1) ? true : false);
-		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 	getOntologyNamespace() + "audioHasBrightness", 			(userPrefs.getAudioHasApplicable() == 1) ? true : false);
-		
-		System.out.println("userPrefs.getLayoutBackgroundColor(): " + userPrefs.getLayoutBackgroundColor());
-		System.out.println("backgroundColor: " + getOntologyManager().getDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor"));
+		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasBrightness", 		(userPrefs.getAudioHasApplicable() == 1) ? true : false);
 	}
 
 	@Override

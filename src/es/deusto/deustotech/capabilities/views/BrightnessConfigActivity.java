@@ -36,7 +36,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	private float brightnessValue; // dummy default value
 	private boolean brightnessChanged = false;
-	private float currentLuxes;
+	private int currentLuxes;
 
 	private static final int DEFAULT_BUTTON_COLOR = -16777216;
 
@@ -82,7 +82,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			@Override
 			public void onSensorChanged(SensorEvent event) {
 				if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-					currentLuxes = event.values[0];
+					currentLuxes = (int)event.values[0];
 
 					textViewCurrentLuxes.setText(currentLuxes + " luxes");
 				}
@@ -161,7 +161,11 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			} else {
 				userPrefs.setBrightness(0);
 			}
+			
+			System.out.println("Brightness: " + brightnessValue);
+			System.out.println("Luxes: " + currentLuxes);
 
+			userPrefs.setLuxes(currentLuxes);
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 

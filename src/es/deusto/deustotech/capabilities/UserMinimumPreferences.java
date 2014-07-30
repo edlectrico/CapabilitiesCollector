@@ -22,6 +22,7 @@ public class UserMinimumPreferences implements Parcelable {
 	private int textViewWidth;
 	private int editTextHeight;
 	private int textViewHeight;
+	private int luxes;
 	
 	private int displayHasApplicable = 0; //false
 	private int audioHasApplicable = 0;
@@ -34,7 +35,7 @@ public class UserMinimumPreferences implements Parcelable {
 			float buttonWidth, float buttonHeight, int buttonBackgroundColor, int buttonTextColor, 
 			float editTextTextSize, int editTextBackgroundColor, int editTextTextColor, int textViewBackgroundColor,
 			int textViewTextColor, float textViewTextSize, int editTextWidth, int textViewWidth, int editTextHeight,
-			int textViewHeight, int displayHasApplicable, int audioHasApplicable) {
+			int textViewHeight, int displayHasApplicable, int audioHasApplicable, int luxes) {
 		super();
 		this.layoutBackgroundColor = layoutBackgroundColor;
 		this.buttonWidth = buttonWidth;
@@ -54,6 +55,8 @@ public class UserMinimumPreferences implements Parcelable {
 		
 		this.displayHasApplicable = displayHasApplicable;
 		this.audioHasApplicable = audioHasApplicable;
+		
+		this.luxes = luxes;
 	}
 	
 	public UserMinimumPreferences(Parcel in) { 
@@ -211,6 +214,14 @@ public class UserMinimumPreferences implements Parcelable {
 	public void setTextViewHeight(int textViewHeight) {
 		this.textViewHeight = textViewHeight;
 	}
+	
+	public int getLuxes() {
+		return luxes;
+	}
+
+	public void setLuxes(int luxes) {
+		this.luxes = luxes;
+	}
 
 	public static Parcelable.Creator<UserMinimumPreferences> getCreator() {
 		return CREATOR;
@@ -242,6 +253,7 @@ public class UserMinimumPreferences implements Parcelable {
 		dest.writeInt(textViewWidth);
 		dest.writeInt(editTextHeight);
 		dest.writeInt(textViewHeight);
+		dest.writeInt(luxes);
 	}
 	
 	private void readFromParcel(Parcel in) {   
@@ -264,6 +276,7 @@ public class UserMinimumPreferences implements Parcelable {
 		textViewWidth = in.readInt();
 		editTextHeight = in.readInt();
 		textViewHeight = in.readInt();
+		luxes = in.readInt();
 	}
 	
 	public static final Parcelable.Creator<UserMinimumPreferences> CREATOR = new Parcelable.Creator<UserMinimumPreferences>() { 
