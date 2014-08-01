@@ -37,6 +37,8 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	audios, displays, noises, lights, backgrounds,
 	devices, contexts, contextJSON;
 	
+	private static boolean ontology_initialized = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,6 +76,12 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		lights 		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
 		noises		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Noise");
 		contextJSON = getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "ContextJSON");
+		
+		ontology_initialized = true;
+	}
+	
+	public static boolean initialized(){
+		return ontology_initialized;
 	}
 
 	public void initializeServices(final String TAG){
@@ -95,7 +103,8 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	}
 	
 	public String getOntologyFilename() {
-		return getResources().getString(R.string.ontology_filename);
+//		return getResources().getString(R.string.ontology_filename);
+		return "test.owl";
 	}
 	
 	public void addListeners(){ }

@@ -239,6 +239,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		prefsEditor.apply();
 		
 		getOntologyManager().addDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue", json);
+		
 		System.out.println("contextJSONHasValue: " + getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue"));
 	}
 
@@ -266,11 +267,33 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasApplicable", 	(userPrefs.getDisplayHasApplicable() == 1) ? true : false);
 		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasBrightness", 		(userPrefs.getAudioHasApplicable() == 1) ? true : false);
 	
-		final Collection<OWLLiteral> value = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
-		userPrefs.setContextAuxLight(String.valueOf(((OWLLiteral) value.toArray()[0]).getLiteral()));
+		final Collection<OWLLiteral> contextAuxHasLightLevel = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
+		final Collection<OWLLiteral> storedJSON = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
 		
-		System.out.println("contextAuxHasLightLevel: " + getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel"));
-		System.out.println("contextAuxHasLightLevel: " + userPrefs.getContextAuxLight());
+		boolean stored = false;
+		for (OWLLiteral lightLevel : contextAuxHasLightLevel){
+			if (!storedJSON.toString().contains(lightLevel.getLiteral())){
+				userPrefs.setContextAuxLight(lightLevel.getLiteral());
+				stored = true;
+				break;
+			} 
+		}
+		
+		if (!stored){
+			userPrefs.setContextAuxLight(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
+		}
+		
+//		for (OWLLiteral lightLevel : contextAuxHasLightLevel){
+//			if (userPrefs.getContextAuxLight() != null){
+//				if (!userPrefs.getContextAuxLight().contains(lightLevel.getLiteral())){
+//					userPrefs.setContextAuxLight(lightLevel.getLiteral());
+//					break;
+//				}
+//			} else {
+//				userPrefs.setContextAuxLight(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
+//			}
+//		}
+		System.out.println(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
 	}
 
 	@Override

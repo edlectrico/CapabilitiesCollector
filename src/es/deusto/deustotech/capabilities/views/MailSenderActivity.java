@@ -2,6 +2,8 @@ package es.deusto.deustotech.capabilities.views;
 
 import java.util.Collection;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Intent;
@@ -18,8 +20,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserInteraction;
+import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 
 /**
  * @author edlectrico
@@ -107,21 +113,46 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { 
 		    	System.out.println("Selected: " + items[i]);
-//		    	searchAdaptation(items[i]);
+		    	
+		    	Gson gson = new Gson();
+		    	
+		    	String selectedJSON = searchAdaptation(items[i]);
+		    	System.out.println("SelectedJSON: " + selectedJSON);
+		    	
+		    	if (selectedJSON.length() > 0){
+		    		JSONObject json;
+					try {
+						json = new JSONObject(selectedJSON);
+						userPrefs = gson.fromJson(json.toString(), UserMinimumPreferences.class);
+						System.out.println(userPrefs.toString());
+						redrawViews();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+		    	}
 		    } 
-
+		    
 			public void onNothingSelected(AdapterView<?> adapterView) {
 		        return;
 		    } 
 		}); 
 	}
 	
-	private void searchAdaptation(final String contextAuxLight) {
+	private String searchAdaptation(final String selectedContextLight) {
+		initOntology();
+		System.out.println("contextAuxHasLightLevel: " 	+ getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel"));
+		System.out.println("contextJSONHasValue: " 		+ getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue"));
+		System.out.println("buttonBackgroundColor: " 	+ getOntologyManager().getDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasBackgroundColor"));
+		
 		final Collection<OWLLiteral> contextJSONS = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
 		
-//		for (OWLLiteral json : contextJSONS){
-//			if (json.getLiteral())
-//		}
+		for (OWLLiteral json : contextJSONS){
+			if ((String.valueOf(((OWLLiteral) json).getLiteral()).contains(selectedContextLight))){
+				return String.valueOf(((OWLLiteral) json).getLiteral());
+			}
+		}
+		
+		return "";
 	}
 
 	@Override
