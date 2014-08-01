@@ -49,6 +49,10 @@ public class CapabilitiesActivity extends AbstractActivity {
 		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
 		
+		super.initOntology();
+//		getOntologyManager().removeIndividualMembership(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
+//		System.out.println(getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel"));
+		
 		setVoiceRecognition(checkVoiceRecognition());
 		
 		listenToSpeech();

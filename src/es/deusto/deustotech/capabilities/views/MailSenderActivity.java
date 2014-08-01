@@ -1,5 +1,9 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.Collection;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,9 +11,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserInteraction;
@@ -81,27 +88,40 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		bundle = getIntent().getExtras();
 
 		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
-		System.out.println("buttonWidth: " + userPrefs.getButtonWidth());
 		if (bundle.getInt(getResources().getString(R.string.activity_caller)) != 0){
 			redrawViews();
 			initializeServices(TAG);
 		} else {
-			System.out.println("Voice interaction");
 			speakOut(getResources().getString(R.string.mail_sender_es));
 		}
 		addListeners();
 		
-		//Store userPrefs as JSON
-//		Editor prefsEditor = getStoredPreferences().edit();
-//		Gson gson = new Gson();
-//		String json = gson.toJson(userPrefs);
-//		
-//		Collection<OWLLiteral> contextLight = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
-//		System.out.println("stored contextlight: " + contextLight);
-//		System.out.println("(contextLight.toArray()[0]).toString(): " + (contextLight.toArray()[0]).toString());
-//		
-//		prefsEditor.putString((contextLight.toArray()[0]).toString(), json);
-//		prefsEditor.commit();
+		final String[] items = new String[] {"daylight", "direct_sunlight", "full_moon", "living_room",
+				"moonless_clear", "moonless_overcast", "office_hallway", "office_lightning", "sunrise", "twilight"};
+		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+		            android.R.layout.simple_spinner_item, items);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { 
+		    	System.out.println("Selected: " + items[i]);
+//		    	searchAdaptation(items[i]);
+		    } 
+
+			public void onNothingSelected(AdapterView<?> adapterView) {
+		        return;
+		    } 
+		}); 
+	}
+	
+	private void searchAdaptation(final String contextAuxLight) {
+		final Collection<OWLLiteral> contextJSONS = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
+		
+//		for (OWLLiteral json : contextJSONS){
+//			if (json.getLiteral())
+//		}
 	}
 
 	@Override
@@ -116,8 +136,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 					.getAttributes();
 			layoutParams = getWindow().getAttributes();
 			layoutParams.screenBrightness = userPrefs.getBrightness();
-
-			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
 		}
 		
 		if ((ButtonConfigActivity.getLayoutBackgroundColorChanged()) || (userPrefs.getLayoutBackgroundColor() != 0)){
@@ -151,7 +169,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		/*TextViews*/
 		if ((EditTextConfigActivity.edit_backgroundcolor_changed) || (userPrefs.getTextViewBackgroundColor() != 0)){
 			final int textViewBackgroundColor = userPrefs.getTextViewBackgroundColor();
-			System.out.println("Mail - TextViewBackColor: " + userPrefs.getTextViewBackgroundColor());
 			final int redTextViewBackgroundColor = Color.red(textViewBackgroundColor);
 			final int greenTextViewBackgroundColor = Color.green(textViewBackgroundColor);
 			final int blueTextViewBackgroundColor = Color.blue(textViewBackgroundColor);
@@ -282,6 +299,35 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		}
 
 		if (view.getId() == R.id.buttonTriggerContextChange) {
+			super.initOntology();
+			
+			final Collection<OWLLiteral> contextJSONS = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
+			
+			for (OWLLiteral json : contextJSONS){
+				System.out.println(json);
+			}
+			
+			int literalPosition = 0;
+//			boolean literalFound = false;
+//			
+//			for (OWLLiteral light : contextLights){
+//				if (!light.getLiteral().equals("living_room")){
+//					literalPosition ++;
+//				} else {
+//					literalFound = true;
+//				}
+//			}
+//			
+//			if (literalFound){
+//				System.out.println("Literal position: " + literalPosition);
+//				final Collection<OWLLiteral> textColors = getOntologyManager().getDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasTextColor");
+//				
+//				System.out.println("Requested value: " + textColors.toArray()[literalPosition]);
+//			} else {
+//				System.out.println("Literal not found!");
+//			}
+			
+			
 //			times = new ArrayList<Double>();
 //			start = System.nanoTime();
 //
@@ -405,8 +451,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		userInteraction.setTimeToFinishTask(timeToFinishTask);
 		userInteraction.setTimeToNextView(focusElapsedTime / focusCounter);
 		userInteraction.setTimeToStartTask(timeToStartTask);
-
-		System.out.println();
 		/*
 		 * Map<String, Object> model = new HashMap<String, Object>();
 		 * 

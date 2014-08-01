@@ -27,6 +27,8 @@ public class UserMinimumPreferences implements Parcelable {
 	private int displayHasApplicable = 0; //false
 	private int audioHasApplicable = 0;
 	
+	private String contextAuxLight;
+	
 	public UserMinimumPreferences() {
 		super();
 	}
@@ -35,7 +37,7 @@ public class UserMinimumPreferences implements Parcelable {
 			float buttonWidth, float buttonHeight, int buttonBackgroundColor, int buttonTextColor, 
 			float editTextTextSize, int editTextBackgroundColor, int editTextTextColor, int textViewBackgroundColor,
 			int textViewTextColor, float textViewTextSize, int editTextWidth, int textViewWidth, int editTextHeight,
-			int textViewHeight, int displayHasApplicable, int audioHasApplicable, int luxes) {
+			int textViewHeight, int displayHasApplicable, int audioHasApplicable, int luxes, String contextAuxLight) {
 		super();
 		this.layoutBackgroundColor = layoutBackgroundColor;
 		this.buttonWidth = buttonWidth;
@@ -57,6 +59,7 @@ public class UserMinimumPreferences implements Parcelable {
 		this.audioHasApplicable = audioHasApplicable;
 		
 		this.luxes = luxes;
+		this.contextAuxLight = contextAuxLight;
 	}
 	
 	public UserMinimumPreferences(Parcel in) { 
@@ -222,6 +225,14 @@ public class UserMinimumPreferences implements Parcelable {
 	public void setLuxes(int luxes) {
 		this.luxes = luxes;
 	}
+	
+	public String getContextAuxLight() {
+		return contextAuxLight;
+	}
+
+	public void setContextAuxLight(String contextAuxLight) {
+		this.contextAuxLight = contextAuxLight;
+	}
 
 	public static Parcelable.Creator<UserMinimumPreferences> getCreator() {
 		return CREATOR;
@@ -254,6 +265,7 @@ public class UserMinimumPreferences implements Parcelable {
 		dest.writeInt(editTextHeight);
 		dest.writeInt(textViewHeight);
 		dest.writeInt(luxes);
+		dest.writeString(contextAuxLight);
 	}
 	
 	private void readFromParcel(Parcel in) {   
@@ -277,6 +289,7 @@ public class UserMinimumPreferences implements Parcelable {
 		editTextHeight = in.readInt();
 		textViewHeight = in.readInt();
 		luxes = in.readInt();
+		contextAuxLight = in.readString();
 	}
 	
 	public static final Parcelable.Creator<UserMinimumPreferences> CREATOR = new Parcelable.Creator<UserMinimumPreferences>() { 

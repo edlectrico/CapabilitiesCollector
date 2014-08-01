@@ -35,7 +35,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	//ontology individuals
 	private List<String> buttons, edits, textViews,
 	audios, displays, noises, lights, backgrounds,
-	devices, contexts;
+	devices, contexts, contextJSON;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		contexts 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "ContextAux");
 		lights 		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Light");
 		noises		= getOntologyManager().getIndividualOfClass("http://u2m.org/2003/02/UserModelOntology.rdf#Noise");
+		contextJSON = getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "ContextJSON");
 	}
 
 	public void initializeServices(final String TAG){
@@ -81,6 +82,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		if (userPrefs == null){
 			userPrefs = new UserMinimumPreferences();
 		}
+		
 	}
 	
 	public static OntologyManager getOntologyManager() {
@@ -88,7 +90,8 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 	}
 	
 	public String getOntologyNamespace() {
-		return getResources().getString(R.string.ontology_namespace);
+//		return getResources().getString(R.string.ontology_namespace);
+		return "http://www.morelab.deusto.es/ontologies/test.owl#";
 	}
 	
 	public String getOntologyFilename() {
@@ -146,6 +149,8 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		
 		getOntologyManager().removeIndividualMembership(getLights().get(0), getOntologyNamespace() + "contextHasLight");
 		getOntologyManager().removeIndividualMembership(getLights().get(0), getOntologyNamespace() + "contextHasNoise");
+		
+		getOntologyManager().removeIndividualMembership(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
 	}
 	
 	public void listenToSpeech() {
@@ -234,6 +239,10 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 
 	public List<String> getContexts() {
 		return contexts;
+	}
+	
+	public List<String> getContextJSON() {
+		return contextJSON;
 	}
 	
 	public SharedPreferences getStoredPreferences() {

@@ -127,7 +127,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 		}
 
-		System.out.println("TextEditTextSize: " + userPrefs.getEditTextTextSize());
 
 		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
@@ -162,32 +161,12 @@ public class BrightnessConfigActivity extends AbstractActivity {
 				userPrefs.setBrightness(0);
 			}
 			
-			System.out.println("Brightness: " + brightnessValue);
-			System.out.println("Luxes: " + currentLuxes);
-
 			userPrefs.setLuxes(currentLuxes);
+			System.out.println("Luxes: " + currentLuxes);
+			
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
-
-//			getOntologyManager().addDataTypePropertyValue(getLights().get(0), getOntologyNamespace() + "contextHasLight", currentLuxes);
-//			
-//			//Rule launched
-//			final List<String> adaptations = getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Adaptation");
-//			final Collection<OWLLiteral> adaptationBrightness = getOntologyManager().getDataTypePropertyValue(adaptations.get(0), getOntologyNamespace() + "adaptationBrightnessHasValue");
-//			final float bri = Float.parseFloat(((OWLLiteral) adaptationBrightness.toArray()[0]).getLiteral()) / 10F; 
-//			
-//			if (bri > brightnessValue){
-////				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasBrightness", bri);
-//				userPrefs.setBrightness(bri);
-//			} else {
-////				getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasBrightness", brightnessValue);
-//				userPrefs.setBrightness(brightnessValue);
-//			}
 			
-			if (userPrefs.getAudioHasApplicable() == 0){
-				speakOut("Well done!");
-			}
-
 			startActivity(intent);
 		}
 	}

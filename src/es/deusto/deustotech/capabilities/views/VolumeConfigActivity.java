@@ -1,7 +1,10 @@
 package es.deusto.deustotech.capabilities.views;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
+
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 import android.content.Context;
 import android.content.Intent;
@@ -109,8 +112,6 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 						.getAttributes();
 				layoutParams.screenBrightness = userPrefs.getBrightness();
 				getWindow().setAttributes(layoutParams);
-				
-				System.out.println("Brightness: " + userPrefs.getBrightness());
 			}
 		} else {
 			audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -219,8 +220,6 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			Random randomGenerator = new Random();
 			volumeLevel = randomGenerator.nextInt(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 
-			System.out.println("Max volume: " + audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
 					volumeLevel, 0);
 
@@ -239,13 +238,11 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		prefsEditor.commit();
 		prefsEditor.apply();
 		
-		System.out.println(json);
-		userPrefs = gson.fromJson(preferences.getString(getResources().getString(R.string.view_params), ""), UserMinimumPreferences.class);
+		getOntologyManager().addDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue", json);
+		System.out.println("contextJSONHasValue: " + getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue"));
 	}
 
 	private void storeUserPreferencesIntoOntology() {
-		System.out.println("Storing in the ontology...");
-		
 		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasVolume", 			volumeLevel);
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasBrightness", 	userPrefs.getBrightness());
 		getOntologyManager().addDataTypePropertyValue(getLights().get(0), 		getOntologyNamespace() + "contextHasLight", 		userPrefs.getLuxes());
@@ -268,6 +265,12 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 	
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasApplicable", 	(userPrefs.getDisplayHasApplicable() == 1) ? true : false);
 		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasBrightness", 		(userPrefs.getAudioHasApplicable() == 1) ? true : false);
+	
+		final Collection<OWLLiteral> value = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
+		userPrefs.setContextAuxLight(String.valueOf(((OWLLiteral) value.toArray()[0]).getLiteral()));
+		
+		System.out.println("contextAuxHasLightLevel: " + getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel"));
+		System.out.println("contextAuxHasLightLevel: " + userPrefs.getContextAuxLight());
 	}
 
 	@Override
