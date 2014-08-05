@@ -206,8 +206,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 				Intent intent = new Intent(this, MailSenderActivity.class);
 				intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
-				if (userPrefs.getDisplayHasApplicable() == 0){
-					speakOut("Now try to send an email!");
+				if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
+					speakOut("Prepárese para enviar email");
 				}
 				intent.putExtra(getResources().getString(R.string.activity_caller), 2);
 				startActivity(intent);

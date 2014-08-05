@@ -156,7 +156,7 @@ public class EditTextConfigActivity extends AbstractActivity {
 			userPrefs.setTextViewTextSize(userPrefs.getEditTextTextSize());
 			userPrefs.setTextViewTextColor(userPrefs.getEditTextTextColor());
 			
-			if (userPrefs.getDisplayHasApplicable() == 0){
+			if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
 				speakOut("Well done!");
 			}
 			

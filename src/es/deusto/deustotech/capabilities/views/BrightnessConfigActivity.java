@@ -168,6 +168,10 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1); //0 - MainActivity; 1 - BrightnessAtivity
 			
 			startActivity(intent);
+			
+			if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
+				speakOut("Well done!");
+			}
 		}
 	}
 }

@@ -51,6 +51,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private Rect mBounds;
 	
 	int callerActivity = -1;
+	
+	private boolean inverted, restored;
 
 	private static boolean LAYOUT_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_BACKGROUND_COLOR_CHANGED = false;
@@ -86,6 +88,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 		
 		userPrefs.setButtonBackgroundColor(defaultButtonColor);
 		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
+		
+		restored = inverted = false;
 	}
 
 	private void drawButtons() {
@@ -168,7 +172,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	public void onClick(View view) {
 		if (view.getId() == R.id.buttonact_next) {
 			//TODO: next activity for configuring TextEdit size and color
-			if (userPrefs.getDisplayHasApplicable() == 0){
+			if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
 				speakOut("Well done!");
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
@@ -186,7 +190,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 			}
 			
 			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
-				userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
+				if (restored){
+					userPrefs.setLayoutBackgroundColor(Color.WHITE);
+				} else if (inverted){
+					userPrefs.setLayoutBackgroundColor(Color.BLACK);
+				} else userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
 			}
 
 			startActivity(intent);
@@ -227,6 +235,12 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnBackgroundColor.setVisibility(View.VISIBLE);
 			btnColorButton.setVisibility(View.VISIBLE);
 		} else if (view.getId() == R.id.button_restore){
+			if (restored){
+				restored = false;
+			} else {
+				restored = true;
+				inverted = false;
+			}
 			btnNext.setBackgroundColor(Color.LTGRAY);
 			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
 			btnTextColor.setBackgroundColor(Color.LTGRAY);
@@ -243,6 +257,12 @@ public class ButtonConfigActivity extends AbstractActivity {
 			
 			grid.setBackgroundColor(Color.WHITE);
 		} else if (view.getId() == R.id.button_invert){
+			if (inverted){
+				inverted = false;
+			} else {
+				inverted = true;
+				restored = false;
+			}
 			btnNext.setBackgroundColor(Color.LTGRAY);
 			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
 			btnTextColor.setBackgroundColor(Color.LTGRAY);
