@@ -19,12 +19,12 @@ public class CustomAdapter extends ArrayAdapter<String>{
 	
 	public CustomAdapter(Context context, int resource) {
 		super(context, resource);
-        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass("http://www.morelab.deusto.es/ontologies/adaptui#TextView");
+        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "TextView");
 	}
 	
 	public CustomAdapter(Context context, int textViewResourceId, String[] objects) {
         super(context, textViewResourceId, objects);
-        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass("http://www.morelab.deusto.es/ontologies/adaptui#TextView");
+        textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "TextView");
     }
 
 	@Override
@@ -33,9 +33,9 @@ public class CustomAdapter extends ArrayAdapter<String>{
 
         TextView tv = (TextView) view.findViewById(R.id.list_item);
         
-        final Collection<OWLLiteral> textEditBackColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasColor");
-        final Collection<OWLLiteral> textEditTextColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasTextColor");
-        final Collection<OWLLiteral> textEditTextSize 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasTextSize");
+        final Collection<OWLLiteral> textEditBackColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasColor");
+        final Collection<OWLLiteral> textEditTextColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasTextColor");
+        final Collection<OWLLiteral> textEditTextSize 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasTextSize");
 	
         final int viewColor 	= Integer.parseInt(((OWLLiteral) textEditBackColor.toArray()[0]).getLiteral());
         final int textColor 	= Integer.parseInt(((OWLLiteral) textEditTextColor.toArray()[0]).getLiteral());

@@ -264,6 +264,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextColor", 		userPrefs.getButtonTextColor());
 		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getLayoutBackgroundColor());
 	
+		userPrefs.setDisplayHasApplicable(CapabilitiesActivity.getDisplayIsApplicable());
+		
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasApplicable", 	(userPrefs.getDisplayHasApplicable() == 1) ? true : false);
 		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasBrightness", 		(userPrefs.getAudioHasApplicable() == 1) ? true : false);
 	

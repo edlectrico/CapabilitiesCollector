@@ -139,14 +139,12 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
 //        initializeServices(TAG);
-        
-        final List<String> displays = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Display");
+        final List<String> displays 	= AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "Display");
         //TODO: The following line is for testing False case
-//		AbstractActivity.getOntologyManager().addDataTypePropertyValue(displays.get(0), getResources().getString(R.string.ontology_namespace) + "displayHasApplicable", false);
+//		AbstractActivity.getOntologyManager().addDataTypePropertyValue(displays.get(0), AbstractActivity.getOntologyNamespace() + "displayHasApplicable", false);
 		final Collection<OWLLiteral> displayIsApplicables = AbstractActivity.getOntologyManager().getDataTypePropertyValue(displays.get(0), 
-				getResources().getString(R.string.ontology_namespace) + "displayHasApplicable");
+				AbstractActivity.getOntologyNamespace() + "displayHasApplicable");
 		
 		displayIsApplicable = Boolean.valueOf(((OWLLiteral) displayIsApplicables.toArray()[0]).getLiteral());
         
@@ -154,9 +152,9 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 			setContentView(R.layout.categories_menu_normal);
 		}else {
 			setContentView(R.layout.list_menu);
-			backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
+			backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "Background");
 	        
-	        final Collection<OWLLiteral> backgroundColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+	        final Collection<OWLLiteral> backgroundColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), AbstractActivity.getOntologyNamespace() + "viewHasColor");
 	        final int back 			= Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
 	        
 	        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_points);
@@ -195,11 +193,11 @@ public class Categories extends Activity implements TextToSpeech.OnInitListener{
 			//#if ${piramide.user.capabilities.problems.sight.diopters} < 15
 			onLoadActivity = PiramideCaptureActivity.class;
 			
-			textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "TextView");
-	        backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
+			textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "TextView");
+	        backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "Background");
 	        
-	        final Collection<OWLLiteral> textViewBackColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
-	        final Collection<OWLLiteral> backgroundColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+	        final Collection<OWLLiteral> textViewBackColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasColor");
+	        final Collection<OWLLiteral> backgroundColor = AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), AbstractActivity.getOntologyNamespace() + "viewHasColor");
 		
 	        final int viewColor = Integer.parseInt(((OWLLiteral) textViewBackColor.toArray()[0]).getLiteral());
 	        final int back = Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());

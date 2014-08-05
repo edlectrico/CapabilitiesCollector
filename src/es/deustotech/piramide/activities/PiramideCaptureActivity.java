@@ -69,10 +69,10 @@ public class PiramideCaptureActivity extends CaptureActivity implements SensorEv
 	public void onCreate(Bundle bundle){
 		super.onCreate(bundle);
 		
-		textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "TextView");
-		final Collection<OWLLiteral> textEditBackColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasColor");
-        final Collection<OWLLiteral> textEditTextColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasTextColor");
-        final Collection<OWLLiteral> textEditTextSize 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), "http://www.morelab.deusto.es/ontologies/adaptui#viewHasTextSize");
+		textViews = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "TextView");
+		final Collection<OWLLiteral> textEditBackColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasColor");
+        final Collection<OWLLiteral> textEditTextColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasTextColor");
+        final Collection<OWLLiteral> textEditTextSize 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(textViews.get(0), AbstractActivity.getOntologyNamespace() + "viewHasTextSize");
 	
         final int viewColor 	= Integer.parseInt(((OWLLiteral) textEditBackColor.toArray()[0]).getLiteral());
         final int textColor 	= Integer.parseInt(((OWLLiteral) textEditTextColor.toArray()[0]).getLiteral());

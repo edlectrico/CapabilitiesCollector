@@ -64,7 +64,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 //		initOntology();
 	}
 	
-	protected void initOntology() {
+	public void initOntology() {
 		buttons 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "Button");
 		edits 		= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "EditText");
 		textViews 	= getOntologyManager().getIndividualOfClass(getOntologyNamespace() + "TextView");
@@ -97,7 +97,7 @@ public abstract class AbstractActivity extends Activity implements View.OnClickL
 		return MainActivity.getOntologyManager();
 	}
 	
-	public String getOntologyNamespace() {
+	public static String getOntologyNamespace() {
 //		return getResources().getString(R.string.ontology_namespace);
 		return "http://www.morelab.deusto.es/ontologies/test.owl#";
 	}

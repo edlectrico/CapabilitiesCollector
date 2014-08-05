@@ -37,7 +37,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 	private boolean longPush 			= false;
 	private boolean voiceRecognition 	= false;
 	private Intent interactionIntent;
-
+	
+	private static int isDisplayApplicable = 0;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.capabilities_activity);
@@ -137,15 +139,15 @@ public class CapabilitiesActivity extends AbstractActivity {
 		
 		if (view.getId() == R.id.button_input){
 			if (!longPush){
+				isDisplayApplicable = 1;
 				vibrator.vibrate(500);
-				speakOut(getResources().getString(R.string.message_visual_interaction_es));
-				userPrefs.setDisplayHasApplicable(1);
+				userPrefs.setDisplayHasApplicable(isDisplayApplicable);
 				userPrefs.setAudioHasApplicable(1);
 				interactionIntent.setClass(this,  ButtonConfigActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
-				tts.stop();
 				startActivity(interactionIntent);
 			} else if (longPush){
+				speakOut(getResources().getString(R.string.message_visual_interaction_es));
 				userPrefs.setDisplayHasApplicable(0);
 				userPrefs.setAudioHasApplicable(1);
 				//If longPush means that the user cannot see the screen properly
@@ -187,5 +189,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+	}
+	
+	public static int getDisplayIsApplicable(){
+		return isDisplayApplicable;
 	}
 }

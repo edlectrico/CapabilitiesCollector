@@ -102,9 +102,9 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
         	Log.d(Constants.TAG, "Vector is null");
         }
         
-        backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Background");
+        backgrounds = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "Background");
         
-        final Collection<OWLLiteral> backgroundColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), getResources().getString(R.string.ontology_namespace) + "viewHasColor");
+        final Collection<OWLLiteral> backgroundColor 	= AbstractActivity.getOntologyManager().getDataTypePropertyValue(backgrounds.get(0), AbstractActivity.getOntologyNamespace() + "viewHasColor");
         final int back 			= Integer.parseInt(((OWLLiteral) backgroundColor.toArray()[0]).getLiteral());
         
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_points);
@@ -170,9 +170,9 @@ public class Points extends Activity implements TextToSpeech.OnInitListener{
 //				Intent intent = new Intent(Points.this, Categories.getOnLoadActivity());
 				Intent intent = new Intent(Points.this, PiramideCaptureActivity.class);
 				
-				final List<String> displays = AbstractActivity.getOntologyManager().getIndividualOfClass(getResources().getString(R.string.ontology_namespace) + "Display");
+				final List<String> displays = AbstractActivity.getOntologyManager().getIndividualOfClass(AbstractActivity.getOntologyNamespace() + "Display");
 				final Collection<OWLLiteral> displayIsApplicables = AbstractActivity.getOntologyManager().getDataTypePropertyValue(displays.get(0), 
-						getResources().getString(R.string.ontology_namespace) + "displayHasApplicable");
+						AbstractActivity.getOntologyNamespace() + "displayHasApplicable");
 				boolean displayIsApplicable = Boolean.valueOf(((OWLLiteral) displayIsApplicables.toArray()[0]).getLiteral());
 				
 				if (!displayIsApplicable){

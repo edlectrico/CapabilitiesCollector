@@ -32,7 +32,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
 	private Button btnResize, btnBackgroundColor, btnColorButton, 
-	btnTextColor, btnInvert, btnRestore;
+	btnTextColor, btnInvert, btnRestore, btnNext;
 	private GridLayout grid;
 	
 	private int maxWidth = 0;
@@ -96,6 +96,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		btnColorButton = (Button) findViewById(R.id.button_color);
 		btnRestore = (Button) findViewById(R.id.button_restore);
 		btnInvert = (Button) findViewById(R.id.button_invert);
+		btnNext = (Button) findViewById(R.id.buttonact_next);
 		
 		btnBackgroundColor.setVisibility(View.INVISIBLE);
 		btnTextColor.setVisibility(View.INVISIBLE);
@@ -226,29 +227,35 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnBackgroundColor.setVisibility(View.VISIBLE);
 			btnColorButton.setVisibility(View.VISIBLE);
 		} else if (view.getId() == R.id.button_restore){
-			findViewById(R.id.buttonact_next).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_background_color).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_text_color).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_color).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_resize).setBackgroundColor(Color.GRAY);
+			btnNext.setBackgroundColor(Color.LTGRAY);
+			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
+			btnTextColor.setBackgroundColor(Color.LTGRAY);
+			btnColorButton.setBackgroundColor(Color.LTGRAY);
+			btnResize.setBackgroundColor(Color.LTGRAY);
 			
-			((Button)findViewById(R.id.buttonact_next)).setTextColor(Color.BLACK);
-			((Button)findViewById(R.id.button_background_color)).setTextColor(Color.BLACK);
-			((Button)findViewById(R.id.button_text_color)).setTextColor(Color.BLACK);
-			((Button)findViewById(R.id.button_color)).setTextColor(Color.BLACK);
+			textColor = Color.BLACK;
+			
+			btnNext.setTextColor(textColor);
+			btnBackgroundColor.setTextColor(textColor);
+			btnTextColor.setTextColor(textColor);
+			btnColorButton.setTextColor(textColor);
+			btnResize.setTextColor(textColor);
 			
 			grid.setBackgroundColor(Color.WHITE);
 		} else if (view.getId() == R.id.button_invert){
-			findViewById(R.id.buttonact_next).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_background_color).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_text_color).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_color).setBackgroundColor(Color.GRAY);
-			findViewById(R.id.button_resize).setBackgroundColor(Color.GRAY);
+			btnNext.setBackgroundColor(Color.LTGRAY);
+			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
+			btnTextColor.setBackgroundColor(Color.LTGRAY);
+			btnColorButton.setBackgroundColor(Color.LTGRAY);
+			btnResize.setBackgroundColor(Color.LTGRAY);
 			
-			((Button)findViewById(R.id.buttonact_next)).setTextColor(Color.WHITE);
-			((Button)findViewById(R.id.button_background_color)).setTextColor(Color.WHITE);
-			((Button)findViewById(R.id.button_text_color)).setTextColor(Color.WHITE);
-			((Button)findViewById(R.id.button_color)).setTextColor(Color.WHITE);
+			textColor = Color.WHITE;
+			
+			btnNext.setTextColor(textColor);
+			btnBackgroundColor.setTextColor(textColor);
+			btnTextColor.setTextColor(textColor);
+			btnColorButton.setTextColor(textColor);
+			btnResize.setTextColor(textColor);
 			
 			grid.setBackgroundColor(Color.BLACK);
 		}
