@@ -34,7 +34,6 @@ import es.deusto.deustotech.capabilities.UserMinimumPreferences;
  *         and shows a builds a user interaction profile through a email
  *         application capturing the total time to do this task, clicks, device
  *         orientation variations, etc.
- * 
  */
 
 public class MailSenderActivity extends AbstractActivity implements OnFocusChangeListener {
@@ -43,7 +42,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	private static final int ALPHA = 255;
 	private static final int DEFAULT_BUTTON_COLOR = -16777216;
 
-	private Button buttonSend, buttonContextChange;
+	private Button buttonSend;
 	private EditText textTo, textSubject, textMessage;
 	private TextView textViewPhoneNo, textViewSubject, textViewMessage, textViewInstructions;
 	
@@ -80,7 +79,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		}
 		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
-		buttonContextChange = (Button) findViewById(R.id.buttonTriggerContextChange);
 		textViewInstructions = (TextView) findViewById(R.id.textViewEmailInstructions);
 		textTo = (EditText) findViewById(R.id.editTextTo);
 		textSubject = (EditText) findViewById(R.id.editTextSubject);
@@ -92,14 +90,10 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		
 
 		bundle = getIntent().getExtras();
-
 		userPrefs = bundle.getParcelable(getResources().getString(R.string.view_params));
-		if (bundle.getInt(getResources().getString(R.string.activity_caller)) != 0){
-			redrawViews();
-			initializeServices(TAG);
-		} else {
-			speakOut(getResources().getString(R.string.mail_sender_es));
-		}
+		
+		redrawViews();
+		initializeServices(TAG);
 		addListeners();
 		
 		final String[] items = new String[] {"daylight", "direct_sunlight", "full_moon", "living_room",
@@ -140,10 +134,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	
 	private String searchAdaptation(final String selectedContextLight) {
 		initOntology();
-		System.out.println("contextAuxHasLightLevel: " 	+ getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel"));
-		System.out.println("contextJSONHasValue: " 		+ getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue"));
-		System.out.println("buttonBackgroundColor: " 	+ getOntologyManager().getDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasBackgroundColor"));
-		
 		final Collection<OWLLiteral> contextJSONS = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
 		
 		for (OWLLiteral json : contextJSONS){
@@ -157,17 +147,27 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 
 	@Override
 	public void initializeServices(String TAG) {
+		System.out.println("initializeServices()");
 		launchedAt = System.currentTimeMillis();
+		
+		if (userPrefs.getDisplayHasApplicable() == 0){
+			super.initializeServices(TAG);
+
+			speakOut(getResources().getString(R.string.edit_text_info_message_es));
+		}
+		
+		if (userPrefs.getBrightness() != 0){
+			System.out.println("Brightness: " + userPrefs.getBrightness());
+			WindowManager.LayoutParams layoutParams = getWindow()
+					.getAttributes();
+			layoutParams.screenBrightness = userPrefs.getBrightness();
+			getWindow().setAttributes(layoutParams);
+		}
 	}
 	
 	@Override
 	public void redrawViews() {
-		if (userPrefs.getBrightness() != 0) {
-			WindowManager.LayoutParams layoutParams = getWindow()
-					.getAttributes();
-			layoutParams = getWindow().getAttributes();
-			layoutParams.screenBrightness = userPrefs.getBrightness();
-		}
+		initializeServices(TAG);
 		
 		if ((ButtonConfigActivity.getLayoutBackgroundColorChanged()) || (userPrefs.getLayoutBackgroundColor() != 0)){
 			final int layoutBackgroundColor = userPrefs.getLayoutBackgroundColor();
@@ -252,7 +252,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	@Override
 	public void addListeners() {
 		buttonSend.setOnClickListener(this);
-		buttonContextChange.setOnClickListener(this);
 		textMessage.setOnClickListener(this);
 		textSubject.setOnClickListener(this);
 		textTo.setOnClickListener(this);
@@ -329,70 +328,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 			}
 		}
 
-		if (view.getId() == R.id.buttonTriggerContextChange) {
-			super.initOntology();
-			
-			final Collection<OWLLiteral> contextJSONS = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
-			
-			for (OWLLiteral json : contextJSONS){
-				System.out.println(json);
-			}
-			
-			int literalPosition = 0;
-//			boolean literalFound = false;
-//			
-//			for (OWLLiteral light : contextLights){
-//				if (!light.getLiteral().equals("living_room")){
-//					literalPosition ++;
-//				} else {
-//					literalFound = true;
-//				}
-//			}
-//			
-//			if (literalFound){
-//				System.out.println("Literal position: " + literalPosition);
-//				final Collection<OWLLiteral> textColors = getOntologyManager().getDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasTextColor");
-//				
-//				System.out.println("Requested value: " + textColors.toArray()[literalPosition]);
-//			} else {
-//				System.out.println("Literal not found!");
-//			}
-			
-			
-//			times = new ArrayList<Double>();
-//			start = System.nanoTime();
-//
-//			//http://u2m.org/2003/02/UserModelOntology.rdf#Light
-//			super.getOntologyManager().addDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight", 50000); 
-//
-//			final Collection<OWLLiteral> l = super.getOntologyManager().getDataTypePropertyValue(super.getLights().get(0), super.getOntologyNamespace() + "contextHasLight");
-//			System.out.println(l);
-//
-//			try {
-//				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());
-//			} catch (OntologySavingException e) {
-//				e.printStackTrace();
-//			}
-//
-//			final Collection<OWLLiteral> c = super.getOntologyManager().getDataTypePropertyValue(super.getContexts().get(0), super.getOntologyNamespace() + "contextAuxHasLightLevel");
-//
-//			System.out.println(c);
-//
-//			final Collection<OWLLiteral> brightness = super.getOntologyManager().getDataTypePropertyValue(super.getDisplays().get(0), super.getOntologyNamespace() + "displayHasBrightness");
-//			System.out.println(brightness);
-//
-//			final String bri = ((OWLLiteral) brightness.toArray()[1]).getLiteral();
-//
-//			System.out.println(bri);
-//			
-//			
-//			//TODO
-//			WindowManager.LayoutParams layoutParams = getWindow()
-//					.getAttributes();
-//
-//			layoutParams.screenBrightness = Float.parseFloat(bri);
-//
-//			System.out.println("layoutParams.screenBrightness: " + layoutParams.screenBrightness);
 //
 //			double end = System.nanoTime();
 //			double elapsed = end - start;
@@ -401,7 +336,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 //			times.add(seconds);
 //
 //			System.out.println("Elapsed: " + seconds);
-		}
 
 	}
 

@@ -79,12 +79,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/send_es" />
-        
-        <Button
-            android:id="@+id/buttonTriggerContextChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/trigger_es" />
 
         <Spinner
             android:id="@+id/spinner1"

@@ -31,7 +31,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
-	private Button btnResize, btnBackgroundColor, btnColorButton, btnTextColor;
+	private Button btnResize, btnBackgroundColor, btnColorButton, 
+	btnTextColor, btnInvert, btnRestore;
 	private GridLayout grid;
 	
 	private int maxWidth = 0;
@@ -83,17 +84,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 		
-//		//Assigning default back colors to avoid null/black configuration if no color is selected
-//		if (getOntologyManager().getDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasColor").size() > 0){
-//			getOntologyManager().deleteAllValuesOfProperty(getButtons().get(0), getOntologyNamespace() + "viewHasColor");
-//		}
-//		if (getOntologyManager().getDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor").size() > 0){
-//			getOntologyManager().deleteAllValuesOfProperty(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor");
-//		}
-//		
-//		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), getOntologyNamespace() + "viewHasColor", defaultButtonColor);
-//		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
-		
 		userPrefs.setButtonBackgroundColor(defaultButtonColor);
 		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
 	}
@@ -104,13 +94,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 		btnBackgroundColor = (Button) findViewById(R.id.button_background_color);
 		btnTextColor = (Button) findViewById(R.id.button_text_color);
 		btnColorButton = (Button) findViewById(R.id.button_color);
+		btnRestore = (Button) findViewById(R.id.button_restore);
+		btnInvert = (Button) findViewById(R.id.button_invert);
 		
 		btnBackgroundColor.setVisibility(View.INVISIBLE);
 		btnTextColor.setVisibility(View.INVISIBLE);
 		btnColorButton.setVisibility(View.INVISIBLE);
 		
 		defaultButtonColor = getBackgroundColor(btnResize);
-		
 	}
 
 	@Override
@@ -135,6 +126,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 		findViewById(R.id.button_text_color).setOnClickListener(this);
 		findViewById(R.id.button_color).setOnClickListener(this);
 		btnResize.setOnClickListener(this);
+		
+		btnInvert.setOnClickListener(this);
+		btnRestore.setOnClickListener(this);
 	}
 
 	@Override
@@ -187,25 +181,12 @@ public class ButtonConfigActivity extends AbstractActivity {
 			
 			//Store in the ontology
 			if (BUTTON_BACKGROUND_COLOR_CHANGED){
-//				if (super.getOntologyManager().getDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-//					super.getOntologyManager().deleteAllValuesOfProperty(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor");
-//				}
-//				super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasColor", buttonBackgroundColor);
 				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			}
 			
 			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
-//				if (super.getOntologyManager().getDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor").size() > 0){
-//					super.getOntologyManager().deleteAllValuesOfProperty(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor");
-//				}
-//				super.getOntologyManager().addDataTypePropertyValue(super.getBackgrounds().get(0), super.getOntologyNamespace() + "viewHasColor", layoutBackgroundColor);
-				userPrefs.setLayoutBackgroundColor(layoutBackgroundColor);
+				userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
 			}
-			
-//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasWidth", btnResize.getWidth());
-//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasHeight", btnResize.getHeight());
-//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextColor", textColor);
-//			super.getOntologyManager().addDataTypePropertyValue(super.getButtons().get(0), super.getOntologyNamespace() + "viewHasTextSize", btnResize.getTextSize());
 
 			startActivity(intent);
 		}				
@@ -244,6 +225,32 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnTextColor.setVisibility(View.VISIBLE);
 			btnBackgroundColor.setVisibility(View.VISIBLE);
 			btnColorButton.setVisibility(View.VISIBLE);
+		} else if (view.getId() == R.id.button_restore){
+			findViewById(R.id.buttonact_next).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_background_color).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_text_color).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_color).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_resize).setBackgroundColor(Color.GRAY);
+			
+			((Button)findViewById(R.id.buttonact_next)).setTextColor(Color.BLACK);
+			((Button)findViewById(R.id.button_background_color)).setTextColor(Color.BLACK);
+			((Button)findViewById(R.id.button_text_color)).setTextColor(Color.BLACK);
+			((Button)findViewById(R.id.button_color)).setTextColor(Color.BLACK);
+			
+			grid.setBackgroundColor(Color.WHITE);
+		} else if (view.getId() == R.id.button_invert){
+			findViewById(R.id.buttonact_next).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_background_color).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_text_color).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_color).setBackgroundColor(Color.GRAY);
+			findViewById(R.id.button_resize).setBackgroundColor(Color.GRAY);
+			
+			((Button)findViewById(R.id.buttonact_next)).setTextColor(Color.WHITE);
+			((Button)findViewById(R.id.button_background_color)).setTextColor(Color.WHITE);
+			((Button)findViewById(R.id.button_text_color)).setTextColor(Color.WHITE);
+			((Button)findViewById(R.id.button_color)).setTextColor(Color.WHITE);
+			
+			grid.setBackgroundColor(Color.BLACK);
 		}
 	}
 

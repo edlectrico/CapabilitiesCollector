@@ -95,6 +95,22 @@
             android:layout_alignParentRight="true"
             android:text="@string/next_message_es" />
 
+        <Button
+            android:id="@+id/button_restore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Restaurar colores" />
+
+        <Button
+            android:id="@+id/button_invert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/button_restore"
+            android:text="Invertir colores" />
+
     </RelativeLayout>
 
 </GridLayout>
