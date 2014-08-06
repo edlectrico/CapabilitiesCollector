@@ -52,8 +52,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 	
 	int callerActivity = -1;
 	
-	private boolean inverted, restored;
-
+	private boolean inverted = false;
+	
 	private static boolean LAYOUT_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_TEXT_COLOR_CHANGED = false;
@@ -88,8 +88,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 		
 		userPrefs.setButtonBackgroundColor(defaultButtonColor);
 		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
-		
-		restored = inverted = false;
 	}
 
 	private void drawButtons() {
@@ -190,11 +188,13 @@ public class ButtonConfigActivity extends AbstractActivity {
 			}
 			
 			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
-				if (restored){
-					userPrefs.setLayoutBackgroundColor(Color.WHITE);
-				} else if (inverted){
-					userPrefs.setLayoutBackgroundColor(Color.BLACK);
-				} else userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
+				userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
+			} else {
+				userPrefs.setLayoutBackgroundColor(Color.WHITE);
+			}
+			
+			if (inverted){
+				userPrefs.setLayoutBackgroundColor(Color.BLACK);
 			}
 
 			startActivity(intent);
@@ -225,6 +225,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		
 		} else if (view.getId() == R.id.button_background_color){
 			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
+			inverted = false;
 			
 			Random randomColor = new Random(); 
 			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
@@ -235,12 +236,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnBackgroundColor.setVisibility(View.VISIBLE);
 			btnColorButton.setVisibility(View.VISIBLE);
 		} else if (view.getId() == R.id.button_restore){
-			if (restored){
-				restored = false;
-			} else {
-				restored = true;
-				inverted = false;
-			}
+			LAYOUT_BACKGROUND_COLOR_CHANGED = false;
+			grid.setBackgroundColor(Color.WHITE);
+
 			btnNext.setBackgroundColor(Color.LTGRAY);
 			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
 			btnTextColor.setBackgroundColor(Color.LTGRAY);
@@ -254,15 +252,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnTextColor.setTextColor(textColor);
 			btnColorButton.setTextColor(textColor);
 			btnResize.setTextColor(textColor);
-			
-			grid.setBackgroundColor(Color.WHITE);
 		} else if (view.getId() == R.id.button_invert){
-			if (inverted){
-				inverted = false;
-			} else {
-				inverted = true;
-				restored = false;
-			}
+			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
+			grid.setBackgroundColor(Color.BLACK);
+			inverted = true;
+			
 			btnNext.setBackgroundColor(Color.LTGRAY);
 			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
 			btnTextColor.setBackgroundColor(Color.LTGRAY);
@@ -276,8 +270,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnTextColor.setTextColor(textColor);
 			btnColorButton.setTextColor(textColor);
 			btnResize.setTextColor(textColor);
-			
-			grid.setBackgroundColor(Color.BLACK);
 		}
 	}
 
