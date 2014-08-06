@@ -48,9 +48,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 		
-//		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
-//		getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasColor", DEFAULT_BACK_COLOR);
-		
 		userPrefs.setEditTextBackgroundColor(DEFAULT_BACK_COLOR);
 		userPrefs.setTextViewBackgroundColor(DEFAULT_BACK_COLOR);
 	}
@@ -128,23 +125,9 @@ public class EditTextConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 			
 			if (edit_backgroundcolor_changed){
-//				getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasColor", 	backgroundColor);
-//				getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasColor", 	backgroundColor);
 				userPrefs.setTextViewBackgroundColor(backgroundColor);
 				userPrefs.setEditTextBackgroundColor(backgroundColor);
 			}
-			
-//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
-//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
-//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
-//			getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), getOntologyNamespace() + "viewHasTextColor", (int) textColor);
-//			
-//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasWidth", 	btnTextEdit.getWidth());
-//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasHeight", 	btnTextEdit.getHeight());
-//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasTextSize", btnTextEdit.getTextSize());
-//			getOntologyManager().addDataTypePropertyValue(getTextViews().get(0), getOntologyNamespace() + "viewHasTextColor", (int) textColor);
-//			
-//			System.out.println("TextEditTextSize: " + btnTextEdit.getTextSize());
 			
 			userPrefs.setEditTextWidth(btnTextEdit.getWidth());
 			userPrefs.setEditTextHeight(btnTextEdit.getHeight());

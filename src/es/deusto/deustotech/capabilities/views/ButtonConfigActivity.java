@@ -72,9 +72,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 
 		if (callerActivity != 2){ //2: VolumeActivity
-//			userPrefs.setSightProblem(bundle.getInt(getResources().getString(R.string.visual_impairment)));
-//			userPrefs.setHearingProblem(bundle.getInt(getResources().getString(R.string.hearing_impairment)));
-			
 			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			userPrefs.setButtonTextColor(btnResize.getTextColors().getDefaultColor());
 		} else {

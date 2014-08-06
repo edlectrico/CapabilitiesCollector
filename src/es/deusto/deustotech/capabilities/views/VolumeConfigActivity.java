@@ -285,16 +285,6 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			userPrefs.setContextAuxLight(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
 		}
 		
-//		for (OWLLiteral lightLevel : contextAuxHasLightLevel){
-//			if (userPrefs.getContextAuxLight() != null){
-//				if (!userPrefs.getContextAuxLight().contains(lightLevel.getLiteral())){
-//					userPrefs.setContextAuxLight(lightLevel.getLiteral());
-//					break;
-//				}
-//			} else {
-//				userPrefs.setContextAuxLight(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
-//			}
-//		}
 		System.out.println(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
 	}
 
