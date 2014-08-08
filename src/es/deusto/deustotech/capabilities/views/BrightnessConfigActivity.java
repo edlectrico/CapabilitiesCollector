@@ -144,7 +144,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}
 
-		if (userPrefs.getLayoutBackgroundColor() != 0){
+		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 		}
 	}

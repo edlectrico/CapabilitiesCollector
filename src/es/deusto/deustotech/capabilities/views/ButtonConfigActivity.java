@@ -179,7 +179,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 			
-			//Store in the ontology
 			if (BUTTON_BACKGROUND_COLOR_CHANGED){
 				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
 			}
