@@ -43,11 +43,11 @@ public class MainActivity extends Activity implements OnInitListener {
 			try {
 				try {
 					//Internal mapping to not depend on the Internet
-//					ontManager.setMapping(getResources().getString(R.string.foaf_uri), getExternalDirectory("foaf.rdf"));
-//					ontManager.setMapping(getResources().getString(R.string.cobra_device_uri), getExternalDirectory("soupa.rdf"));
-//					ontManager.setMapping(getResources().getString(R.string.user_model_ont_uri), getExternalDirectory("UserModelOntology.rdf"));
-//					ontManager.setMapping(getResources().getString(R.string.swrla_uri), getExternalDirectory("swrla.rdf"));
-//					ontManager.setMapping(getResources().getString(R.string.sqwrl_uri), getExternalDirectory("sqwrl.rdf"));
+					ontManager.setMapping(getResources().getString(R.string.foaf_uri), getExternalDirectory("foaf.rdf"));
+					ontManager.setMapping(getResources().getString(R.string.cobra_device_uri), getExternalDirectory("soupa.rdf"));
+					ontManager.setMapping(getResources().getString(R.string.user_model_ont_uri), getExternalDirectory("UserModelOntology.rdf"));
+					ontManager.setMapping(getResources().getString(R.string.swrla_uri), getExternalDirectory("swrla.rdf"));
+					ontManager.setMapping(getResources().getString(R.string.sqwrl_uri), getExternalDirectory("sqwrl.rdf"));
 
 					//Direct load from '/assets' folder
 					//ontManager.loadOntologyFromFile(getAssets().open("adaptui.owl"));
