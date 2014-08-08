@@ -287,13 +287,4 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		
 		System.out.println(String.valueOf(((OWLLiteral) contextAuxHasLightLevel.toArray()[0]).getLiteral()));
 	}
-
-	@Override
-	public void onBackPressed() {
-		if (callerActivity == 1){
-			startActivity(new Intent(this, BrightnessConfigActivity.class));
-		} else {
-			startActivity(new Intent(this, CapabilitiesActivity.class));
-		}
-	}
 }
