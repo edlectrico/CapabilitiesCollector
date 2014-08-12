@@ -23,9 +23,9 @@
     <LinearLayout
         android:id="@+id/linear_layout_1"
         android:layout_width="fill_parent"
-        android:layout_height="85dp"
+        android:layout_height="110dp"
         android:layout_gravity="top"
-        android:layout_row="1">
+        android:layout_row="1" >
 
         <Button
             android:id="@+id/button_resize"
@@ -80,7 +80,7 @@
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="fill_parent"
-        android:layout_height="106dp"
+        android:layout_height="90dp"
         android:layout_gravity="right|fill_vertical"
         android:layout_row="4" >
 

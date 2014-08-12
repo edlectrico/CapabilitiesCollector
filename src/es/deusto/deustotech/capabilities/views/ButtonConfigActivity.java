@@ -35,8 +35,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 	btnTextColor, btnInvert, btnRestore, btnNext;
 	private GridLayout grid;
 	
-	private int maxWidth = 0;
-	private int maxHeight = 0;
 	private int buttonBackgroundColor = 0;
 	private int textColor = 0;
 	private int layoutBackgroundColor = 0;
@@ -148,16 +146,28 @@ public class ButtonConfigActivity extends AbstractActivity {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				BUTTON_SIZE_CHANGED = true;
-				final int width  = btnResize.getWidth();
-				final int height = btnResize.getHeight();
-				//TODO: And the Text size?
-				if ((view.getWidth() > maxWidth) && (view.getHeight() > maxHeight)){
-					if (btnResize.getWidth() < VIEW_MAX_SIZE) {
-						btnResize.setWidth(width + 10);
-						btnResize.setHeight(height + 10);
-					}
+				float x = event.getRawX();
+
+				if (btnResize.getWidth() < VIEW_MAX_SIZE) {
+					btnResize.setTextSize((float) (x / 10.0));
+					btnBackgroundColor.setTextSize((float) (x / 10.0));
+					btnColorButton.setTextSize((float) (x / 10.0));
+					btnTextColor.setTextSize((float) (x / 10.0));
+					btnInvert.setTextSize((float) (x / 10.0));
+					btnRestore.setTextSize((float) (x / 10.0));
+					btnNext.setTextSize((float) (x / 10.0));
+					
+					btnResize.invalidate();
+					btnBackgroundColor.invalidate();
+					btnColorButton.invalidate();
+					btnTextColor.invalidate();
+					btnInvert.invalidate();
+					btnRestore.invalidate();
+					btnNext.invalidate();
 				}
+				
 				redrawViews();
+				
 				return true;
 			}
 		};
@@ -175,6 +185,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 			userPrefs.setButtonWidth(btnResize.getWidth());
 			userPrefs.setButtonHeight(btnResize.getHeight());
 			userPrefs.setButtonTextColor(textColor);
+			userPrefs.setButtonTextSize(btnResize.getTextSize());
+			
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);

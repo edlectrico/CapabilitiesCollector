@@ -179,6 +179,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		/*ButtonSend*/
 		buttonSend.setWidth((int) userPrefs.getButtonWidth());
 		buttonSend.setHeight((int) userPrefs.getButtonHeight());
+		buttonSend.setTextSize(userPrefs.getButtonTextSize() / 2);
 
 		if ((ButtonConfigActivity.getButtonBackgroundColorChanged()) || (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR)) { 
 			final int buttonBackgroundColor = userPrefs.getButtonBackgroundColor();

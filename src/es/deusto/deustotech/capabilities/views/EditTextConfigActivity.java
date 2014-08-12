@@ -88,14 +88,17 @@ public class EditTextConfigActivity extends AbstractActivity {
 		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
 		btnNext.setTextColor(userPrefs.getButtonTextColor());
+		btnNext.setTextSize(userPrefs.getButtonTextSize() / 2);
 
 		findViewById(R.id.button_background_color).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_background_color).setMinimumHeight((int) userPrefs.getButtonHeight());
 		btnBackColor.setTextColor(userPrefs.getButtonTextColor());
-
+		btnBackColor.setTextSize(userPrefs.getButtonTextSize() / 2);
+		
 		findViewById(R.id.button_text_color).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_text_color).setMinimumHeight((int) userPrefs.getButtonHeight());
 		btnTextColor.setTextColor(userPrefs.getButtonTextColor());
+		btnTextColor.setTextSize(userPrefs.getButtonTextSize() / 2);
 	}
 
 

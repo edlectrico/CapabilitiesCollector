@@ -160,6 +160,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
 			findViewById(R.id.end_button).setMinimumHeight((int) userPrefs.getButtonHeight());
 
+			((Button)findViewById(R.id.end_button)).setTextSize(userPrefs.getButtonTextSize() / 2);
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
@@ -260,7 +261,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasColor", 			userPrefs.getButtonBackgroundColor());
 		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasWidth", 			(int)userPrefs.getButtonWidth());
 		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasHeight", 			(int)userPrefs.getButtonHeight());
-		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextSize", 		userPrefs.getEditTextTextSize());
+		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextSize", 		userPrefs.getButtonTextSize());
 		getOntologyManager().addDataTypePropertyValue(getButtons().get(0), 		getOntologyNamespace() + "viewHasTextColor", 		userPrefs.getButtonTextColor());
 		getOntologyManager().addDataTypePropertyValue(getBackgrounds().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getLayoutBackgroundColor());
 	

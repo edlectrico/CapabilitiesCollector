@@ -10,6 +10,7 @@ public class UserMinimumPreferences implements Parcelable {
 	private float buttonHeight;
 	private int buttonBackgroundColor;
 	private int buttonTextColor;
+	private float buttonTextSize;
 	private float editTextTextSize;
 	private int editTextBackgroundColor;
 	private int editTextTextColor;
@@ -34,7 +35,7 @@ public class UserMinimumPreferences implements Parcelable {
 	}
 
 	public UserMinimumPreferences(int layoutBackgroundColor,
-			float buttonWidth, float buttonHeight, int buttonBackgroundColor, int buttonTextColor, 
+			float buttonWidth, float buttonHeight, int buttonBackgroundColor, int buttonTextColor, float buttonTextSize, 
 			float editTextTextSize, int editTextBackgroundColor, int editTextTextColor, int textViewBackgroundColor,
 			int textViewTextColor, float textViewTextSize, int editTextWidth, int textViewWidth, int editTextHeight,
 			int textViewHeight, int displayHasApplicable, int audioHasApplicable, int luxes, String contextAuxLight) {
@@ -44,6 +45,7 @@ public class UserMinimumPreferences implements Parcelable {
 		this.buttonHeight = buttonHeight;
 		this.buttonBackgroundColor = buttonBackgroundColor;
 		this.buttonTextColor = buttonTextColor;
+		this.buttonTextSize = buttonTextSize;
 		this.editTextTextSize = editTextTextSize;
 		this.editTextBackgroundColor = editTextBackgroundColor;
 		this.editTextTextColor = editTextTextColor;
@@ -104,6 +106,14 @@ public class UserMinimumPreferences implements Parcelable {
 
 	public void setButtonTextColor(int buttonTextColor) {
 		this.buttonTextColor = buttonTextColor;
+	}
+	
+	public float getButtonTextSize() {
+		return buttonTextSize;
+	}
+
+	public void setButtonTextSize(float buttonTextSize) {
+		this.buttonTextSize = buttonTextSize;
 	}
 
 	public float getEditTextTextSize() {
@@ -250,6 +260,7 @@ public class UserMinimumPreferences implements Parcelable {
 		dest.writeFloat(buttonHeight);
 		dest.writeInt(buttonBackgroundColor);
 		dest.writeInt(buttonTextColor);
+		dest.writeFloat(buttonTextSize);
 		dest.writeFloat(editTextTextSize);
 		dest.writeInt(editTextBackgroundColor);
 		dest.writeInt(editTextTextColor);
@@ -274,6 +285,7 @@ public class UserMinimumPreferences implements Parcelable {
 		buttonHeight = in.readFloat();
 		buttonBackgroundColor = in.readInt();
 		buttonTextColor = in.readInt();
+		buttonTextSize = in.readFloat();
 		editTextTextSize = in.readFloat();
 		editTextBackgroundColor = in.readInt();
 		editTextTextColor = in.readInt();
