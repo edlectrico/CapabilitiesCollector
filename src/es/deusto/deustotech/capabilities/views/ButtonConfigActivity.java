@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 
@@ -26,8 +27,6 @@ import es.deusto.deustotech.capabilities.UserMinimumPreferences;
  * 
  */
 public class ButtonConfigActivity extends AbstractActivity {
-
-	private static final int VIEW_MAX_SIZE = 500;
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
@@ -95,9 +94,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 		btnInvert = (Button) findViewById(R.id.button_invert);
 		btnNext = (Button) findViewById(R.id.buttonact_next);
 		
-		btnBackgroundColor.setVisibility(View.INVISIBLE);
-		btnTextColor.setVisibility(View.INVISIBLE);
-		btnColorButton.setVisibility(View.INVISIBLE);
+//		btnBackgroundColor.setVisibility(View.INVISIBLE);
+//		btnTextColor.setVisibility(View.INVISIBLE);
+//		btnColorButton.setVisibility(View.INVISIBLE);
 		
 		defaultButtonColor = getBackgroundColor(btnResize);
 	}
@@ -114,10 +113,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 	@Override
 	public void addListeners() {
 		grid.setOnTouchListener(onTouchListener);
-		grid.getChildAt(0).setOnTouchListener(onTouchListener);
-		grid.getChildAt(1).setOnTouchListener(onTouchListener);
-		grid.getChildAt(2).setOnTouchListener(onTouchListener);
-		grid.getChildAt(3).setOnTouchListener(onTouchListener);
+//		grid.getChildAt(0).setOnTouchListener(onTouchListener);
+//		grid.getChildAt(1).setOnTouchListener(onTouchListener);
+//		grid.getChildAt(2).setOnTouchListener(onTouchListener);
+		grid.getChildAt(3).setBackgroundColor(Color.LTGRAY);
+//		grid.getChildAt(3).setOnTouchListener(onTouchListener);
 
 		findViewById(R.id.buttonact_next).setOnClickListener(this);
 		findViewById(R.id.button_background_color).setOnClickListener(this);
@@ -148,7 +148,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 				BUTTON_SIZE_CHANGED = true;
 				float x = event.getRawX();
 
-				if (btnResize.getWidth() < VIEW_MAX_SIZE) {
 					btnResize.setTextSize((float) (x / 10.0));
 					btnBackgroundColor.setTextSize((float) (x / 10.0));
 					btnColorButton.setTextSize((float) (x / 10.0));
@@ -164,7 +163,6 @@ public class ButtonConfigActivity extends AbstractActivity {
 					btnInvert.invalidate();
 					btnRestore.invalidate();
 					btnNext.invalidate();
-				}
 				
 				redrawViews();
 				
@@ -240,9 +238,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 			grid.setBackgroundColor(layoutBackgroundColor);
 			Log.d(ButtonConfigActivity.class.getSimpleName(), "BackgroundColor: " + layoutBackgroundColor);
 		} else if (view.getId() == R.id.button_resize){
-			btnTextColor.setVisibility(View.VISIBLE);
-			btnBackgroundColor.setVisibility(View.VISIBLE);
-			btnColorButton.setVisibility(View.VISIBLE);
+			vibrator.vibrate(500);
+			Toast.makeText(this, "Botón pulsado!", Toast.LENGTH_LONG).show();
+//			btnTextColor.setVisibility(View.VISIBLE);
+//			btnBackgroundColor.setVisibility(View.VISIBLE);
+//			btnColorButton.setVisibility(View.VISIBLE);
 		} else if (view.getId() == R.id.button_restore){
 			LAYOUT_BACKGROUND_COLOR_CHANGED = false;
 			grid.setBackgroundColor(Color.WHITE);

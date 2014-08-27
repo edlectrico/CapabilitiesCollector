@@ -26,6 +26,8 @@
 	</string>
     <string name="input_button_message_en">PUSH ME!</string>
     <string name="input_button_message_es">¡Púlseme!</string>
+    <string name="start_es">Iniciar tutorial</string>
+    <string name="start_en">Start tutorial</string>
     <string name="send_email_en">Avoid configuration</string>
  	<string name="send_email_es">Demo Email</string>
  	<string name="navigate_es">Demo AssistedCity</string>
@@ -35,9 +37,9 @@
     
 	<!-- ButtonConfigActivity -->
 	<string name="button_info_message_en">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
-	<string name="button_info_message_es">¿Puede ver y pulsar el botón? Si no le es posible, pulse la pantalla hasta que consiga verlo. Pulse a continuación el botón para configurarlo.</string>
+	<string name="button_info_message_es">Configure los botones a su gusto en tamaño y color</string>
     <string name="button_resize_message_en">Push me!</string>
-    <string name="button_resize_message_es">¡Púlsame!</string>
+    <string name="button_resize_message_es">Modificar botón</string>
     <string name="next_message_en">Next</string>
     <string name="next_message_es">Siguiente</string>
     <string name="button_text_color_en">Button Text Color</string>
