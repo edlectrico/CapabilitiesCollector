@@ -247,6 +247,14 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 	private void storeUserPreferencesIntoOntology() {
 		getOntologyManager().addDataTypePropertyValue(getAudios().get(0), 		getOntologyNamespace() + "audioHasVolume", 			volumeLevel);
 		getOntologyManager().addDataTypePropertyValue(getDisplays().get(0), 	getOntologyNamespace() + "displayHasBrightness", 	userPrefs.getBrightness());
+		
+		//TODO: remove
+		System.out.println("Checking Brightness");
+		final Collection<OWLLiteral> lightConditions = getOntologyManager().getDataTypePropertyValue(getDisplays().get(0), getOntologyNamespace() + "displayHasBrightness");
+		for (OWLLiteral brightness : lightConditions){
+			System.out.println("VolumeActivity: " + String.valueOf(((OWLLiteral) brightness).getLiteral()));
+		}
+		
 		getOntologyManager().addDataTypePropertyValue(getLights().get(0), 		getOntologyNamespace() + "contextHasLight", 		userPrefs.getLuxes());
 		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasColor", 			userPrefs.getEditTextBackgroundColor());
 		getOntologyManager().addDataTypePropertyValue(getEditTexts().get(0), 	getOntologyNamespace() + "viewHasWidth", 			userPrefs.getEditTextWidth());

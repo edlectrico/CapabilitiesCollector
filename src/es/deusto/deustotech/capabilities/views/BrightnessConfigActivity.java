@@ -156,6 +156,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 			if (brightnessChanged){
 				userPrefs.setBrightness(brightnessValue);
+				System.out.println("BrightnessActivity: " + userPrefs.getBrightness());
 				brightnessChanged = false;
 			} else {
 				userPrefs.setBrightness(0);

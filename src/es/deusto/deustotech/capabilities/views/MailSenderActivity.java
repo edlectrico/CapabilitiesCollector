@@ -1,6 +1,8 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,22 +97,32 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		redrawViews();
 		initializeServices(TAG);
 		addListeners();
+		initOntology();
 		
-		final String[] items = new String[] {"daylight", "direct_sunlight", "full_moon", "living_room",
-				"moonless_clear", "moonless_overcast", "office_hallway", "office_lightning", "sunrise", "twilight"};
+//		final String[] items = new String[]{};
+		final List<String> items = new ArrayList<String>();
+//		{"daylight", "direct_sunlight", "full_moon", "living_room",
+//				"moonless_clear", "moonless_overcast", "office_hallway", "office_lightning", "sunrise", "twilight"};
+		
+		final Collection<OWLLiteral> contextAuxHasLightLevel = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
+		for (OWLLiteral brightness : contextAuxHasLightLevel){
+			items.add(String.valueOf(((OWLLiteral) brightness).getLiteral()));
+		}
+		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		            android.R.layout.simple_spinner_item, items);
+				android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { 
-		    	System.out.println("Selected: " + items[i]);
+		    	String[] spin = items.toArray(new String[items.size()]);
+		    	System.out.println("Selected: " + spin[i]);
 		    	
 		    	Gson gson = new Gson();
 		    	
-		    	String selectedJSON = searchAdaptation(items[i]);
+		    	String selectedJSON = searchAdaptation(spin[i]);
 		    	System.out.println("SelectedJSON: " + selectedJSON);
 		    	
 		    	if (selectedJSON.length() > 0){
@@ -133,7 +145,6 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 	}
 	
 	private String searchAdaptation(final String selectedContextLight) {
-		initOntology();
 		final Collection<OWLLiteral> contextJSONS = getOntologyManager().getDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue");
 		
 		for (OWLLiteral json : contextJSONS){
