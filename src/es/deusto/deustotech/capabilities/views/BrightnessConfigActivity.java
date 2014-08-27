@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
@@ -115,16 +114,22 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	@Override
 	public void redrawViews() {
 		//EditText config
-		((EditText)findViewById(R.id.button_text_edit)).setTextSize(userPrefs.getEditTextTextSize() / 2);
+//		((EditText)findViewById(R.id.button_text_edit)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
 		if (userPrefs.getEditTextTextColor() != 0){
-			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getEditTextTextColor());
+//			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getEditTextTextColor());
 			((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getEditTextTextColor());
+			textViewCurrentLuxes.setTextColor(userPrefs.getTextViewTextColor());
 		}
 
 		if (userPrefs.getEditTextBackgroundColor() != 0){
-			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
+//			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 			((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
+			textViewCurrentLuxes.setBackgroundColor(userPrefs.getTextViewBackgroundColor());
+		}
+		
+		if (userPrefs.getTextViewTextSize() != 0){
+			textViewCurrentLuxes.setTextSize(userPrefs.getTextViewTextSize());
 		}
 
 
@@ -133,16 +138,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
 		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
 		((Button)findViewById(R.id.button_next)).setTextColor(userPrefs.getButtonTextColor());
-
-		findViewById(R.id.test_button).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.test_button).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.test_button)).setTextColor(userPrefs.getButtonTextColor());
-
-
-		if (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR){
-			((Button)findViewById(R.id.test_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			((Button)findViewById(R.id.button_next)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		}
 
 		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
