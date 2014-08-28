@@ -53,27 +53,21 @@
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
     <string name="button_background_color">Button Back Color</string>
-    <string name="edit_text_text_color">EditText Text Color</string>
-    <string name="edit_text_background_color">EditText Back Color</string>
-    <string name="edit_text_size">EditText Size</string> 
     <string name="recognizer_error">"Voice recognizer not present"</string>
     
  	<!-- Edit_Text_Config_Activity -->
-    <string name="text_view_info_message_en">TEST</string>
-    <string name="text_view_info_message_es">PRUEBA</string>
-    <string name="edit_text_info_message_en">Can you read the message above? If you cannot, please hold your finger on the screen, your device will vibrate and the message will become bigger. Repeat the operation until you can read it.</string>
-    <string name="edit_text_info_message_es">¿Puede leer el mensaje? Si no le es posible, pulse la pantalla hasta que consiga verlo.</string>
+ 	<string name="edit_text_info_message_es">Personalizador de etiquetas</string>
+ 	<string name="edit_text_text_color">Cambiar color del texto</string>
+    <string name="edit_text_background_color">Cambiar fondo del texto</string>
+    <string name="edit_text_black_over_white">Negro sobre blanco</string>
+    <string name="edit_text_white_over_black">Blanco sobre negro</string>
+    <string name="edit_text_message_es">Etiqueta de ejemplo</string>
+    <string name="message_resize_edit_text_es">Arrastre el dedo por la pantalla para cambiar el tamaño de la etiqueta</string>
     
     <!-- Brightness_Config_Activity -->
-	<string name="brightness_info_message_en">Tap the screen to configure the screen brightness</string>
-	<string name="brightness_info_message_es">Pulse la pantalla para cambiar el brillo</string>
 	<string name="brightness_message_en">Configure the desired Brightness</string>
-	<string name="brightness_message_es">Configure el brillo deseado</string>
-	<string name="edit_text_message_en">Read me!</string>
-	<string name="edit_text_message_es">¡Léame!</string>
-	<string name="button_sample_es">Botón de ejemplo</string>
-	<string name="edit_text_sample_es">Texto de ejemplo</string>
-	<string name="current_luxes_es">Luz ambiental: </string>
+	<string name="brightness_message_es">Configurador de brillo</string>
+	<string name="current_luxes_es">Luz actual: </string>
 	<string name="current_luxes"></string>
 	
 	<!-- Volume_Config_Activity -->

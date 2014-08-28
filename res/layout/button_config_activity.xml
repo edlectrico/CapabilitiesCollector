@@ -104,7 +104,7 @@
         <View style="@style/Divider"/>
         
         <Button
-            android:id="@+id/buttonact_next"
+            android:id="@+id/button_next_bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"

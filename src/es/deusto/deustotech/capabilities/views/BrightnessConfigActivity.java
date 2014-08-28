@@ -37,8 +37,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	private boolean brightnessChanged = false;
 	private int currentLuxes;
 
-	private static final int DEFAULT_BUTTON_COLOR = -16777216;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -83,8 +83,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 		initializeServices(TAG);
 		addListeners();
 
+		//Default values
 		userPrefs.setButtonBackgroundColor(defaultButtonColor);
 		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
+		userPrefs.setButtonTextColor(Color.BLACK);
+		userPrefs.setButtonTextSize(btnColorButton.getTextSize() / 2);
 	}
 
 	private void drawButtons() {
@@ -97,7 +100,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		btnTextColor = (Button) findViewById(R.id.button_text_color);
 		btnRestore = (Button) findViewById(R.id.button_restore);
 		btnInvertColors = (Button) findViewById(R.id.button_invert);
-		btnNext = (Button) findViewById(R.id.buttonact_next);
+		btnNext = (Button) findViewById(R.id.button_next_bt);
 
 		defaultButtonColor = getBackgroundColor(btnInvertColors);
 		
@@ -159,7 +162,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.buttonact_next) {
+		if (view.getId() == R.id.button_next_bt) {
 			//TODO: next activity for configuring TextEdit size and color
 			if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
 				speakOut("Well done!");
