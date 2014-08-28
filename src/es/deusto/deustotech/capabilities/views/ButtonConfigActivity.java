@@ -1,5 +1,7 @@
 package es.deusto.deustotech.capabilities.views;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import android.content.Intent;
@@ -10,13 +12,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.Toast;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 
@@ -30,14 +30,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
-	private Button btnResize, btnBackgroundColor, btnColorButton, 
-	btnTextColor, btnInvert, btnRestore, btnNext;
+	private Button btnInvertColors, btnRestore, btnNext, 
+	btnBackgroundColor, btnColorButton,	btnTextColor;
 	private GridLayout grid;
-	
+
 	private int buttonBackgroundColor = 0;
 	private int textColor = 0;
 	private int layoutBackgroundColor = 0;
-	
+
 	private int defaultButtonColor;
 	private static final int DEFAULT_BACK_COLOR = Color.WHITE;
 
@@ -46,22 +46,24 @@ public class ButtonConfigActivity extends AbstractActivity {
 	private Bitmap mBitmap;
 	private Canvas mCanvas;
 	private Rect mBounds;
-	
+
 	int callerActivity = -1;
-	
+
 	private boolean inverted = false;
-	
+
 	private static boolean LAYOUT_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_TEXT_COLOR_CHANGED = false;
 	private static boolean BUTTON_SIZE_CHANGED = false;
+	
+	private Map<Button, Float> textSizes;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.button_config_activity);
-		
-		grid = (GridLayout) findViewById(R.id.default_layout);
+
+		grid = (GridLayout) findViewById(R.id.default_gridlayout);
 		drawButtons();
 
 		Bundle bundle = getIntent().getExtras();
@@ -69,36 +71,42 @@ public class ButtonConfigActivity extends AbstractActivity {
 		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 
 		if (callerActivity != 2){ //2: VolumeActivity
-			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
-			userPrefs.setButtonTextColor(btnResize.getTextColors().getDefaultColor());
+			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnInvertColors));
+			userPrefs.setButtonTextColor(btnInvertColors.getTextColors().getDefaultColor());
+
 		} else {
 			speakOut(getResources().getString(R.string.button_info_message_es));
 		}
-	
+
 		onTouchListener = createOnTouchListener();
-		
+
 		initializeServices(TAG);
 		addListeners();
-		
+
 		userPrefs.setButtonBackgroundColor(defaultButtonColor);
 		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
 	}
 
 	private void drawButtons() {
-		btnResize = (Button) findViewById(R.id.button_resize);
-		textColor = btnResize.getTextColors().getDefaultColor();
+		textSizes = new HashMap<Button, Float>();
+		
+		btnColorButton = (Button) findViewById(R.id.button_color);
+		textColor = btnColorButton.getTextColors().getDefaultColor();
+
 		btnBackgroundColor = (Button) findViewById(R.id.button_background_color);
 		btnTextColor = (Button) findViewById(R.id.button_text_color);
-		btnColorButton = (Button) findViewById(R.id.button_color);
 		btnRestore = (Button) findViewById(R.id.button_restore);
-		btnInvert = (Button) findViewById(R.id.button_invert);
+		btnInvertColors = (Button) findViewById(R.id.button_invert);
 		btnNext = (Button) findViewById(R.id.buttonact_next);
+
+		defaultButtonColor = getBackgroundColor(btnInvertColors);
 		
-//		btnBackgroundColor.setVisibility(View.INVISIBLE);
-//		btnTextColor.setVisibility(View.INVISIBLE);
-//		btnColorButton.setVisibility(View.INVISIBLE);
-		
-		defaultButtonColor = getBackgroundColor(btnResize);
+		textSizes.put(btnColorButton, btnColorButton.getTextSize() / 2);
+		textSizes.put(btnBackgroundColor, btnColorButton.getTextSize() / 2);
+		textSizes.put(btnTextColor, btnColorButton.getTextSize() / 2);
+		textSizes.put(btnRestore, btnColorButton.getTextSize() / 2);
+		textSizes.put(btnInvertColors, btnColorButton.getTextSize() / 2);
+		textSizes.put(btnNext, btnColorButton.getTextSize() / 2);
 	}
 
 	@Override
@@ -113,32 +121,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 	@Override
 	public void addListeners() {
 		grid.setOnTouchListener(onTouchListener);
-//		grid.getChildAt(0).setOnTouchListener(onTouchListener);
-//		grid.getChildAt(1).setOnTouchListener(onTouchListener);
-//		grid.getChildAt(2).setOnTouchListener(onTouchListener);
-		grid.getChildAt(3).setBackgroundColor(Color.LTGRAY);
-//		grid.getChildAt(3).setOnTouchListener(onTouchListener);
+		grid.getChildAt(1).setBackgroundColor(Color.LTGRAY);
 
-		findViewById(R.id.buttonact_next).setOnClickListener(this);
-		findViewById(R.id.button_background_color).setOnClickListener(this);
-		findViewById(R.id.button_text_color).setOnClickListener(this);
-		findViewById(R.id.button_color).setOnClickListener(this);
-		btnResize.setOnClickListener(this);
-		
-		btnInvert.setOnClickListener(this);
+		btnNext.setOnClickListener(this);
+		btnBackgroundColor.setOnClickListener(this);
+		btnTextColor.setOnClickListener(this);
+		btnColorButton.setOnClickListener(this);
+		btnInvertColors.setOnClickListener(this);
 		btnRestore.setOnClickListener(this);
-	}
-
-	@Override
-	public void redrawViews() {
-		findViewById(R.id.buttonact_next).setMinimumWidth(btnResize.getWidth());
-		findViewById(R.id.buttonact_next).setMinimumHeight(btnResize.getHeight());
-		findViewById(R.id.button_background_color).setMinimumWidth(btnResize.getWidth());
-		findViewById(R.id.button_background_color).setMinimumHeight(btnResize.getHeight());
-		findViewById(R.id.button_text_color).setMinimumWidth(btnResize.getWidth());
-		findViewById(R.id.button_text_color).setMinimumHeight(btnResize.getHeight());
-		findViewById(R.id.button_color).setMinimumWidth(btnResize.getWidth());
-		findViewById(R.id.button_color).setMinimumHeight(btnResize.getHeight());
 	}
 
 	private OnTouchListener createOnTouchListener(){
@@ -148,24 +138,20 @@ public class ButtonConfigActivity extends AbstractActivity {
 				BUTTON_SIZE_CHANGED = true;
 				float x = event.getRawX();
 
-					btnResize.setTextSize((float) (x / 10.0));
-					btnBackgroundColor.setTextSize((float) (x / 10.0));
-					btnColorButton.setTextSize((float) (x / 10.0));
-					btnTextColor.setTextSize((float) (x / 10.0));
-					btnInvert.setTextSize((float) (x / 10.0));
-					btnRestore.setTextSize((float) (x / 10.0));
-					btnNext.setTextSize((float) (x / 10.0));
-					
-					btnResize.invalidate();
-					btnBackgroundColor.invalidate();
-					btnColorButton.invalidate();
-					btnTextColor.invalidate();
-					btnInvert.invalidate();
-					btnRestore.invalidate();
-					btnNext.invalidate();
-				
-				redrawViews();
-				
+				btnRestore.setTextSize((float) (x / 10.0));
+				btnInvertColors.setTextSize((float) (x / 10.0));
+				btnBackgroundColor.setTextSize((float) (x / 10.0));
+				btnColorButton.setTextSize((float) (x / 10.0));
+				btnTextColor.setTextSize((float) (x / 10.0));
+				btnNext.setTextSize((float) (x / 10.0));
+
+				btnRestore.invalidate();
+				btnInvertColors.invalidate();
+				btnBackgroundColor.invalidate();
+				btnColorButton.invalidate();
+				btnTextColor.invalidate();
+				btnNext.invalidate();
+
 				return true;
 			}
 		};
@@ -180,70 +166,66 @@ public class ButtonConfigActivity extends AbstractActivity {
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
 
-			userPrefs.setButtonWidth(btnResize.getWidth());
-			userPrefs.setButtonHeight(btnResize.getHeight());
+			userPrefs.setButtonWidth(btnInvertColors.getWidth());
+			userPrefs.setButtonHeight(btnInvertColors.getHeight());
 			userPrefs.setButtonTextColor(textColor);
-			userPrefs.setButtonTextSize(btnResize.getTextSize());
-			
+			userPrefs.setButtonTextSize(btnInvertColors.getTextSize());
+
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
-			
+
 			if (BUTTON_BACKGROUND_COLOR_CHANGED){
-				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnResize));
+				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnInvertColors));
 			}
-			
+
 			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
 				userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
 			} else {
 				userPrefs.setLayoutBackgroundColor(Color.WHITE);
 			}
-			
+
 			if (inverted){
 				userPrefs.setLayoutBackgroundColor(Color.BLACK);
 			}
 
 			startActivity(intent);
-		}				
-		
+		} 
 		else if (view.getId() == R.id.button_color){
 			BUTTON_BACKGROUND_COLOR_CHANGED = true;
-			
+
 			Random randomBackColor = new Random(); 
 			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-			btnResize.setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.buttonact_next).setBackgroundColor(getBackgroundColor(this.btnResize));
-			findViewById(R.id.button_background_color).setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.button_text_color).setBackgroundColor(buttonBackgroundColor);
-			findViewById(R.id.button_color).setBackgroundColor(buttonBackgroundColor);
-		
-		} else if (view.getId() == R.id.button_text_color){
+
+			btnNext.setBackgroundColor(buttonBackgroundColor);
+			btnBackgroundColor.setBackgroundColor(buttonBackgroundColor);
+			btnTextColor.setBackgroundColor(buttonBackgroundColor);
+			btnColorButton.setBackgroundColor(buttonBackgroundColor);
+			btnInvertColors.setBackgroundColor(buttonBackgroundColor);
+			btnRestore.setBackgroundColor(buttonBackgroundColor);
+		} 
+		else if (view.getId() == R.id.button_text_color){
 			BUTTON_TEXT_COLOR_CHANGED = true;
-			
+
 			Random randomTextColor = new Random(); 
 			int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));   
-			btnResize.setTextColor(textColor);
 			this.textColor = textColor;
-			((Button)findViewById(R.id.buttonact_next)).setTextColor(textColor);
-			((Button)findViewById(R.id.button_background_color)).setTextColor(textColor);
-			((Button)findViewById(R.id.button_text_color)).setTextColor(textColor);
-			((Button)findViewById(R.id.button_color)).setTextColor(textColor);
-		
-		} else if (view.getId() == R.id.button_background_color){
+			btnNext.setTextColor(textColor);
+			btnBackgroundColor.setTextColor(textColor);
+			btnTextColor.setTextColor(textColor);
+			btnColorButton.setTextColor(textColor);
+			btnInvertColors.setTextColor(textColor);
+			btnRestore.setTextColor(textColor);
+		} 
+		else if (view.getId() == R.id.button_background_color){
 			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
 			inverted = false;
-			
+
 			Random randomColor = new Random(); 
 			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
 			grid.setBackgroundColor(layoutBackgroundColor);
-			Log.d(ButtonConfigActivity.class.getSimpleName(), "BackgroundColor: " + layoutBackgroundColor);
-		} else if (view.getId() == R.id.button_resize){
-			vibrator.vibrate(500);
-			Toast.makeText(this, "Botón pulsado!", Toast.LENGTH_LONG).show();
-//			btnTextColor.setVisibility(View.VISIBLE);
-//			btnBackgroundColor.setVisibility(View.VISIBLE);
-//			btnColorButton.setVisibility(View.VISIBLE);
-		} else if (view.getId() == R.id.button_restore){
+		} 
+		else if (view.getId() == R.id.button_restore){
 			LAYOUT_BACKGROUND_COLOR_CHANGED = false;
 			grid.setBackgroundColor(Color.WHITE);
 
@@ -251,33 +233,45 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
 			btnTextColor.setBackgroundColor(Color.LTGRAY);
 			btnColorButton.setBackgroundColor(Color.LTGRAY);
-			btnResize.setBackgroundColor(Color.LTGRAY);
-			
+			btnInvertColors.setBackgroundColor(Color.LTGRAY);
+			btnRestore.setBackgroundColor(Color.LTGRAY);
+
 			textColor = Color.BLACK;
-			
+
 			btnNext.setTextColor(textColor);
 			btnBackgroundColor.setTextColor(textColor);
 			btnTextColor.setTextColor(textColor);
 			btnColorButton.setTextColor(textColor);
-			btnResize.setTextColor(textColor);
-		} else if (view.getId() == R.id.button_invert){
+			btnInvertColors.setTextColor(textColor);
+			btnRestore.setTextColor(textColor);
+			
+			btnNext.setTextSize(textSizes.get(btnNext));
+			btnBackgroundColor.setTextSize(textSizes.get(btnBackgroundColor));
+			btnTextColor.setTextSize(textSizes.get(btnTextColor));
+			btnColorButton.setTextSize(textSizes.get(btnColorButton));
+			btnInvertColors.setTextSize(textSizes.get(btnInvertColors));
+			btnRestore.setTextSize(textSizes.get(btnRestore));
+		} 
+		else if (view.getId() == R.id.button_invert){
 			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
 			grid.setBackgroundColor(Color.BLACK);
 			inverted = true;
-			
+
 			btnNext.setBackgroundColor(Color.LTGRAY);
 			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
 			btnTextColor.setBackgroundColor(Color.LTGRAY);
 			btnColorButton.setBackgroundColor(Color.LTGRAY);
-			btnResize.setBackgroundColor(Color.LTGRAY);
-			
+			btnInvertColors.setBackgroundColor(Color.LTGRAY);
+			btnRestore.setBackgroundColor(Color.LTGRAY);
+
 			textColor = Color.WHITE;
-			
+
 			btnNext.setTextColor(textColor);
 			btnBackgroundColor.setTextColor(textColor);
 			btnTextColor.setTextColor(textColor);
 			btnColorButton.setTextColor(textColor);
-			btnResize.setTextColor(textColor);
+			btnInvertColors.setTextColor(textColor);
+			btnRestore.setTextColor(textColor);
 		}
 	}
 
@@ -317,19 +311,19 @@ public class ButtonConfigActivity extends AbstractActivity {
 			mBounds = new Rect();
 		}
 	}
-	
+
 	public static boolean getButtonBackgroundColorChanged(){
 		return BUTTON_BACKGROUND_COLOR_CHANGED;
 	}
-	
+
 	public static boolean getButtonTextColorChanged(){
 		return BUTTON_TEXT_COLOR_CHANGED;
 	}
-	
+
 	public static boolean getButtonSizeChanged(){
 		return BUTTON_SIZE_CHANGED;
 	}
-	
+
 	public static boolean getLayoutBackgroundColorChanged(){
 		return LAYOUT_BACKGROUND_COLOR_CHANGED;
 	}

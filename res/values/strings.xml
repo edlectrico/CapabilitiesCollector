@@ -36,10 +36,7 @@
  	<string name="no">No</string>
     
 	<!-- ButtonConfigActivity -->
-	<string name="button_info_message_en">Can you see and push the button? If you cannot, please hold your finger on the screen, your device will vibrate and the button will become bigger. Repeat the operation until you can see it and push it.</string>
-	<string name="button_info_message_es">Configure los botones a su gusto en tamaño y color</string>
-    <string name="button_resize_message_en">Push me!</string>
-    <string name="button_resize_message_es">Modificar botón</string>
+	<string name="button_info_message_es">Personalizador de botones</string>
     <string name="next_message_en">Next</string>
     <string name="next_message_es">Siguiente</string>
     <string name="button_text_color_en">Button Text Color</string>
@@ -47,6 +44,10 @@
     <string name="button_color_en">Background Color</string>
     <string name="button_color_es">Color del botón</string>
     <string name="button_background_color_es">Color del fondo</string>
+    <string name="button_restore_es">Resetear pantalla</string>
+    <string name="button_invert_es">Invertir colores</string>
+    <string name="message_resize_es">Arrastre el dedo por la pantalla para cambiar el tamaño de los botones</string>
+    <string name="message_info_es">Pulse para resetear la configuración o invertir el esquema de colores</string>
     
     <string name="volume_message">Configure the desired Volume</string>
     <string name="visual_impairment">Visual Impairment</string>

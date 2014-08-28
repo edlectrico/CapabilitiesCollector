@@ -129,7 +129,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		}
 		
 		if (userPrefs.getTextViewTextSize() != 0){
-			textViewCurrentLuxes.setTextSize(userPrefs.getTextViewTextSize());
+			textViewCurrentLuxes.setTextSize(userPrefs.getTextViewTextSize() / 2);
 		}
 
 
