@@ -21,13 +21,13 @@ public class EditTextConfigActivity extends AbstractActivity {
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
 	
-	private int backgroundColor = 0;
-	private int textColor = 0;
 	private static final int DEFAULT_BACK_COLOR = Color.WHITE;
 
 	private boolean editTextTextColorChanged = false;
 	
 	public static boolean edit_backgroundcolor_changed = false;
+	
+	private int lastTextColor, lastBackColor = -1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,14 +142,14 @@ public class EditTextConfigActivity extends AbstractActivity {
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 			
 			if (edit_backgroundcolor_changed){
-				userPrefs.setTextViewBackgroundColor(backgroundColor);
-				userPrefs.setEditTextBackgroundColor(backgroundColor);
+				userPrefs.setTextViewBackgroundColor(lastBackColor);
+				userPrefs.setEditTextBackgroundColor(lastBackColor);
 			}
 			
 			userPrefs.setEditTextWidth(btnTextEdit.getWidth());
 			userPrefs.setEditTextHeight(btnTextEdit.getHeight());
 			userPrefs.setEditTextTextSize(btnTextEdit.getTextSize());
-			userPrefs.setEditTextTextColor((int) textColor);
+			userPrefs.setEditTextTextColor((int) lastTextColor);
 			
 			userPrefs.setTextViewWidth(userPrefs.getEditTextWidth());
 			userPrefs.setTextViewHeight(userPrefs.getEditTextHeight());
@@ -165,34 +165,35 @@ public class EditTextConfigActivity extends AbstractActivity {
 			edit_backgroundcolor_changed = true;
 			
 			Random randomBackColor = new Random(); 
-			backgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-			btnTextEdit.setBackgroundColor(backgroundColor);
-			userPrefs.setEditTextBackgroundColor(backgroundColor);
-			userPrefs.setTextViewBackgroundColor(backgroundColor);
+			lastBackColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
+			
+			btnTextEdit.setBackgroundColor(lastBackColor);
 		}
 		else if (view.getId() == R.id.button_text_color){
 			Random randomTextColor = new Random(); 
-			textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
-			btnTextEdit.setTextColor(textColor);
-			userPrefs.setEditTextTextColor(textColor);
-			userPrefs.setTextViewTextColor(textColor);
+			lastTextColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
+			
+			btnTextEdit.setTextColor(lastTextColor);
 		}
 		else if (view.getId() == R.id.button_black_over_white){
-			btnTextEdit.setTextColor(Color.BLACK);
-			btnTextEdit.setBackgroundColor(Color.WHITE);
-			userPrefs.setEditTextTextColor(textColor);
-			userPrefs.setTextViewTextColor(textColor);
-			userPrefs.setEditTextBackgroundColor(backgroundColor);
-			userPrefs.setTextViewBackgroundColor(backgroundColor);
+			lastTextColor = Color.BLACK;
+			lastBackColor = Color.WHITE;
+			
+			btnTextEdit.setTextColor(lastTextColor);
+			btnTextEdit.setBackgroundColor(lastBackColor);
 		}
 		else if (view.getId() == R.id.button_white_over_black){
-			btnTextEdit.setTextColor(Color.WHITE);
-			btnTextEdit.setBackgroundColor(Color.BLACK);
-			userPrefs.setEditTextTextColor(textColor);
-			userPrefs.setTextViewTextColor(textColor);
-			userPrefs.setEditTextBackgroundColor(backgroundColor);
-			userPrefs.setTextViewBackgroundColor(backgroundColor);
+			lastTextColor = Color.WHITE;
+			lastBackColor = Color.BLACK;
+			
+			btnTextEdit.setTextColor(lastTextColor);
+			btnTextEdit.setBackgroundColor(lastBackColor);
 		}
+		
+		userPrefs.setEditTextTextColor(lastTextColor);
+		userPrefs.setTextViewTextColor(lastTextColor);
+		userPrefs.setEditTextBackgroundColor(lastBackColor);
+		userPrefs.setTextViewBackgroundColor(lastBackColor);
 	}
 	
 	public boolean isEditTextTextColorChanged() {

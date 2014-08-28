@@ -30,6 +30,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
 
 	private GridLayout grid;
+	private TextView textViewCurrentLuxesLabel;
 	private TextView textViewCurrentLuxes;
 	private NumberPicker brightnessPicker;
 
@@ -54,6 +55,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		
 		brightnessValue = brightnessPicker.getValue();
 
+		textViewCurrentLuxesLabel = (TextView) findViewById(R.id.light_sensor_value_label);
 		textViewCurrentLuxes = (TextView) findViewById(R.id.light_sensor_value);
 
 		redrawViews();
@@ -111,23 +113,21 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	@Override
 	public void redrawViews() {
-		//EditText config
-//		((EditText)findViewById(R.id.button_text_edit)).setTextSize(userPrefs.getEditTextTextSize() / 2);
-
 		if (userPrefs.getEditTextTextColor() != 0){
-//			((EditText) findViewById(R.id.button_text_edit)).setTextColor(userPrefs.getEditTextTextColor());
 			((TextView)findViewById(R.id.brightness_message)).setTextColor(userPrefs.getEditTextTextColor());
-			textViewCurrentLuxes.setTextColor(userPrefs.getTextViewTextColor());
+			textViewCurrentLuxes.setTextColor(userPrefs.getEditTextTextColor());
+			textViewCurrentLuxesLabel.setTextColor(userPrefs.getEditTextTextColor());
 		}
 
 		if (userPrefs.getEditTextBackgroundColor() != 0){
-//			((EditText) findViewById(R.id.button_text_edit)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 			((TextView)findViewById(R.id.brightness_message)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 			textViewCurrentLuxes.setBackgroundColor(userPrefs.getTextViewBackgroundColor());
+			textViewCurrentLuxesLabel.setBackgroundColor(userPrefs.getTextViewBackgroundColor());
 		}
 		
 		if (userPrefs.getTextViewTextSize() != 0){
 			textViewCurrentLuxes.setTextSize(userPrefs.getTextViewTextSize() / 2);
+			textViewCurrentLuxesLabel.setTextSize(userPrefs.getTextViewTextSize() / 2);
 		}
 
 
@@ -149,7 +149,6 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 			if (brightnessChanged){
 				userPrefs.setBrightness(brightnessValue);
-				System.out.println("BrightnessActivity: " + userPrefs.getBrightness());
 				brightnessChanged = false;
 			} else {
 				userPrefs.setBrightness(0);
