@@ -99,10 +99,7 @@ public class MailSenderActivity extends AbstractActivity implements OnFocusChang
 		addListeners();
 		initOntology();
 		
-//		final String[] items = new String[]{};
 		final List<String> items = new ArrayList<String>();
-//		{"daylight", "direct_sunlight", "full_moon", "living_room",
-//				"moonless_clear", "moonless_overcast", "office_hallway", "office_lightning", "sunrise", "twilight"};
 		
 		final Collection<OWLLiteral> contextAuxHasLightLevel = getOntologyManager().getDataTypePropertyValue(getContexts().get(0), getOntologyNamespace() + "contextAuxHasLightLevel");
 		for (OWLLiteral brightness : contextAuxHasLightLevel){

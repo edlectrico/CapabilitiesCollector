@@ -135,9 +135,9 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
-//		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
-//		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
-		btnNext.setTextSize(userPrefs.getButtonTextSize());
+		findViewById(R.id.button_next_br).setMinimumWidth((int)userPrefs.getButtonWidth());
+		findViewById(R.id.button_next_br).setMinimumHeight((int) userPrefs.getButtonHeight());
+		btnNext.setTextSize(userPrefs.getButtonTextSize() / 2);
 		btnNext.setTextColor(userPrefs.getButtonTextColor());
 		btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 

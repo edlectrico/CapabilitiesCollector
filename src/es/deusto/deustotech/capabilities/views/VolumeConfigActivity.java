@@ -148,13 +148,16 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
-
+			((TextView)findViewById(R.id.volume_title)).setTextSize(userPrefs.getEditTextTextSize() / 2);
+			
 			if (userPrefs.getEditTextTextColor() != 0){
 				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getEditTextTextColor());
+				((TextView)findViewById(R.id.volume_title)).setTextColor(userPrefs.getEditTextTextColor());
 			}
 
 			if (userPrefs.getEditTextBackgroundColor() != 0){
 				((TextView)findViewById(R.id.volume_message)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
+				((TextView)findViewById(R.id.volume_title)).setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 			}
 
 			findViewById(R.id.end_button).setMinimumWidth((int)userPrefs.getButtonWidth());
