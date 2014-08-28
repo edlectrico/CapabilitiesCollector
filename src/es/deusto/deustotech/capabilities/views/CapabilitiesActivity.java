@@ -97,7 +97,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 				interactionIntent.setClass(this, VolumeConfigActivity.class);
 				interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
 				speakOut(getResources().getString(R.string.volume_info_message_es));
-				speakOut(getResources().getString(R.string.volume_longpush_es));
+//				speakOut(getResources().getString(R.string.volume_longpush_es));
 			} else if (suggestedWords.contains(getResources().getString(R.string.no))){
 				//TODO: Communication by visual interaction, but probably with a visual difficulty
 				tts.stop();
@@ -124,7 +124,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		intent.putExtra(getResources().getString(R.string.activity_caller), 0); //0 - MainActivity; 1 - BrightnessAtivity
 		
 		speakOut(getResources().getString(R.string.volume_info_message_es));
-		speakOut(getResources().getString(R.string.volume_longpush_es));
+//		speakOut(getResources().getString(R.string.volume_longpush_es));
 		
 		startActivity(intent);
 		

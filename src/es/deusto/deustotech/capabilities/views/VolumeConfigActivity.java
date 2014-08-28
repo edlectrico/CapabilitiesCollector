@@ -72,7 +72,7 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			volumePicker.setMaxValue(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 			volumePicker.setBackgroundColor(userPrefs.getEditTextBackgroundColor());
 		} else {
-			speakOut(getResources().getString(R.string.volume_longpush_es) + volumeLevel);
+//			speakOut(getResources().getString(R.string.volume_longpush_es) + volumeLevel);
 			grid.setOnLongClickListener(this);
 		}
 
@@ -163,13 +163,16 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			((Button)findViewById(R.id.end_button)).setTextSize(userPrefs.getButtonTextSize() / 2);
 			((Button)findViewById(R.id.end_button)).setTextColor(userPrefs.getButtonTextColor());
 			((TextView)findViewById(R.id.volume_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
-
+			((TextView)findViewById(R.id.volume_title)).setTextSize(userPrefs.getEditTextTextSize() / 2);
+			
+			
 			if (userPrefs.getButtonBackgroundColor() != DEFAULT_BUTTON_COLOR){
 				((Button)findViewById(R.id.end_button)).setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			}
 
 			if (userPrefs.getEditTextTextColor() != 0){
 				((TextView)findViewById(R.id.volume_message)).setTextColor(userPrefs.getEditTextTextColor());
+				((TextView)findViewById(R.id.volume_title)).setTextColor(userPrefs.getEditTextTextColor());
 			}
 		} else {
 			Random randomGenerator = new Random();

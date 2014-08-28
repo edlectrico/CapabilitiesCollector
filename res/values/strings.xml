@@ -49,7 +49,7 @@
     <string name="message_resize_es">Arrastre el dedo por la pantalla para cambiar el tamaño de los botones</string>
     <string name="message_info_es">Pulse para resetear la configuración o invertir el esquema de colores</string>
     
-    <string name="volume_message">Configure the desired Volume</string>
+    
     <string name="visual_impairment">Visual Impairment</string>
     <string name="hearing_impairment">Hearing Impairment</string>
     <string name="button_background_color">Button Back Color</string>
@@ -71,13 +71,11 @@
 	<string name="current_luxes"></string>
 	
 	<!-- Volume_Config_Activity -->
-	<string name="volume_info_message_en">Tap the screen to change volume levels.</string>
-	<string name="volume_info_message_es">Pulse la pantalla para cambiar el volumen</string>
+	<string name="volume_message_es">Configurador de volumen</string>
+	<string name="volume_info_message_es">Ajuste con la ruleta el volumen que desee</string>
 	<string name="end_message_en">End</string>
 	<string name="end_message_es">Fin</string>
 	<string name="volume_es">Volumen a</string>
-	<string name="volume_longpush_es">Mantenga pulsado con un dedo la pantalla para hablar. Al oir la señal diga "Siguiente"
-	    si quiere continuar a la pantalla de envio de email</string>
 	
 	<!-- Mail_Sender_Activity -->
 	<string name="to_en">To: </string>

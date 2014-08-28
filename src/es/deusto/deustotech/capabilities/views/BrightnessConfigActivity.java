@@ -30,6 +30,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 	private static final String TAG = BrightnessConfigActivity.class.getSimpleName();
 
 	private GridLayout grid;
+	private Button btnNext;
 	private TextView textViewCurrentLuxesLabel;
 	private TextView textViewCurrentLuxes;
 	private NumberPicker brightnessPicker;
@@ -57,6 +58,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 		textViewCurrentLuxesLabel = (TextView) findViewById(R.id.light_sensor_value_label);
 		textViewCurrentLuxes = (TextView) findViewById(R.id.light_sensor_value);
+		btnNext = (Button) findViewById(R.id.button_next_br);
 
 		redrawViews();
 		initializeServices(TAG);
@@ -95,7 +97,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	@Override
 	public void addListeners() {
-		findViewById(R.id.button_next).setOnClickListener(this);
+		btnNext.setOnClickListener(this);
 
 		brightnessPicker.setOnValueChangedListener(new OnValueChangeListener() {
 			@Override
@@ -133,9 +135,11 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 		((TextView)findViewById(R.id.brightness_message)).setTextSize(userPrefs.getEditTextTextSize() / 2);
 
-		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
-		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
-		((Button)findViewById(R.id.button_next)).setTextColor(userPrefs.getButtonTextColor());
+//		findViewById(R.id.button_next).setMinimumWidth((int)userPrefs.getButtonWidth());
+//		findViewById(R.id.button_next).setMinimumHeight((int) userPrefs.getButtonHeight());
+		btnNext.setTextSize(userPrefs.getButtonTextSize());
+		btnNext.setTextColor(userPrefs.getButtonTextColor());
+		btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 
 		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
@@ -144,7 +148,7 @@ public class BrightnessConfigActivity extends AbstractActivity {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.button_next){
+		if (view.getId() == R.id.button_next_br){
 			Intent intent = new Intent(this, VolumeConfigActivity.class);
 
 			if (brightnessChanged){
