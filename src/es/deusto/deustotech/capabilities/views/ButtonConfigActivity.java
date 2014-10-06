@@ -191,6 +191,9 @@ public class ButtonConfigActivity extends AbstractActivity {
 			if (inverted){
 				userPrefs.setLayoutBackgroundColor(Color.BLACK);
 			}
+			
+			System.out.println("BUttonColor: " + getBackgroundColor(btnInvertColors) );
+			System.out.println("userPrefsBUttonColor: " + userPrefs.getButtonBackgroundColor() );
 
 			startActivity(intent);
 		} 
@@ -254,6 +257,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnColorButton.setTextSize(textSizes.get(btnColorButton));
 			btnInvertColors.setTextSize(textSizes.get(btnInvertColors));
 			btnRestore.setTextSize(textSizes.get(btnRestore));
+			
+			userPrefs.setLayoutBackgroundColor(Color.WHITE);
 		} 
 		else if (view.getId() == R.id.button_invert){
 			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
@@ -275,6 +280,10 @@ public class ButtonConfigActivity extends AbstractActivity {
 			btnColorButton.setTextColor(textColor);
 			btnInvertColors.setTextColor(textColor);
 			btnRestore.setTextColor(textColor);
+			
+			userPrefs.setLayoutBackgroundColor(Color.BLACK);
+			userPrefs.setButtonBackgroundColor(Color.LTGRAY);
+			userPrefs.setButtonTextColor(textColor);
 		}
 	}
 

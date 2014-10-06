@@ -139,10 +139,14 @@ public class BrightnessConfigActivity extends AbstractActivity {
 		findViewById(R.id.button_next_br).setMinimumHeight((int) userPrefs.getButtonHeight());
 		btnNext.setTextSize(userPrefs.getButtonTextSize() / 2);
 		btnNext.setTextColor(userPrefs.getButtonTextColor());
-		btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		
 
 		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
 			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
+		}
+		
+		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
+			btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 		}
 	}
 

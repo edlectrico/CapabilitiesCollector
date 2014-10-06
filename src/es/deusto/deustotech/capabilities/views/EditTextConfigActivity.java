@@ -78,16 +78,26 @@ public class EditTextConfigActivity extends AbstractActivity {
 
 	@Override
 	public void redrawViews() {
+//		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
+//			btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//			btnBackColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//			btnTextColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//			btnBlackOverWhite.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//			btnWhiteOverBlack.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//		}
+
+		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
+			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
+		}
+		
 		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
+			System.out.println("ButtonColorEditTextConfig: " + userPrefs.getButtonBackgroundColor());
+			
 			btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			btnBackColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			btnTextColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			btnBlackOverWhite.setBackgroundColor(userPrefs.getButtonBackgroundColor());
 			btnWhiteOverBlack.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		}
-
-		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
-			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 		}
 
 		btnNext.setMinimumWidth((int)userPrefs.getButtonWidth());
