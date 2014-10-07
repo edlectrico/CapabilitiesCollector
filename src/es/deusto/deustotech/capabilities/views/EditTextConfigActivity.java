@@ -1,7 +1,6 @@
 package es.deusto.deustotech.capabilities.views;
 
-import java.util.Random;
-
+import yuku.ambilwarna.AmbilWarnaDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,24 +9,23 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 import es.deusto.deustotech.R;
 
 public class EditTextConfigActivity extends AbstractActivity {
 
 	private static final String TAG = EditTextConfigActivity.class.getSimpleName();
 	
-	private Button btnTextEdit, btnNext, btnBackColor, btnTextColor,
-	btnBlackOverWhite, btnWhiteOverBlack;
+	private Button btnTextEdit, btnNext, btnBackColor, btnTextColor;
 	private GridLayout grid;
 	private OnTouchListener onTouchListener;
 	
 	private static final int DEFAULT_BACK_COLOR = Color.WHITE;
 
 	private boolean editTextTextColorChanged = false;
-	
 	public static boolean edit_backgroundcolor_changed = false;
-	
 	private int lastTextColor, lastBackColor = -1;
+	int color = Color.WHITE;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +42,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 		btnNext = (Button) findViewById(R.id.button_next_et);
 		btnBackColor = (Button) findViewById(R.id.button_background_color);
 		btnTextColor = (Button) findViewById(R.id.button_text_color);
-		btnBlackOverWhite = (Button) findViewById(R.id.button_black_over_white);
-		btnWhiteOverBlack = (Button) findViewById(R.id.button_white_over_black);
 		
 		redrawViews();
 		initializeServices(TAG);
@@ -69,36 +65,36 @@ public class EditTextConfigActivity extends AbstractActivity {
 		grid.setOnTouchListener(onTouchListener);
 		
 		btnNext.setOnClickListener(this);
-		btnBackColor.setOnClickListener(this);
-		btnTextColor.setOnClickListener(this);
+		
+		btnBackColor.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openDialog(false, v);
+			}
+		});
+		
+		btnTextColor.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openDialog(false, v);
+			}
+		});
 		btnTextEdit.setOnClickListener(this);
-		btnBlackOverWhite.setOnClickListener(this);
-		btnWhiteOverBlack.setOnClickListener(this);
 	}
 
 	@Override
 	public void redrawViews() {
-//		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
-//			btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-//			btnBackColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-//			btnTextColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-//			btnBlackOverWhite.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-//			btnWhiteOverBlack.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
+		grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
 //		}
-
-		if (ButtonConfigActivity.getLayoutBackgroundColorChanged()){
-			grid.setBackgroundColor(userPrefs.getLayoutBackgroundColor());
-		}
 		
-		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
-			System.out.println("ButtonColorEditTextConfig: " + userPrefs.getButtonBackgroundColor());
+//		if (ButtonConfigActivity.getButtonBackgroundColorChanged()){
+//			System.out.println("ButtonColorEditTextConfig: " + userPrefs.getButtonBackgroundColor());
 			
-			btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			btnBackColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			btnTextColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			btnBlackOverWhite.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-			btnWhiteOverBlack.setBackgroundColor(userPrefs.getButtonBackgroundColor());
-		}
+		btnNext.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		btnBackColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+		btnTextColor.setBackgroundColor(userPrefs.getButtonBackgroundColor());
+//		}
 
 		btnNext.setMinimumWidth((int)userPrefs.getButtonWidth());
 		btnNext.setMinimumHeight((int) userPrefs.getButtonHeight());
@@ -114,16 +110,6 @@ public class EditTextConfigActivity extends AbstractActivity {
 		btnTextColor.setMinimumHeight((int) userPrefs.getButtonHeight());
 		btnTextColor.setTextColor(userPrefs.getButtonTextColor());
 		btnTextColor.setTextSize(userPrefs.getButtonTextSize() / 2);
-		
-		btnBlackOverWhite.setMinimumWidth((int)userPrefs.getButtonWidth());
-		btnBlackOverWhite.setMinimumHeight((int) userPrefs.getButtonHeight());
-		btnBlackOverWhite.setTextColor(userPrefs.getButtonTextColor());
-		btnBlackOverWhite.setTextSize(userPrefs.getButtonTextSize() / 2);
-		
-		btnWhiteOverBlack.setMinimumWidth((int)userPrefs.getButtonWidth());
-		btnWhiteOverBlack.setMinimumHeight((int) userPrefs.getButtonHeight());
-		btnWhiteOverBlack.setTextColor(userPrefs.getButtonTextColor());
-		btnWhiteOverBlack.setTextSize(userPrefs.getButtonTextSize() / 2);
 	}
 
 	private OnTouchListener createOnTouchListener(){
@@ -156,58 +142,66 @@ public class EditTextConfigActivity extends AbstractActivity {
 				userPrefs.setEditTextBackgroundColor(lastBackColor);
 			}
 			
-			userPrefs.setEditTextWidth(btnTextEdit.getWidth());
-			userPrefs.setEditTextHeight(btnTextEdit.getHeight());
-			userPrefs.setEditTextTextSize(btnTextEdit.getTextSize());
-			userPrefs.setEditTextTextColor((int) lastTextColor);
-			
-			userPrefs.setTextViewWidth(userPrefs.getEditTextWidth());
-			userPrefs.setTextViewHeight(userPrefs.getEditTextHeight());
-			userPrefs.setTextViewTextSize(userPrefs.getEditTextTextSize());
-			userPrefs.setTextViewTextColor(userPrefs.getEditTextTextColor());
+//			userPrefs.setEditTextWidth(btnTextEdit.getWidth());
+//			userPrefs.setEditTextHeight(btnTextEdit.getHeight());
+//			userPrefs.setEditTextTextSize(btnTextEdit.getTextSize());
+//			userPrefs.setEditTextTextColor((int) lastTextColor);
+//			
+//			userPrefs.setTextViewWidth(userPrefs.getEditTextWidth());
+//			userPrefs.setTextViewHeight(userPrefs.getEditTextHeight());
+//			userPrefs.setTextViewTextSize(userPrefs.getEditTextTextSize());
+//			userPrefs.setTextViewTextColor(userPrefs.getEditTextTextColor());
 			
 			if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
 				speakOut("Well done!");
 			}
 			startActivity(intent);
 		}
-		else if (view.getId() == R.id.button_background_color){
-			edit_backgroundcolor_changed = true;
-			
-			Random randomBackColor = new Random(); 
-			lastBackColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-			
-			btnTextEdit.setBackgroundColor(lastBackColor);
-		}
-		else if (view.getId() == R.id.button_text_color){
-			Random randomTextColor = new Random(); 
-			lastTextColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));
-			
-			btnTextEdit.setTextColor(lastTextColor);
-		}
-		else if (view.getId() == R.id.button_black_over_white){
-			lastTextColor = Color.BLACK;
-			lastBackColor = Color.WHITE;
-			
-			btnTextEdit.setTextColor(lastTextColor);
-			btnTextEdit.setBackgroundColor(lastBackColor);
-		}
-		else if (view.getId() == R.id.button_white_over_black){
-			lastTextColor = Color.WHITE;
-			lastBackColor = Color.BLACK;
-			
-			btnTextEdit.setTextColor(lastTextColor);
-			btnTextEdit.setBackgroundColor(lastBackColor);
-		}
 		
-		userPrefs.setEditTextTextColor(lastTextColor);
-		userPrefs.setTextViewTextColor(lastTextColor);
-		userPrefs.setEditTextBackgroundColor(lastBackColor);
-		userPrefs.setTextViewBackgroundColor(lastBackColor);
+//		userPrefs.setEditTextTextColor(lastTextColor);
+//		userPrefs.setTextViewTextColor(lastTextColor);
+//		userPrefs.setEditTextBackgroundColor(lastBackColor);
+//		userPrefs.setTextViewBackgroundColor(lastBackColor);
 	}
 	
 	public boolean isEditTextTextColorChanged() {
 		return editTextTextColorChanged;
+	}
+	
+	void openDialog(boolean supportsAlpha, final View v) {
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(EditTextConfigActivity.this, color, supportsAlpha, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+			@Override
+			public void onOk(AmbilWarnaDialog dialog, int color) {
+				EditTextConfigActivity.this.color = color;
+				System.out.println(color);
+				
+				if (v.getId() == R.id.button_background_color){
+					edit_backgroundcolor_changed = true;
+					lastBackColor = color;
+					
+					btnTextEdit.setBackgroundColor(lastBackColor);
+					userPrefs.setTextViewBackgroundColor(lastBackColor);
+					userPrefs.setEditTextBackgroundColor(lastBackColor);
+					
+				} else if (v.getId() == R.id.button_text_color){
+					lastTextColor = color;
+					
+					btnTextEdit.setTextColor(lastTextColor);
+					userPrefs.setTextViewTextColor(lastTextColor);
+					userPrefs.setEditTextTextColor(lastTextColor);
+				}
+			}
+
+			@Override
+			public void onCancel(AmbilWarnaDialog dialog) {
+//				Toast.makeText(getApplicationContext(), "cancel", Toast.LENGTH_SHORT).show();
+			}
+		});
+		dialog.show();
+	}
+	
+	void displayColor() {
+		Toast.makeText(getApplicationContext(), String.format("Current color: 0x%08x", color), Toast.LENGTH_LONG).show();
 	}
 
 }

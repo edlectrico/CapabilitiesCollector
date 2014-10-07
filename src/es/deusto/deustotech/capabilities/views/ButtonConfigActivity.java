@@ -2,7 +2,8 @@ package es.deusto.deustotech.capabilities.views;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
 
@@ -30,15 +32,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	private static final String TAG = ButtonConfigActivity.class.getSimpleName();
 
-	private Button btnInvertColors, btnRestore, btnNext, 
-	btnBackgroundColor, btnColorButton,	btnTextColor;
+	private Button btnNext, btnBackgroundColor, btnColorButton,	btnTextColor;
 	private GridLayout grid;
 
 	private int buttonBackgroundColor = 0;
 	private int textColor = 0;
-	private int layoutBackgroundColor = 0;
+//	private int layoutBackgroundColor = 0;
 
-	private int defaultButtonColor;
+//	private int defaultButtonColor;
 	private static final int DEFAULT_BACK_COLOR = Color.WHITE;
 
 	private OnTouchListener onTouchListener;
@@ -49,14 +50,14 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	int callerActivity = -1;
 
-	private boolean inverted = false;
-
 	private static boolean LAYOUT_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_BACKGROUND_COLOR_CHANGED = false;
 	private static boolean BUTTON_TEXT_COLOR_CHANGED = false;
 	private static boolean BUTTON_SIZE_CHANGED = false;
 	
 	private Map<Button, Float> textSizes;
+	
+	int color = Color.WHITE;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,8 @@ public class ButtonConfigActivity extends AbstractActivity {
 		callerActivity = bundle.getInt(getResources().getString(R.string.activity_caller));
 
 		if (callerActivity != 2){ //2: VolumeActivity
-			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnInvertColors));
-			userPrefs.setButtonTextColor(btnInvertColors.getTextColors().getDefaultColor());
+			userPrefs.setButtonBackgroundColor(getBackgroundColor(btnNext));
+			userPrefs.setButtonTextColor(btnNext.getTextColors().getDefaultColor());
 
 		} else {
 			speakOut(getResources().getString(R.string.button_info_message_es));
@@ -84,7 +85,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 		addListeners();
 
 		//Default values
-		userPrefs.setButtonBackgroundColor(defaultButtonColor);
+		userPrefs.setButtonBackgroundColor(Color.LTGRAY);
 		userPrefs.setLayoutBackgroundColor(DEFAULT_BACK_COLOR);
 		userPrefs.setButtonTextColor(Color.BLACK);
 		userPrefs.setButtonTextSize(btnColorButton.getTextSize() / 2);
@@ -98,17 +99,13 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 		btnBackgroundColor = (Button) findViewById(R.id.button_background_color);
 		btnTextColor = (Button) findViewById(R.id.button_text_color);
-		btnRestore = (Button) findViewById(R.id.button_restore);
-		btnInvertColors = (Button) findViewById(R.id.button_invert);
 		btnNext = (Button) findViewById(R.id.button_next_bt);
 
-		defaultButtonColor = getBackgroundColor(btnInvertColors);
+//		defaultButtonColor = getBackgroundColor(btnNext);
 		
 		textSizes.put(btnColorButton, btnColorButton.getTextSize() / 2);
 		textSizes.put(btnBackgroundColor, btnColorButton.getTextSize() / 2);
 		textSizes.put(btnTextColor, btnColorButton.getTextSize() / 2);
-		textSizes.put(btnRestore, btnColorButton.getTextSize() / 2);
-		textSizes.put(btnInvertColors, btnColorButton.getTextSize() / 2);
 		textSizes.put(btnNext, btnColorButton.getTextSize() / 2);
 	}
 
@@ -127,11 +124,24 @@ public class ButtonConfigActivity extends AbstractActivity {
 		grid.getChildAt(1).setBackgroundColor(Color.LTGRAY);
 
 		btnNext.setOnClickListener(this);
-		btnBackgroundColor.setOnClickListener(this);
-		btnTextColor.setOnClickListener(this);
-		btnColorButton.setOnClickListener(this);
-		btnInvertColors.setOnClickListener(this);
-		btnRestore.setOnClickListener(this);
+		btnBackgroundColor.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openDialog(false, v);
+			}
+		});
+		btnTextColor.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openDialog(false, v);
+			}
+		});
+		btnColorButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openDialog(false, v);
+			}
+		});
 	}
 
 	private OnTouchListener createOnTouchListener(){
@@ -141,15 +151,11 @@ public class ButtonConfigActivity extends AbstractActivity {
 				BUTTON_SIZE_CHANGED = true;
 				float x = event.getRawX();
 
-				btnRestore.setTextSize((float) (x / 10.0));
-				btnInvertColors.setTextSize((float) (x / 10.0));
 				btnBackgroundColor.setTextSize((float) (x / 10.0));
 				btnColorButton.setTextSize((float) (x / 10.0));
 				btnTextColor.setTextSize((float) (x / 10.0));
 				btnNext.setTextSize((float) (x / 10.0));
 
-				btnRestore.invalidate();
-				btnInvertColors.invalidate();
 				btnBackgroundColor.invalidate();
 				btnColorButton.invalidate();
 				btnTextColor.invalidate();
@@ -169,122 +175,17 @@ public class ButtonConfigActivity extends AbstractActivity {
 			}
 			Intent intent = new Intent(this, EditTextConfigActivity.class);
 
-			userPrefs.setButtonWidth(btnInvertColors.getWidth());
-			userPrefs.setButtonHeight(btnInvertColors.getHeight());
-			userPrefs.setButtonTextColor(textColor);
-			userPrefs.setButtonTextSize(btnInvertColors.getTextSize());
+			userPrefs.setButtonWidth(btnNext.getWidth());
+			userPrefs.setButtonHeight(btnNext.getHeight());
+//			userPrefs.setButtonTextColor(textColor);
+			userPrefs.setButtonTextSize(btnNext.getTextSize());
 
 			intent.putExtra(getResources().getString(R.string.activity_caller), 1);
 
 			intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
-			if (BUTTON_BACKGROUND_COLOR_CHANGED){
-				userPrefs.setButtonBackgroundColor(getBackgroundColor(btnInvertColors));
-			}
-
-			if (LAYOUT_BACKGROUND_COLOR_CHANGED ){
-				userPrefs.setLayoutBackgroundColor(getBackgroundColor(grid));
-			} else {
-				userPrefs.setLayoutBackgroundColor(Color.WHITE);
-			}
-
-			if (inverted){
-				userPrefs.setLayoutBackgroundColor(Color.BLACK);
-			}
-			
-			System.out.println("BUttonColor: " + getBackgroundColor(btnInvertColors) );
-			System.out.println("userPrefsBUttonColor: " + userPrefs.getButtonBackgroundColor() );
-
 			startActivity(intent);
 		} 
-		else if (view.getId() == R.id.button_color){
-			BUTTON_BACKGROUND_COLOR_CHANGED = true;
-
-			Random randomBackColor = new Random(); 
-			buttonBackgroundColor = Color.argb(255, randomBackColor.nextInt(256), randomBackColor.nextInt(256), randomBackColor.nextInt(256));
-
-			btnNext.setBackgroundColor(buttonBackgroundColor);
-			btnBackgroundColor.setBackgroundColor(buttonBackgroundColor);
-			btnTextColor.setBackgroundColor(buttonBackgroundColor);
-			btnColorButton.setBackgroundColor(buttonBackgroundColor);
-			btnInvertColors.setBackgroundColor(buttonBackgroundColor);
-			btnRestore.setBackgroundColor(buttonBackgroundColor);
-		} 
-		else if (view.getId() == R.id.button_text_color){
-			BUTTON_TEXT_COLOR_CHANGED = true;
-
-			Random randomTextColor = new Random(); 
-			int textColor = Color.argb(255, randomTextColor.nextInt(256), randomTextColor.nextInt(256), randomTextColor.nextInt(256));   
-			this.textColor = textColor;
-			btnNext.setTextColor(textColor);
-			btnBackgroundColor.setTextColor(textColor);
-			btnTextColor.setTextColor(textColor);
-			btnColorButton.setTextColor(textColor);
-			btnInvertColors.setTextColor(textColor);
-			btnRestore.setTextColor(textColor);
-		} 
-		else if (view.getId() == R.id.button_background_color){
-			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
-			inverted = false;
-
-			Random randomColor = new Random(); 
-			layoutBackgroundColor = Color.argb(255, randomColor.nextInt(256), randomColor.nextInt(256), randomColor.nextInt(256));   
-			grid.setBackgroundColor(layoutBackgroundColor);
-		} 
-		else if (view.getId() == R.id.button_restore){
-			LAYOUT_BACKGROUND_COLOR_CHANGED = false;
-			grid.setBackgroundColor(Color.WHITE);
-
-			btnNext.setBackgroundColor(Color.LTGRAY);
-			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
-			btnTextColor.setBackgroundColor(Color.LTGRAY);
-			btnColorButton.setBackgroundColor(Color.LTGRAY);
-			btnInvertColors.setBackgroundColor(Color.LTGRAY);
-			btnRestore.setBackgroundColor(Color.LTGRAY);
-
-			textColor = Color.BLACK;
-
-			btnNext.setTextColor(textColor);
-			btnBackgroundColor.setTextColor(textColor);
-			btnTextColor.setTextColor(textColor);
-			btnColorButton.setTextColor(textColor);
-			btnInvertColors.setTextColor(textColor);
-			btnRestore.setTextColor(textColor);
-			
-			btnNext.setTextSize(textSizes.get(btnNext));
-			btnBackgroundColor.setTextSize(textSizes.get(btnBackgroundColor));
-			btnTextColor.setTextSize(textSizes.get(btnTextColor));
-			btnColorButton.setTextSize(textSizes.get(btnColorButton));
-			btnInvertColors.setTextSize(textSizes.get(btnInvertColors));
-			btnRestore.setTextSize(textSizes.get(btnRestore));
-			
-			userPrefs.setLayoutBackgroundColor(Color.WHITE);
-		} 
-		else if (view.getId() == R.id.button_invert){
-			LAYOUT_BACKGROUND_COLOR_CHANGED = true;
-			grid.setBackgroundColor(Color.BLACK);
-			inverted = true;
-
-			btnNext.setBackgroundColor(Color.LTGRAY);
-			btnBackgroundColor.setBackgroundColor(Color.LTGRAY);
-			btnTextColor.setBackgroundColor(Color.LTGRAY);
-			btnColorButton.setBackgroundColor(Color.LTGRAY);
-			btnInvertColors.setBackgroundColor(Color.LTGRAY);
-			btnRestore.setBackgroundColor(Color.LTGRAY);
-
-			textColor = Color.WHITE;
-
-			btnNext.setTextColor(textColor);
-			btnBackgroundColor.setTextColor(textColor);
-			btnTextColor.setTextColor(textColor);
-			btnColorButton.setTextColor(textColor);
-			btnInvertColors.setTextColor(textColor);
-			btnRestore.setTextColor(textColor);
-			
-			userPrefs.setLayoutBackgroundColor(Color.BLACK);
-			userPrefs.setButtonBackgroundColor(Color.LTGRAY);
-			userPrefs.setButtonTextColor(textColor);
-		}
 	}
 
 	private int getBackgroundColor(View view) {
@@ -327,7 +228,7 @@ public class ButtonConfigActivity extends AbstractActivity {
 	public static boolean getButtonBackgroundColorChanged(){
 		return BUTTON_BACKGROUND_COLOR_CHANGED;
 	}
-
+	
 	public static boolean getButtonTextColorChanged(){
 		return BUTTON_TEXT_COLOR_CHANGED;
 	}
@@ -338,5 +239,57 @@ public class ButtonConfigActivity extends AbstractActivity {
 
 	public static boolean getLayoutBackgroundColorChanged(){
 		return LAYOUT_BACKGROUND_COLOR_CHANGED;
+	}
+	
+	void openDialog(boolean supportsAlpha, final View v) {
+		AmbilWarnaDialog dialog = new AmbilWarnaDialog(ButtonConfigActivity.this, color, supportsAlpha, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+			@Override
+			public void onOk(AmbilWarnaDialog dialog, int color) {
+				ButtonConfigActivity.this.color = color;
+				System.out.println(color);
+				
+				if (v.getId() == R.id.button_background_color){
+					LAYOUT_BACKGROUND_COLOR_CHANGED = true;
+					
+					grid.setBackgroundColor(color);
+					userPrefs.setLayoutBackgroundColor(color);
+					
+				} else if (v.getId() == R.id.button_color){
+					BUTTON_BACKGROUND_COLOR_CHANGED = true;
+
+					buttonBackgroundColor = color;
+
+					btnNext.setBackgroundColor(buttonBackgroundColor);
+					btnBackgroundColor.setBackgroundColor(buttonBackgroundColor);
+					btnTextColor.setBackgroundColor(buttonBackgroundColor);
+					btnColorButton.setBackgroundColor(buttonBackgroundColor);
+					
+					userPrefs.setButtonBackgroundColor(buttonBackgroundColor);
+					
+				} else if (v.getId() == R.id.button_text_color){
+					BUTTON_TEXT_COLOR_CHANGED = true;
+					
+					textColor = color;
+					
+					btnNext.setTextColor(textColor);
+					btnBackgroundColor.setTextColor(textColor);
+					btnTextColor.setTextColor(textColor);
+					btnColorButton.setTextColor(textColor);
+					
+					userPrefs.setButtonTextColor(textColor);
+				} 
+				
+			}
+
+			@Override
+			public void onCancel(AmbilWarnaDialog dialog) {
+//				Toast.makeText(getApplicationContext(), "cancel", Toast.LENGTH_SHORT).show();
+			}
+		});
+		dialog.show();
+	}
+	
+	void displayColor() {
+		Toast.makeText(getApplicationContext(), String.format("Current color: 0x%08x", color), Toast.LENGTH_LONG).show();
 	}
 }

@@ -71,24 +71,6 @@
             android:layout_row="1"
             android:text="@string/edit_text_text_color" />
 
-        <Button
-            android:id="@+id/button_black_over_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="left|top"
-            android:layout_row="2"
-            android:text="@string/edit_text_black_over_white" />
-
-        <Button
-            android:id="@+id/button_white_over_black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="left|top"
-            android:layout_row="3"
-            android:text="@string/edit_text_white_over_black" />
-
     </GridLayout>
 
     <RelativeLayout

@@ -46,7 +46,7 @@
     <string name="button_background_color_es">Color del fondo</string>
     <string name="button_restore_es">Resetear pantalla</string>
     <string name="button_invert_es">Invertir colores</string>
-    <string name="message_resize_es">Arrastre el dedo por la pantalla para cambiar el tamaño de los botones</string>
+    <string name="message_resize_es">Arrastre el dedo por la pantalla para cambiar el tamaño de los botones. Pulse sobre ellos para interactuar con los colores de la interfaz.</string>
     <string name="message_info_es">Pulse para resetear la configuración o invertir el esquema de colores</string>
     
     
