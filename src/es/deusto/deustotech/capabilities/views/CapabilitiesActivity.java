@@ -39,6 +39,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 	private boolean voiceRecognition 	= false;
 	private Intent interactionIntent;
 	
+	public static boolean DEMOS_AVAILABLE = false;
+	
 	private Button navigationDemo, mailDemo;
 	
 	private static int isDisplayApplicable = 0;
@@ -61,6 +63,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		
 		listenToSpeech();
 	}
+	
+	
 	
 	@Override
 	public void addListeners() {
@@ -178,6 +182,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 		return voiceRecognition;
 	}
 
+	
 	public void setVoiceRecognition(boolean voiceRecognition) {
 		this.voiceRecognition = voiceRecognition;
 	}
@@ -208,12 +213,17 @@ public class CapabilitiesActivity extends AbstractActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		
-		System.out.println("OnResume");
-		
-		mailDemo.setEnabled(true);
-		navigationDemo.setEnabled(true);
+		if (DEMOS_AVAILABLE){
+			mailDemo.setEnabled(true);
+			navigationDemo.setEnabled(true);
+		}
 	}
 
-	
-	
+	public static boolean isDEMOS_AVAILABLE() {
+		return DEMOS_AVAILABLE;
+	}
+
+	public static void setDEMOS_AVAILABLE(boolean dEMOS_AVAILABLE) {
+		DEMOS_AVAILABLE = dEMOS_AVAILABLE;
+	}
 }

@@ -257,6 +257,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 				intent.putExtra(getResources().getString(R.string.activity_caller), 2); //0: MainActivity; 1: BrightnessActivity; 2: VolumeActivity
 				startActivity(intent);
 			}
+			
+			CapabilitiesActivity.setDEMOS_AVAILABLE(true);
 		}
 	}
 	
