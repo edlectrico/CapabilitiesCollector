@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 
 import com.google.gson.Gson;
@@ -38,6 +39,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 	private boolean voiceRecognition 	= false;
 	private Intent interactionIntent;
 	
+	private Button navigationDemo, mailDemo;
+	
 	private static int isDisplayApplicable = 0;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 		interactionIntent = new Intent(this, ButtonConfigActivity.class);
 		interactionIntent.putExtra(getResources().getString(R.string.visual_impairment), 0);
 		interactionIntent.putExtra(getResources().getString(R.string.hearing_impairment), 0);
+		
+		navigationDemo = (Button) findViewById(R.id.navigate_button);
+		mailDemo = (Button) findViewById(R.id.mail_activity_button);
 		
 		setVoiceRecognition(checkVoiceRecognition());
 		
@@ -64,7 +70,9 @@ public class CapabilitiesActivity extends AbstractActivity {
 
 		findViewById(R.id.button_input).setOnClickListener(this);
 		findViewById(R.id.mail_activity_button).setOnClickListener(this);
+		findViewById(R.id.mail_activity_button).setEnabled(false);
 		findViewById(R.id.navigate_button).setOnClickListener(this);
+		findViewById(R.id.navigate_button).setEnabled(false);
 		
 		findViewById(R.id.button_input).setOnLongClickListener(this);
 		findViewById(R.id.mail_activity_button).setOnLongClickListener(this);
@@ -194,4 +202,18 @@ public class CapabilitiesActivity extends AbstractActivity {
 	public static int getDisplayIsApplicable(){
 		return isDisplayApplicable;
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		System.out.println("OnResume");
+		
+		mailDemo.setEnabled(true);
+		navigationDemo.setEnabled(true);
+	}
+
+	
+	
 }

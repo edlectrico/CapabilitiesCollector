@@ -6,11 +6,13 @@ import java.util.Random;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -43,6 +45,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 
 	private static final String TAG = VolumeConfigActivity.class.getSimpleName();
 
+	private ProgressDialog dialog;
+	
 	private GridLayout grid;
 	private NumberPicker volumePicker;
 	private AudioManager audioManager = null;
@@ -189,10 +193,22 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
 		}
 	}
+	
+	private void showDialog() {
+		dialog = ProgressDialog.show(VolumeConfigActivity.this, "", "Storing in the ontology. Please wait.", true);        
+		dialog.show();
+	}
 
 	@Override
 	public void onClick(View view) {
 		if (view.getId() == R.id.end_button){
+			showDialog();
+			new ProcessOntology().execute("adaptui"); // The name is not important
+		}
+	}
+	
+	class ProcessOntology extends AsyncTask<String, Void, String> {
+		protected String doInBackground(String... urls) {
 			//Store
 			if (userPrefs == null){
 				userPrefs = new UserMinimumPreferences();
@@ -200,19 +216,35 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 
 			userPrefs.setVolume(volumeLevel);
 			
-			super.initOntology();
+			initOntology();
 			storeUserPreferencesIntoOntology();
 			storeUserPreferencesInMobile();
 			
 			//Saving the ontology
 			try {
-				super.getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + super.getOntologyFilename());
+				getOntologyManager().saveOntologyAs(Environment.getExternalStorageDirectory() + "/ontologies/" + getOntologyFilename());
 			} catch (OntologySavingException e) {
 				e.printStackTrace();
 			}
 
+//		} 
+//		else {
+//			Random randomGenerator = new Random();
+//			volumeLevel = randomGenerator.nextInt(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+//
+//			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+//					volumeLevel, 0);
+//
+//			speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
+//		}
+			
+			return null;
+		}
+
+		protected void onPostExecute(String string) {
+			dialog.dismiss();
 			if (callerActivity == 1){ //BrightnessActivity
-				Intent intent = new Intent(this, MailSenderActivity.class);
+				Intent intent = new Intent(VolumeConfigActivity.this, MailSenderActivity.class);
 				intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
 				if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
@@ -221,18 +253,10 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 				intent.putExtra(getResources().getString(R.string.activity_caller), 2);
 				startActivity(intent);
 			} else { //MainActivity
-				Intent intent = new Intent(this, ButtonConfigActivity.class);
+				Intent intent = new Intent(VolumeConfigActivity.this, ButtonConfigActivity.class);
 				intent.putExtra(getResources().getString(R.string.activity_caller), 2); //0: MainActivity; 1: BrightnessActivity; 2: VolumeActivity
 				startActivity(intent);
 			}
-		} else {
-			Random randomGenerator = new Random();
-			volumeLevel = randomGenerator.nextInt(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-
-			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-					volumeLevel, 0);
-
-			speakOut(getResources().getString(R.string.volume_es) + volumeLevel);
 		}
 	}
 	
@@ -246,6 +270,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		prefsEditor.putString(getResources().getString(R.string.view_params), json);
 		prefsEditor.commit();
 		prefsEditor.apply();
+		
+		System.out.println("Stored in UserPrefs");
 		
 		getOntologyManager().addDataTypePropertyValue(getContextJSON().get(0), getOntologyNamespace() + "contextJSONHasValue", json);
 		
