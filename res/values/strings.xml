@@ -84,14 +84,15 @@
 	<string name="subject_es">Sujeto: </string>	
 	<string name="message_en">Message: </string>
 	<string name="message_es">Mensaje: </string>
-	<string name="send_en">Enviar</string>
-	<string name="send_es">Send</string>
+	<string name="send_es">Enviar</string>
+	<string name="send_en">Send</string>
 	<string name="trigger_en">Trigger change</string>
 	<string name="trigger_es">Cambiar contexto</string>
 	<string name="mail_sender_es">Pantalla de test para enviar email. Pulse sobre la pantalla para
 	    elegir entre Destinatario, Sujeto, Mensaje y Enviar</string>
 	<string name="mail_instructions_es">Aplicación de envío de email adaptada. Eliga destinatario, asunto y mensaje para completar el email.</string>
-
+	<string name="mail_instructions_en">Please, select contact, subject and write your message.</string>
+	
 	<!-- AssistedCity String elements -->
 	<string name="scan">Escanear</string>
 	<string name="help">Ayuda</string>

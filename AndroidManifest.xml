@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.VIBRATE" />
+	<!-- Phone call activity -->
+	<uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	
 	
     <application
         android:allowBackup="true"
@@ -41,6 +45,8 @@
         <activity android:name="es.deusto.deustotech.capabilities.views.VolumeConfigActivity" >
         </activity>
         <activity android:name="es.deusto.deustotech.capabilities.views.MailSenderActivity" >
+        </activity>
+        <activity android:name="es.deusto.deustotech.capabilities.views.PhoneCallActivity" >
         </activity>
         
         

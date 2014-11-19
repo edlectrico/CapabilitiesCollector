@@ -19,13 +19,13 @@
                 android:id="@+id/textViewEmailInstructions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mail_instructions_es" />
+                android:text="@string/mail_instructions_en" />
 
             <TextView
                 android:id="@+id/textViewPhoneNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/to_es"
+                android:text="@string/to_en"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <EditText
@@ -41,7 +41,7 @@
                 android:id="@+id/textViewSubject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/subject_es"
+                android:text="@string/subject_en"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <EditText
@@ -55,7 +55,7 @@
                 android:id="@+id/textViewMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/message_es"
+                android:text="@string/message_en"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <EditText
@@ -78,7 +78,7 @@
             android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/send_es" />
+            android:text="@string/send_en" />
 
         <Spinner
             android:id="@+id/spinner1"

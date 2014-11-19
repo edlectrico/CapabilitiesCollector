@@ -192,7 +192,8 @@ public class CapabilitiesActivity extends AbstractActivity {
 		SharedPreferences  preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		userPrefs = gson.fromJson(preferences.getString(getResources().getString(R.string.view_params), ""), UserMinimumPreferences.class);
 		
-		interactionIntent.setClass(this,  MailSenderActivity.class);
+//		interactionIntent.setClass(this,  MailSenderActivity.class);
+		interactionIntent.setClass(this,  PhoneCallActivity.class);
 		interactionIntent.putExtra(getResources().getString(R.string.activity_caller), 1);
 		interactionIntent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 

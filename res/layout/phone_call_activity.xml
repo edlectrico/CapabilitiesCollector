@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:rowCount="2"
+    android:columnCount="1"
+    android:id="@+id/phone_grid"
+    >
+    
+    <EditText
+       android:id="@+id/text"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:inputType="number" 
+       android:layout_row="0">
+   </EditText>
+    
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="3"
+        android:layout_row="1"
+        />
+</GridLayout>

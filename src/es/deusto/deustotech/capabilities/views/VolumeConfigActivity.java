@@ -100,7 +100,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 			ArrayList<String> suggestedWords = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			if (suggestedWords.contains("siguiente")){
 				tts.stop();
-				startActivity(new Intent(this, MailSenderActivity.class));
+//				startActivity(new Intent(this, MailSenderActivity.class));
+				startActivity(new Intent(this, PhoneCallActivity.class));
 			}
 		}
 	}
@@ -244,7 +245,8 @@ public class VolumeConfigActivity extends AbstractActivity implements TextToSpee
 		protected void onPostExecute(String string) {
 			dialog.dismiss();
 			if (callerActivity == 1){ //BrightnessActivity
-				Intent intent = new Intent(VolumeConfigActivity.this, MailSenderActivity.class);
+//				Intent intent = new Intent(VolumeConfigActivity.this, MailSenderActivity.class);
+				Intent intent = new Intent(VolumeConfigActivity.this, PhoneCallActivity.class);
 				intent.putExtra(getResources().getString(R.string.view_params), userPrefs);
 
 				if (CapabilitiesActivity.getDisplayIsApplicable() == 0){
