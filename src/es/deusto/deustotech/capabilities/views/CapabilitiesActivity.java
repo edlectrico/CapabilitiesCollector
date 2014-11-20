@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
-import es.deustotech.piramide.activities.location.Categories;
 
 /**
  * This activity checks user basic input capabilities
@@ -63,8 +62,6 @@ public class CapabilitiesActivity extends AbstractActivity {
 		
 		listenToSpeech();
 	}
-	
-	
 	
 	@Override
 	public void addListeners() {
@@ -174,7 +171,7 @@ public class CapabilitiesActivity extends AbstractActivity {
 			launchMailSenderActivity();
 		} else if (view.getId() == R.id.navigate_button){
 			tts.stop();
-			startActivity(new Intent(this, Categories.class));
+//			startActivity(new Intent(this, Categories.class));
 		}
 	}
 

@@ -48,70 +48,9 @@
         </activity>
         <activity android:name="es.deusto.deustotech.capabilities.views.PhoneCallActivity" >
         </activity>
-        
-        
-         <!-- AssistedCity-->
-        <!-- Activities -->
-        <activity
-            android:name="es.deustotech.piramide.activities.PiramideCaptureActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="es.deustotech.piramide.activities.options.OptionsList"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="es.deustotech.piramide.activities.location.Directions"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name="es.deustotech.piramide.activities.location.Categories" 
-			android:screenOrientation="landscape"
-			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
-        <activity
-            android:name="es.deustotech.piramide.activities.location.Points"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-            <intent-filter>
-                <action android:name="points" />
-            </intent-filter>
+        <activity android:name="es.deusto.deustotech.AdaptUI" >
         </activity>
-        <activity
-            android:name="es.deustotech.piramide.activities.location.CurrentLocation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="es.deustotech.piramide.activities.options.Settings"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="es.deustotech.piramide.activities.options.SettingsSimple"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="es.deustotech.piramide.activities.options.Help"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="es.deustotech.piramide.activities.options.HelpSimple"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <!-- Services -->
-        <service android:name=".services.LocationService" >
-            <intent-filter>
-                <action android:name="prueba" />
-            </intent-filter>
-        </service>
+               
     </application>
-
-    <supports-screens android:largeScreens="true" />
-
-    <!-- Permissions -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-feature android:name="android.hardware.camera.flash" />
-        
+      
 </manifest>
