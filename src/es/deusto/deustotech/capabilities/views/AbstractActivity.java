@@ -17,9 +17,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import es.deusto.deustotech.MainActivity;
 import es.deusto.deustotech.R;
 import es.deusto.deustotech.capabilities.UserMinimumPreferences;
-import es.deusto.deustotech.pellet4android.MainActivity;
 import es.deusto.deustotech.pellet4android.OntologyManager;
 
 public abstract class AbstractActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, TextToSpeech.OnInitListener {

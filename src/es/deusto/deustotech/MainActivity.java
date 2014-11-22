@@ -1,4 +1,4 @@
-package es.deusto.deustotech.pellet4android;
+package es.deusto.deustotech;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +15,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import es.deusto.deustotech.R;
+import es.deusto.deustotech.pellet4android.OntologyManager;
 import es.deusto.deustotech.pellet4android.exceptions.OntologyLoadException;
 
 public class MainActivity extends Activity implements OnInitListener {
