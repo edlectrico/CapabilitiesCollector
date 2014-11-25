@@ -36,6 +36,7 @@ public class AdaptUI {
 	private String namespace;
 	private Collection<View> views;
 	
+	@SuppressWarnings("unused")
 	private List<String> buttons, editTexts, textViews;
 	
 	public AdaptUI(){
